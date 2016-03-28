@@ -37,6 +37,10 @@ Route::group(['middleware' => 'web'], function () {
             return view('pages.dashboard');        
         });
         
+        Route::get('loadForm', function(){
+            return view('pages.loadForm');
+        });
+
         //to see all previous searches
         Route::get('history', 'SEOController@history');
         

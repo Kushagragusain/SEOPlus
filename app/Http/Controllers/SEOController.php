@@ -14,11 +14,6 @@ use Carbon\Carbon;
 class SEOController extends Controller
 {
     public function domainData(Request $request){
-        //validating url
-        /*$this->validate($request, [
-            'url'   => 'required|url',
-        ]);*/
-        
         //store searched url in table searched_urls
         $store = new SearchedUrl;
         $store->user_id = Auth::user()->id;
@@ -35,10 +30,16 @@ class SEOController extends Controller
           // Bind the URL to the current SEOstats instance.
           if ($seostats->setUrl($url)) {
             return view('pages.results', [
-                'url' => $request->url,
+                'id' => 'url',
+                'heading' => $request->url,
                 'alexa_rank' => SEOstats\Alexa::getGlobalRank(),
                 'google_page_rank' => SEOstats\Google::getPageRank(),
+                'origin_country' => SEOstats\Alexa::getCountryRank(),
+                //'top10' => SEOstats\Google::getSerps("site:$url", 10)
             ]);
+              //return  SEOstats\Google::getSerps("site:$url", 10);
+
+            return SEOstats\Alexa::getGlobalRank();
           }
         }
         catch (SEOstatsException $e) {
@@ -47,19 +48,24 @@ class SEOController extends Controller
     }
     
     public function keywordData(Request $request){
-        //validating url
-        /*$this->validate($request, [
-            'keyword'   => 'required|alpha',
-        ]);*/
-        
+        $keyword = $request->keyword;
+
         //store searched keyword in table searched_keywords
         $store = new SearchedKeyword;
         $store->user_id = Auth::user()->id;
-        $store->keyword = $request->keyword;
+        $store->keyword = $keyword;
         $store->searched_at = Carbon::now();
         $store->save();
         
-        $results = SEOstats\Google::getSerps($request->keyword);
+        //$results = SEOstats\Google::getSerps($request->keyword);
+
+        return view('pages.results', [
+            'id' => 'keywords',
+            'heading' => $keyword,
+            'total_results' => SEOstats\Google::getSearchResultsTotal( $keyword ),
+            'top100' => SEOstats\Google::getSerps( $keyword )
+        ]);
+
         return $results;
     }
     
