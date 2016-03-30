@@ -6,7 +6,7 @@
     </div>
 </div>
 <div class="form-group">
-    <div class="col-md-6 col-md-offset-4">
+    <div class="col-md-6 col-md-offset-4" id="box">
         {{Form::checkbox('check', 'checked')}}
         {{Form::label('check_label', 'Click to do Country specific search')}}
     </div>

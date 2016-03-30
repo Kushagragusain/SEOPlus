@@ -5,24 +5,85 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
+                {{ Form::open(array('url' => 'search/keyword', 'method' => 'POST', 'class' => 'form-horizontal', 'onSubmit' => 'return validate()')) }}
+                    <div class="form-group">
+                        <input type="text" value="{{ $heading }}" name="url" style="display:none" />
+                        <label class="col-md-2 control-label">Enter keyword(s)</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" name="keyword" placeholder="eg. apple">
+                            <span class="help-block" id="error"></span>
+                        </div>
+                        <div class="col-md-4">
+                            {{Form::submit('Search', array('class' => 'btn btn-primary'))}}
+                        </div>
+                    </div>
+                {{ Form::close() }}
+            </div>
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+            <script>
+                var pattern = /[0-9a-zA-Z]/;
+
+                //to change submit button text on click
+                $(":submit").click(function(){
+                    $(":submit").attr('value', 'Searching...');
+                });
+
+                //validate keywords while writing
+                $(':input[name="keyword"]').focusin(function(){
+                    $(this).keyup(function(){
+                        var value = $(this).val();
+                        $('#error').text('');
+                        for( var i = 0 ; i < value.length ; i++ ){
+                            if( ! value.charAt(i).match(pattern) ){
+                                $("#error").text('Keyword should contain only alphabets');
+                                break;
+                            }
+                        }
+                    });
+                });
+
+                //validate form
+                function validate(){
+                    var x = $(':input[name="keyword"]').val();
+                    var check = 0;
+                    if(x == ''){
+                        $("#error").text('Field should not be empty.').css('font-weight', 'bold');
+                        check = 1;
+                    }else if( document.getElementById('error').innerHTML != '' ){
+                        check = 1;
+                    }
+
+                    if(check == 1){
+                        $(":submit").attr('value', 'Search');
+                        return false;
+                    }
+                    $(":submit").attr('disabled', 'disabled');
+                }
+            </script>
+
+
+            <div class="panel panel-default">
                 <h3><B>Results for "{{ $heading }}"</B></h3><br/><br/>
-                @if($id == 'url')
-                    <table width="50%">
-                        <tr><td><h4>Alexa Rank</h4></td>            <td><h4>{{ $alexa_rank }}</h4></td></tr>
-                        <tr><td><h4>Google Page Rank</h4></td>      <td><h4>{{ $google_page_rank }}</h4></td></tr>
-                        <tr><td><h4>Origin Country</h4></td>        <td><h4>{{ $origin_country['country'] }}</h4></td></tr>
-                        <tr><td><h4>Origin Country Rank</h4></td>   <td><h4>{{ $origin_country['rank'] }}</h4></td></tr>
-                    </table>
-                @else
-                    <table width="50%">
-                        <tr><td><h4>Total results</h4></td>            <td><h4>{{ $total_results }}</h4></td></tr>
-                    </table>
-                    <h4>Top 100 searches</h4><br />
-                    @foreach( $top100 as $i )
-                        {{ $i }}<br />
+                <table width="50%">
+                    <tr><td><h4>Alexa Rank</h4></td>            <td><h4>{{ $alexa_rank }}</h4></td></tr>
+                    <tr><td><h4>Google Page Rank</h4></td>      <td><h4>{{ $google_page_rank }}</h4></td></tr>
+                    <tr><td><h4>Total Backlinks</h4></td>      <td><h4>{{ $backlinks }}</h4></td></tr>
+                    <tr><td><h4>Origin Country</h4></td>        <td><h4>{{ $origin_country['country'] }}</h4></td></tr>
+                    <tr><td><h4>Origin Country Rank</h4></td>   <td><h4>{{ $origin_country['rank'] }}</h4></td></tr>
+                </table>
+            </div>
+            @if( $tp == 'keyword' )
+            <div class="panel panel-default">
+                <h3><B>Results for "{{ $keyword }}"</B></h3><br/><br/>
+                @if( $x->count > 0 )
+                    @foreach( $x as $i )
+                        {{ $i['url'] }}
                     @endforeach
+                @else
+                    No Data
                 @endif
             </div>
+            @endif
         </div>
     </div>
 </div>

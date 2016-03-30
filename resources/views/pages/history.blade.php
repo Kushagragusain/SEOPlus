@@ -9,6 +9,7 @@
             </div>
             <div class="panel panel-default">
                 <div class="panel panel-default">
+                    &nbsp;&nbsp;
                     <I><a id="url_history" style="color:red;text-decoration:none;font-size:18px;cursor:pointer">URLs</a></I>
                     &nbsp;&nbsp;|&nbsp;&nbsp;
                     <I><a id="keyword_history" style="text-decoration:none;font-size:18px;cursor:pointer">Keywords</a></I>
@@ -49,7 +50,7 @@
                     No searches
                 @else
                     @foreach($urls as $i)
-                        {{$i->url}} <br />
+                        &nbsp;&nbsp;{{$i->url}} <br />
                     @endforeach
                 @endif
             </div>
@@ -58,7 +59,7 @@
                     No searches
                 @else
                     @foreach($keywords as $i)
-                        {{$i->keyword}} <br />
+                        &nbsp;&nbsp;{{$i->keyword}} <br />
                     @endforeach
                 @endif
             </div>

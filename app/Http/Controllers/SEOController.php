@@ -30,16 +30,14 @@ class SEOController extends Controller
           // Bind the URL to the current SEOstats instance.
           if ($seostats->setUrl($url)) {
             return view('pages.results', [
-                'id' => 'url',
+                'tp' => 'url',
+                'type' => 'url',
                 'heading' => $request->url,
                 'alexa_rank' => SEOstats\Alexa::getGlobalRank(),
                 'google_page_rank' => SEOstats\Google::getPageRank(),
+                'backlinks' => SEOstats\Google::getBacklinksTotal(),
                 'origin_country' => SEOstats\Alexa::getCountryRank(),
-                //'top10' => SEOstats\Google::getSerps("site:$url", 10)
             ]);
-              //return  SEOstats\Google::getSerps("site:$url", 10);
-
-            return SEOstats\Alexa::getGlobalRank();
           }
         }
         catch (SEOstatsException $e) {
@@ -57,16 +55,17 @@ class SEOController extends Controller
         $store->searched_at = Carbon::now();
         $store->save();
         
-        //$results = SEOstats\Google::getSerps($request->keyword);
-
-        return view('pages.results', [
-            'id' => 'keywords',
-            'heading' => $keyword,
-            'total_results' => SEOstats\Google::getSearchResultsTotal( $keyword ),
-            'top100' => SEOstats\Google::getSerps( $keyword )
-        ]);
-
-        return $results;
+        /*return view('pages.results', [
+                'tp' => 'keyword',
+                'keyword' => $keyword,
+                'heading' => $request->url,
+                'alexa_rank' => $request->alexa_rank,
+                'google_page_rank' => $request->google_page_rank,
+                'backlinks' => $request->backlinks,
+                'origin_country' => $request->origin_country,
+                'x' => SEOstats\Google::getSerps($keyword, 1000, 'http://www.'.$request->url)
+            ]);*/
+        return SEOstats\Google::getSerps($keyword, 1000, 'http://www.'.$request->url) ;
     }
     
     public function history(){
