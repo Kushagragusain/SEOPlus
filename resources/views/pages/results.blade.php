@@ -8,6 +8,7 @@
                 {{ Form::open(array('url' => 'search/keyword', 'method' => 'POST', 'class' => 'form-horizontal', 'onSubmit' => 'return validate()')) }}
                     <div class="form-group">
                         <input type="text" value="{{ $heading }}" name="url" style="display:none" />
+
                         <label class="col-md-2 control-label">Enter keyword(s)</label>
                         <div class="col-md-4">
                             <input type="text" class="form-control" name="keyword" placeholder="eg. apple">
@@ -61,7 +62,7 @@
                 }
             </script>
 
-
+            @if( $tp == 'url' )
             <div class="panel panel-default">
                 <h3><B>Results for "{{ $heading }}"</B></h3><br/><br/>
                 <table width="50%">
@@ -71,16 +72,29 @@
                     <tr><td><h4>Origin Country</h4></td>        <td><h4>{{ $origin_country['country'] }}</h4></td></tr>
                     <tr><td><h4>Origin Country Rank</h4></td>   <td><h4>{{ $origin_country['rank'] }}</h4></td></tr>
                 </table>
-            </div>
-            @if( $tp == 'keyword' )
-            <div class="panel panel-default">
-                <h3><B>Results for "{{ $keyword }}"</B></h3><br/><br/>
-                @if( $x->count > 0 )
-                    @foreach( $x as $i )
-                        {{ $i['url'] }}
-                    @endforeach
+                <h4>Top 10 searches</h4>
+                @if( collect($top10)->count() == 0 )
+                    <h2>No results</h2>
                 @else
-                    No Data
+                    @foreach( $top10 as $i )
+                        {{ $i['url'] }} <br />
+                    @endforeach
+                @endif
+            </div>
+            @else
+            <div class="panel panel-default">
+                <h3><B>Results for "{{ $keyword }}" in {{ $heading }}</B></h3><br/><br/>
+                @if( collect($x)->count() == 0 )
+                    <h2>No results</h2>
+                @else
+                    <table>
+                    @foreach( $x as $j )
+                        <tr>
+                            <td>{{ $j['position'] }}</td>
+                            <td>{{ $j['url'] }}</td>
+                        </tr>
+                    @endforeach
+                    </table>
                 @endif
             </div>
             @endif
