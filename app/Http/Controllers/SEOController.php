@@ -22,24 +22,26 @@ class SEOController extends Controller
         $store->save();
         
         try {
-          $url = 'http://www.'.$request->url;
+            $url = 'http://www.'.$request->url;
 
-          // Create a new SEOstats instance.
-          $seostats = new \SEOstats\SEOstats;
+            // Create a new SEOstats instance.
+            $seostats = new \SEOstats\SEOstats;
 
-          // Bind the URL to the current SEOstats instance.
-          if ($seostats->setUrl($url)) {
-            return view('pages.results', [
-                'tp' => 'url',
-                'type' => 'url',
-                'heading' => $request->url,
-                'alexa_rank' => SEOstats\Alexa::getGlobalRank(),
-                'google_page_rank' => SEOstats\Google::getPageRank(),
-                'backlinks' => SEOstats\Google::getBacklinksTotal(),
-                'origin_country' => SEOstats\Alexa::getCountryRank(),
-                'top10' => SEOstats\Google::getSerps($url)
-            ]);
-          }
+            // Bind the URL to the current SEOstats instance.
+            if ($seostats->setUrl($url)) {
+                $tp = 'url';
+                $type = 'url';
+                $specified_country = $request->country;
+                $heading = $request->url;
+                $alexa_rank = SEOstats\Alexa::getGlobalRank();
+                $google_page_rank = SEOstats\Google::getPageRank();
+                $backlinks = SEOstats\Google::getBacklinksTotal();
+                $origin_country = SEOstats\Alexa::getCountryRank();
+                $country_rank = SEOstats\SemRush::getDomainRank($url, $specified_country);
+                //$top10 = SEOstats\Google::getSerps($url);
+                return view('pages.results', compact( 'tp', 'type', 'heading', 'alexa_rank', 'google_page_rank','backlinks',                        'origin_country', 'country_rank', 'specified_country' ));
+            }
+
         }
         catch (SEOstatsException $e) {
           die($e->getMessage());  

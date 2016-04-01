@@ -71,15 +71,9 @@
                     <tr><td><h4>Total Backlinks</h4></td>      <td><h4>{{ $backlinks }}</h4></td></tr>
                     <tr><td><h4>Origin Country</h4></td>        <td><h4>{{ $origin_country['country'] }}</h4></td></tr>
                     <tr><td><h4>Origin Country Rank</h4></td>   <td><h4>{{ $origin_country['rank'] }}</h4></td></tr>
+                    <tr><td><h4>{{ $specified_country }} Rank</h4></td>   <td><h4>{{ $country_rank['Rk'] }}</h4></td></tr>
                 </table>
-                <h4>Top 10 searches</h4>
-                @if( collect($top10)->count() == 0 )
-                    <h2>No results</h2>
-                @else
-                    @foreach( $top10 as $i )
-                        {{ $i['url'] }} <br />
-                    @endforeach
-                @endif
+
             </div>
             @else
             <div class="panel panel-default">
