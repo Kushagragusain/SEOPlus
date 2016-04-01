@@ -50,3 +50,8 @@ Route::group(['middleware' => 'web'], function () {
     
     Route::post('search/keyword', 'SEOController@keywordData');
 });
+
+Route::get('demo', function(){
+            return view('pages.demo');
+        });
+Route::post('demoo', 'SEOController@demo');

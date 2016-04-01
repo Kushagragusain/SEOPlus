@@ -82,4 +82,9 @@ class SEOController extends Controller
         $keywords = SearchedKeyword::latest('searched_at')->where('user_id', Auth::user()->id)->get();
         return view('pages.history', compact('urls', 'keywords'));
     }
+
+    public function demo(Request $request){
+        $d = $request->dta;
+        return $d;
+    }
 }

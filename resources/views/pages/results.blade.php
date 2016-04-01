@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
-                {{ Form::open(array('url' => 'search/keyword', 'method' => 'POST', 'class' => 'form-horizontal', 'onSubmit' => 'return validate()')) }}
+                {{ Form::open(array('url' => 'search/keyword', 'method' => 'GET', 'class' => 'form-horizontal', 'onSubmit' => 'return validate()')) }}
                     <div class="form-group">
                         <input type="text" value="{{ $heading }}" name="url" style="display:none" />
 
