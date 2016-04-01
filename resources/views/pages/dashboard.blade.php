@@ -13,7 +13,7 @@
 
                                 <div class="card-body card-padding">
                                     <div class="panel-body">
-                    {{ Form::open(array('url' => 'search/url', 'method' => 'POST', 'class' => 'form-horizontal', 'onSubmit' => 'return validate()')) }}
+                    {{ Form::open(array('url' => 'search/url', 'method' => 'GET', 'class' => 'form-horizontal', 'onSubmit' => 'return validate()')) }}
                         <div class="form-group{{ $errors->has('url') ? ' has-error' : '' }}">
                             <label class="col-md-4 control-label">Enter URL</label>
                             <div class="col-md-6">
@@ -24,23 +24,32 @@
                         <div class="form-group" id="country">
                             {{Form::label('country_label', 'Select Country', array('class' => 'col-md-4 control-label'))}}
                             <div class="col-md-6">
+                                <div class="select">
                                 {{Form::select('country', array(
-                                        'australia' => 'Australia',
-                                        'china'     => 'China',
-                                        'india'     => 'India',
-                                        'us'        => 'US'
+
+     'au'  =>    'Australia',
+     'br'  =>    'Brazil',
+     'ca'  =>    'Canada',
+     'de'  =>    'Germany',
+     'es'  =>    'Spain',
+     'fr'  =>    'France',
+     'it'  =>    'Italy',
+     'ru'  =>    'Russia',
+     'uk'  =>    'United Kingdom',
+     'us'  =>    'United States',
                                     ),
                                     'us',
                                     array('class' => 'form-control')
                                 )}}
                             </div>
                         </div>
-
+</div>
 
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                {{Form::submit('Check', array('class="btn btn-login btn-danger'))}}
+
+                                {{Form::submit('Check', array('class' => 'btn btn-login btn-primary  waves-input-wrapper waves-effect'))}}
                             </div>
                         </div>
                     {{ Form::close() }}

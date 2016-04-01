@@ -46,7 +46,9 @@ Route::group(['middleware' => 'web'], function () {
         
     });
     
-    Route::post('search/url', 'SEOController@domainData');
+
+     Route::get('search/url', function(){
+            return view('pages.results');});
     
     Route::post('search/keyword', 'SEOController@keywordData');
 });
