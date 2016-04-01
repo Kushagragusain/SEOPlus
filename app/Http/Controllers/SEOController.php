@@ -8,19 +8,13 @@ use App\Http\Requests;
 use \SEOstats\Services as SEOstats;
 use App\SearchedUrl;
 use App\SearchedKeyword;
+use App\Country;
 use Auth;
 use Carbon\Carbon;
 
 class SEOController extends Controller
 {
     public function domainData(Request $request){
-        //store searched url in table searched_urls
-        $store = new SearchedUrl;
-        $store->user_id = Auth::user()->id;
-        $store->url = $request->url;
-        $store->searched_at = Carbon::now();
-        $store->save();
-        
         try {
             $url = 'http://www.'.$request->url;
 
@@ -29,17 +23,34 @@ class SEOController extends Controller
 
             // Bind the URL to the current SEOstats instance.
             if ($seostats->setUrl($url)) {
+                $cntry = Country::first()->where('tld', $request->country)->take(1)->get();
+                foreach($cntry as $i)
+                    $specified_country = $i['country_name'];
                 $tp = 'url';
                 $type = 'url';
-                $specified_country = $request->country;
                 $heading = $request->url;
                 $alexa_rank = SEOstats\Alexa::getGlobalRank();
                 $google_page_rank = SEOstats\Google::getPageRank();
                 $backlinks = SEOstats\Google::getBacklinksTotal();
                 $origin_country = SEOstats\Alexa::getCountryRank();
-                $country_rank = SEOstats\SemRush::getDomainRank($url, $specified_country);
+                $country_rank = SEOstats\SemRush::getDomainRank($url, $request->country);
+
+                //store searched url in table searched_urls
+                $store = new SearchedUrl;
+                $store->user_id = Auth::user()->id;
+                $store->url = $request->url;
+                $store->alexa_rank = $alexa_rank;
+                $store->google_page_rank = $google_page_rank;
+                $store->backlinks = $backlinks;
+                $store->origin_country_name = $origin_country['country'];
+                $store->origin_country_rank = $origin_country['rank'];
+                $store->specified_country = $specified_country;
+                $store->country_rank = $country_rank['Rk'];;
+                $store->searched_at = Carbon::now();
+                $store->save();
+
                 //$top10 = SEOstats\Google::getSerps($url);
-                return view('pages.results', compact( 'tp', 'type', 'heading', 'alexa_rank', 'google_page_rank','backlinks',                        'origin_country', 'country_rank', 'specified_country' ));
+                return view('pages.results', compact( 'tp', 'type', 'heading', 'alexa_rank', 'google_page_rank','backlinks',                    'origin_country', 'country_rank', 'specified_country' ));
             }
 
         }
