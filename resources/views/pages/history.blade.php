@@ -1,22 +1,65 @@
-@extends('layouts.app')
-
+@extends('layouts.app', ['link' => 'Add URL'])
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css">
 @section('content')
 <div class="container">
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-default">
-                <h3>History</h3>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel panel-default">
-                    &nbsp;&nbsp;
-                    <I><a id="url_history" style="color:red;text-decoration:none;font-size:18px;cursor:pointer">URLs</a></I>
-                    &nbsp;&nbsp;|&nbsp;&nbsp;
-                    <I><a id="keyword_history" style="text-decoration:none;font-size:18px;cursor:pointer">Keywords</a></I>
-                </div>
+<div class="card">
+    <div class="card-header bgm-blue m-b-20">
 
-                <div id="contents"></div>
+
+
+                                    <h2>History<small>Previous Search...</small></h2>
+
+                                </div>
+
+
+
+    <div class="card-body card-padding">
+                                       <div class="table-responsive">
+                     <table id="example" class="display" cellspacing="0" width="100%">
+                         @if($urls->count() == 0)
+                    No searches
+                @else
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Website</th>
+                <th>Rank</th>
+
+            </tr>
+        </thead>
+
+        <tbody>
+             @foreach($urls as $i)
+
+                <tr>
+                <td>{{$i->id}}</td>
+                <td>{{$i->url}}</td>
+                <td>32</td>
+
+            </tr>
+            @endforeach
+        </tbody>
+                          @endif
+    </table>
+
+                    </div>
+                                </div>
+                            </div>
+
+</div>
+
+  <div id="keyword_data" style="display:none;">
+                @if($keywords->count() == 0)
+                    No searches
+                @else
+                    @foreach($keywords as $i)
+                        &nbsp;&nbsp;{{$i->keyword}} <br />
+                    @endforeach
+                @endif
             </div>
+@endsection
+@section('footer')
+
             <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
             <script>
                 $(document).ready(function(){
@@ -45,25 +88,19 @@
                 });
             </script>
 
-             <div id="url_data" style="display:none;">
-                @if($urls->count() == 0)
-                    No searches
-                @else
-                    @foreach($urls as $i)
-                        &nbsp;&nbsp;{{$i->url}} <br />
-                    @endforeach
-                @endif
-            </div>
-            <div id="keyword_data" style="display:none;">
-                @if($keywords->count() == 0)
-                    No searches
-                @else
-                    @foreach($keywords as $i)
-                        &nbsp;&nbsp;{{$i->keyword}} <br />
-                    @endforeach
-                @endif
-            </div>
-        </div>
-    </div>
-</div>
+
+  <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
+  <script>
+  $(document).ready(function() {
+    $('#example').DataTable();
+} );
+  </script>
+
 @endsection
+
+
+
+
+
+

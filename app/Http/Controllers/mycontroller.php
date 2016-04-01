@@ -42,7 +42,7 @@ class mycontroller extends Controller
     public function save(ValidateUserRequest $request)
     {	
     		$input = $request->all();
-    		DB::insert('insert into test (user_name, email, password) values (?, ?, ?)', [$input['user_name'], $input['mail'], $input['password']]);
+       DB::insert('insert into test (user_name, email, password) values (?, ?, ?)', [$input['user_name'], $input['mail'], $input['password']]);
             //test::create($input);
             return view('welcome');
     }
