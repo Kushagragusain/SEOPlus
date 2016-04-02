@@ -7,7 +7,7 @@
 
 
 
-                                    <h2>History<small>Previous Search...</small></h2>
+                                    <h2>History<small>Previous Searches</small></h2>
 
                                 </div>
 

@@ -35,7 +35,7 @@
             <div class="input-group m-b-20 ">
                 <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
                 <div class="fg-line {{ $errors->has('user_name') ? ' has-error' : '' }}">
-                   <input type="text" class="form-control" placeholder="First Name" name="user_name" value="{{ old('user_name') }}">
+                   <input type="text" class="form-control" placeholder="Full Name" name="user_name" value="{{ old('user_name') }}">
                 </div>
                  @if (count($errors) > 0)
             <p>

@@ -7,16 +7,13 @@
 <div class="container">
 <div class="col-md-10 col-md-offset-1">
                             <div class="card">
-                                <div class="card-header  m-b-20">
-                                    <h2>Serarch Results for <h3><div class="c-blue text-uppercase">{{ $keyword }}</div></h3></h2>
+                                <div class="card-header bgm-blue m-b-20">
+                                    <h2>Serarch Results for <h3><div class="c-white text-uppercase">{{ $keyword }}</div></h3></h2>
 
                                 </div>
 
                                 <div class="card-body card-padding">
 
-                                        <div class="bs-item z-depth-5">
-
-                                    <div class="jumbotron">
                                         <blockquote class="m-b-25">
                                    <h3>Total seraches for {{$keyword }}  :  {{ $totsearch }}</h3>
                                             <div class="clearfix"></div>
@@ -32,8 +29,7 @@
                     @endforeach
                 @endif
                                         </blockquote>
-                                </div>
-                                    </div>
+                                <hr>
                                    Details over
                             </div>
                         </div>
