@@ -19,7 +19,7 @@
                                 <span class="help-block" id="error"></span>
                             </div>
                             <div class="col-md-4">
-                                <input type="button" value="Add" class="btn btn-login btn-primary  waves-input-wrapper waves-effect"       id="add_keyword" />
+                                <input type="button" value="Add" class="btn btn-default bgm-blue waves-input-wrapper waves-effect"       id="add_keyword" />
                             </div>
                         </div>
                     {{ Form::close() }}
@@ -36,7 +36,16 @@
                 <div class="card-body card-padding">
                     <div class="pmo-contact">
                         <ul>
-                            <li class="ng-binding"><i class="zmdi zmdi-phone"></i> Alexa Rank<div class="pull-right">{{ $alexa_rank }}              </div>
+
+
+
+                             <li class="ng-binding"><i class="zmdi zmdi-gps-dot"></i> Origin Country<div class="pull-right">{{ $origin_country['country'] }}</div>
+                                <div class="media-body">
+
+                                </div>
+                            </li>
+
+                            <li class="ng-binding"><i class="zmdi zmdi-star-half"></i> Alexa Rank<div class="pull-right">{{ $alexa_rank }}              </div>
                                 <div class="media-body">
                                     <div class="progress">
                                         <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%"></div>
@@ -44,7 +53,7 @@
                                 </div>
                             </li>
 
-                            <li class="ng-binding"><i class="zmdi zmdi-email"></i> Google Page Rank<div class="pull-right">{{ $google_page_rank }}</div>
+                            <li class="ng-binding"><i class="zmdi zmdi-google"></i> Google Page Rank<div class="pull-right">{{ $google_page_rank }}</div>
                                 <div class="media-body">
                                     <div class="progress">
                                         <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
@@ -53,7 +62,7 @@
                                 </div>
                             </li>
 
-                            <li class="ng-binding"><i class="zmdi zmdi-facebook-box"></i>Total Backlinks<div class="pull-right">{{ $backlinks }}</div>
+                            <li class="ng-binding"><i class="zmdi zmdi-widgets"></i>Total Backlinks<div class="pull-right">{{ $backlinks }}</div>
                                 <div class="media-body">
                                     <div class="progress">
                                         <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100" style="width: 78%">
@@ -62,7 +71,9 @@
                                 </div>
                             </li>
 
-                            <li class="ng-binding"><i class="zmdi zmdi-twitter"></i> Origin Country<div class="pull-right">{{ $origin_country['country'] }}</div>
+
+
+                            <li class="ng-binding"><i class="zmdi zmdi-flash"></i> Origin Country Rank<div class="pull-right">{{ $origin_country['rank'] }}</div>
                                 <div class="media-body">
                                     <div class="progress">
                                         <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
@@ -71,16 +82,7 @@
                                 </div>
                             </li>
 
-                            <li class="ng-binding"><i class="zmdi zmdi-pin"></i> Origin Country Rank<div class="pull-right">{{ $origin_country['rank'] }}</div>
-                                <div class="media-body">
-                                    <div class="progress">
-                                        <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <li class="ng-binding"><i class="zmdi zmdi-email"></i> {{ $specified_country }} Rank<div class="pull-right">{{ $country_rank }}</div>
+                            <li class="ng-binding"><i class="zmdi zmdi-globe"></i> {{ $specified_country }} Rank<div class="pull-right">{{ $country_rank }}</div>
                                 <div class="media-body">
                                     <div class="progress">
                                         <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
