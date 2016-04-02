@@ -3,7 +3,9 @@
 @section('content')
 <div class="container">
 <div class="card">
-    <div class="card-header bgm-blue m-b-20">
+    <div class="card-header bgm-blue
+
+ m-b-20">
 
 
 
