@@ -60,21 +60,14 @@ class SEOController extends Controller
     }
     
     public function keywordData(Request $request){
-        $keyword = $request->keyword;
+        /*$keyword = $request->keyword;
 
-        //store searched keyword in table searched_keywords
-        $store = new SearchedKeyword;
-        $store->user_id = Auth::user()->id;
-        $store->keyword = $keyword;
-        $store->searched_at = Carbon::now();
-        $store->save();
-        
         return view('pages.results', [
-                'tp' => 'keyword',
                 'keyword' => $keyword,
                 'heading' => $request->url,
                 'x' => SEOstats\Google::getSerps($keyword, 20, 'http://www.'.$request->url)
-            ]);
+            ]);*/
+        return 'keyword Results';
     }
     
     public function history(){
@@ -84,7 +77,21 @@ class SEOController extends Controller
     }
 
     public function demo(Request $request){
-        $d = $request->dta;
-        return $d;
+        $result['keyword'] = $request->keyword;
+        $t = Carbon::now();
+
+        $key = new SearchedKeyword;
+        $key->user_id = Auth::user()->id;
+        $key->url = 'goole.com';
+        $key->keyword = $result['keyword'];
+        $key->searched_at = $t;
+        $key->status = 'active';
+        $key->save();
+
+        $id = SearchedKeyword::id('goole.com', $result['keyword']);
+        foreach( $id as $i )
+            $result['id'] = $i['id'];
+
+        return json_encode($result);
     }
 }

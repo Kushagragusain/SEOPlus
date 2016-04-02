@@ -44,16 +44,18 @@ Route::group(['middleware' => 'web'], function () {
         //to see all previous searches
         Route::get('history', 'SEOController@history');
         
+        Route::get('demo', function(){
+            return view('pages.demo');
+        });
+
     });
     
 
-     Route::get('search/url', function(){
-            return view('pages.results');});
+    Route::post('search/url', 'SEOController@domainData');
     
-    Route::post('search/keyword', 'SEOController@keywordData');
+    Route::post('keyword', 'SEOController@keywordData');
+
+    Route::get('demoo', 'SEOController@demo');
+    Route::post('demoo', 'SEOController@demo');
 });
 
-Route::get('demo', function(){
-            return view('pages.demo');
-        });
-Route::post('demoo', 'SEOController@demo');

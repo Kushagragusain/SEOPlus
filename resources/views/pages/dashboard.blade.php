@@ -4,11 +4,8 @@
 <div class="container">
     <div class="row">
     <div class="col-md-10 col-md-offset-1">
-<<<<<<< HEAD
         <div class="card">
-=======
 <div class="card">
->>>>>>> origin/complete
         <div class="card-header bgm-blue m-b-20">
             <h2>Search URL<small>Start here</small></h2>
         </div>
@@ -65,11 +62,7 @@
                         )}}
                     </div>
                 </div>
-                <div class="form-group">
-                    <div class="col-md-6 col-md-offset-4">
-                        {{Form::submit('Check', array('class="btn btn-login btn-danger'))}}
-                    </div>
-                </div>
+
                 <div class="form-group">
                     <div class="col-md-6 col-md-offset-4">
                         {{Form::submit('Check', array('class' => 'btn btn-login btn-primary  waves-input-wrapper waves-effect'))}}
