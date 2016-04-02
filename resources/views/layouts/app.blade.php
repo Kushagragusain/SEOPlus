@@ -42,7 +42,7 @@
                             <li><a href="{{ url('/register') }}">Register</a></li>
                         @else
 
-                            <li><a href="dashboard">{{ $link }}</a></li>
+                            <li><a href="{{ url('/dashboard') }}">{{ $link }}</a></li>
                             @if($link != '')
                                 &nbsp;&nbsp;|&nbsp;&nbsp;
                             @endif
@@ -54,7 +54,7 @@
                                 </a>
 
                                 <ul class="dropdown-menu dropdown-menu-right">
-                                    <li><a href="{{ url('/logout') }}">Logout</a></li>
+                                    <li><a href="{{ url('/logout') }} " id="logout">Logout</a></li>
                                 </ul>
                             </li>
                         @endif
@@ -161,6 +161,15 @@
 
         <script src="{{URL::to('assets')}}/js/functions.js"></script>
         <script src="js/functions.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script>
+    $('#logout').click(function(){
+        var url = "{{ URL::to('/updatedb') }}";
+
+        $.get(url, function(){
+        });
+    });
+</script>
 
        <!-- <script src="{{URL::to('assets')}}/js/demo.js"></script>-->
 

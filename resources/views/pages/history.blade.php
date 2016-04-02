@@ -17,10 +17,10 @@
 
     <div class="card-body card-padding">
                                        <div class="table-responsive">
-                     <table id="example" class="display" cellspacing="0" width="100%">
-                         @if($urls->count() == 0)
-                    No searches
-                @else
+     <table id="example" class="display" cellspacing="0" width="100%">
+     @if($urls->count() == 0)
+        No searches
+    @else
         <thead>
             <tr>
                 <th>Id</th>
@@ -34,14 +34,14 @@
              @foreach($urls as $i)
 
                 <tr>
-                <td>{{$i->id}}</td>
-                <td>{{$i->url}}</td>
-                <td>32</td>
+                <td>{{ $i->id }}</td>
+                <td><a href="url_rank/{{ $i->id }}" >{{ $i->url }}</a></td>
+                <td>{{ $i['alexa_rank'] }} </td>
 
-            </tr>
+                </tr>
             @endforeach
         </tbody>
-                          @endif
+     @endif
     </table>
 
                     </div>
@@ -49,16 +49,6 @@
                             </div>
 
 </div>
-
-  <div id="keyword_data" style="display:none;">
-                @if($keywords->count() == 0)
-                    No searches
-                @else
-                    @foreach($keywords as $i)
-                        &nbsp;&nbsp;{{$i->keyword}} <br />
-                    @endforeach
-                @endif
-            </div>
 @endsection
 @section('footer')
 

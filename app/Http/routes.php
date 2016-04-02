@@ -37,25 +37,23 @@ Route::group(['middleware' => 'web'], function () {
             return view('pages.dashboard');        
         });
         
-        Route::get('loadForm', function(){
-            return view('pages.loadForm');
-        });
-
-        //to see all previous searches
+       //to see all previous searches
         Route::get('history', 'SEOController@history');
         
-        Route::get('demo', function(){
-            return view('pages.demo');
-        });
+        Route::get('updatedb', 'SEOController@updateSearchedKeyworddb');
 
+        Route::get('fetchkey', 'SEOController@fetchkeywords');
+
+        Route::get('url_rank/{id}', 'SEOController@fetchUrlData');
+
+        Route::get('url_rank/keyword/{id}', 'SEOController@keywordData');
     });
     
 
-    Route::post('search/url', 'SEOController@domainData');
+    Route::post('search/url', 'SEOController@domainSave');
+
+    Route::post('addkey', 'SEOController@addkeyword');
     
     Route::post('keyword', 'SEOController@keywordData');
-
-    Route::get('demoo', 'SEOController@demo');
-    Route::post('demoo', 'SEOController@demo');
 });
 
