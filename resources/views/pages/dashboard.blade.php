@@ -61,10 +61,12 @@
                             array('class' => 'form-control')
                         )}}
                     </div>
+                        <br>
                 </div>
 
                 <div class="form-group">
                     <div class="col-md-6 col-md-offset-4">
+                        <br>
                         {{Form::submit('Check', array('class' => ' btn btn-default bgm-blue waves-input-wrapper waves-effect'))}}
                     </div>
                 </div>
@@ -75,6 +77,9 @@
     </div>
     </div>
 </div>
+    </div>
+</div>
+
 @endsection
 
 

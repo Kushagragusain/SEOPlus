@@ -1,9 +1,12 @@
 @extends('layouts.app', ['link' => 'Add URL'])
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css">
 @section('content')
+
+<div style="position: fixed; top: 100px; left: 30px;"><a href="{{ URL::to('history') }}"><button class="btn bgm-red btn-float waves-effect"><i class="zmdi zmdi-arrow-back"></i></button></a></div>
 <div class="container">
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
+
+
+    <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
                 <div class="card">
                     <div class="card-header">
@@ -30,16 +33,14 @@
 
             <!-- Result for URL search -->
             <div class="card">
-                <div class="card-header ch-alt">
+                <div class="card-header bgm-blue m-b-20">
                     <h2>Results for "{{ $heading }}"<small>all in one place</small></h2>
                 </div>
                 <div class="card-body card-padding">
                     <div class="pmo-contact">
                         <ul>
-
-
-
-                             <li class="ng-binding"><i class="zmdi zmdi-gps-dot"></i> Origin Country<div class="pull-right">{{ $origin_country['country'] }}</div>
+             <li class="ng-binding">
+    <i class="zmdi zmdi-gps-dot"></i> Origin Country<div class="pull-right">{{ $origin_country['country'] }}</div>
                                 <div class="media-body">
 
                                 </div>
@@ -97,16 +98,19 @@
             </div>
 
 
-    <div class="card" id="keywords_list" style="display:none;">
-        <div class="card-header bgm-cyan">
+
+<!-- Key word list -->
+    <div class="card" >
+        <div class="card-header bgm-blue m-b-20">
             <h2>Keywords List</h2>
         </div>
 
-        <div class="card-body card-padding">
+        <div class="card-body" id="keywords_list" style="display:none;">
             <div class="table-responsive">
 				<table class="table table-hover">
                     <thead>
                         <tr><th>Id</th><th>KeyWord</th><th>Action</th></tr>
+
                     </thead>
 
                     <tbody id="tbody">
@@ -117,7 +121,8 @@
         </div>
     </div>
 
-
+    </div>
+</div>
 @endsection
 
 @section('footer')
@@ -169,9 +174,11 @@ $(document).ready(function() {
             $('#keywords_list').show();
             for(i = 0; i < result.length; i++){
                 //$('#tbody').append('<tr><td>'+result[i].id+'</td><td>'+result[i].keyword+'</td><td><input type="button" value="See Results" /></td></tr>');
-                $('#tbody').append('<tr><td>'+result[i].id+'</td><td>'+result[i].keyword+'</td><td><a class="btn btn-xs btn-sucess" data-method="delete" href=keyword/'+result[i].id+'><i class="icon-show">Show</i></a></td><td><a class="btn btn-xs btn-danger" data-method="delete" href=keyword/'+result[i].id+'><i class="icon-remove">Delete</i></a></td></tr>');
+                $('#tbody').append('<tr><td>'+result[i].id+'</td><td>'+result[i].keyword+'</td><td><a class="btn bgm-orange waves-effect" data-method="delete" href=keyword/'+result[i].id+'><i class="zmdi zmdi-check"></i></a>    <a class="btn btn-danger waves-effect" data-method="delete" href=keyword/'+result[i].id+'><i class="zmdi zmdi-close"></i></a></td></tr>');
                 count++;
             }
+
+
         }
     });
 
