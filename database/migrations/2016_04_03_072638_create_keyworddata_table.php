@@ -12,8 +12,11 @@ class CreateKeyworddataTable extends Migration
      */
     public function up()
     {
-        Schema::create('keydata', function (Blueprint $table) {
+        Schema::create('keydatas', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('key_id');
+            $table->integer('keyword_rank');
+            $table->string('searched_at');
             $table->timestamps();
         });
     }
@@ -25,6 +28,6 @@ class CreateKeyworddataTable extends Migration
      */
     public function down()
     {
-        Schema::drop('keydata');
+        Schema::drop('keydatas');
     }
 }

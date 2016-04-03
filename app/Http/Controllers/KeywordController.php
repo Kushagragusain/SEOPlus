@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\SearchedKeyword;
+use App\KeyData;
+use Carbon\Carbon;
 
 class KeywordController extends Controller
 {
@@ -89,6 +91,12 @@ class KeywordController extends Controller
         }
 
         array_multisort($sort_col, SORT_ASC, $res);
+
+        $store = new Keydata;
+        $store->key_id = $id;
+        $store->keyword_rank = $res[0]['rank'];
+        $store->searched_at = Carbon::now();
+        $store->save();
 
 		return view('pages.keyword_data', compact('keyword', 'res', 'check', 'domain'));
     }
