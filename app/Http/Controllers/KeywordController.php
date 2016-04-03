@@ -83,20 +83,21 @@ class KeywordController extends Controller
                     $res[] = array( 'rank' => $i['rank'], 'url' => $i['url'] );
                 }
             }
+            if(count(res) > 0){
+                $sort_col = array();
+                foreach ($res as $key=> $row) {
+                    $sort_col[$key] = $row['rank'];
+                }
+
+                array_multisort($sort_col, SORT_ASC, $res);
+
+                $store = new Keydata;
+                $store->key_id = $id;
+                $store->keyword_rank = $res[0]['rank'];
+                $store->searched_at = Carbon::now();
+                $store->save();
+            }
         }
-
-        $sort_col = array();
-        foreach ($res as $key=> $row) {
-            $sort_col[$key] = $row['rank'];
-        }
-
-        array_multisort($sort_col, SORT_ASC, $res);
-
-        $store = new Keydata;
-        $store->key_id = $id;
-        $store->keyword_rank = $res[0]['rank'];
-        $store->searched_at = Carbon::now();
-        $store->save();
 
 		return view('pages.keyword_data', compact('keyword', 'res', 'check', 'domain'));
     }

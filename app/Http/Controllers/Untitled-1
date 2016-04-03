@@ -1,10 +1,8 @@
 @extends('layouts.app', ['link' => 'Add Url'])
 
 @section('content')
-
-
-     <div class="col-md-8">
-
+<div class="container">
+    <div class="col-md-10 col-md-offset-1">
    <div class="card">
                                 <div class="card-header bgm-blue  m-b-20">
                                     <h2>Alexa Rank Chart for <h3><div class="c-White text-uppercase"><div id="tittle"></div>
@@ -20,25 +18,8 @@
             </div>
         </div>
     </div>
-    <div class="col-md-4">
-
-   <div class="card">
-                                <div class="card-header bgm-blue  m-b-20">
-                                    <h2>Keyword<div class="c-White text-uppercase"></div>
-</h2>
-
-                                </div>
-
-                 <div class="card-body card-padding">
-
-knvlndflkvn;d
-                <div id="chartContainer" style="height: 300px; width: 100%;"></div>
-
-            </div>
-        </div>
-    </div>
-
-
+</div>
+    
 @endsection
 
 @section('footer')
@@ -61,20 +42,23 @@ var chart = new CanvasJS.Chart("chartContainer",
 				tickColor: "silver",
 				valueFormatString: "DD/MMM",
 
-			},
+			},                        
                         toolTip:{
                           shared:true
                         },
 			theme: "theme2",
-
+    
 			axisY: {
 				gridColor: "Silver",
 				tickColor: "silver"
 			},
-
+			legend:{
+				verticalAlign: "center",
+				horizontalAlign: "right"
+			},
 			data: [
-
-			{
+			
+			{        
 				type: "line",
 				showInLegend: true,
 				name: "Alexa Rank",
@@ -82,12 +66,12 @@ var chart = new CanvasJS.Chart("chartContainer",
 				lineThickness: 3,
 
 				dataPoints: [
-
-
+                    
+                    
                       @foreach( $data as $i )
                         { x: new Date("{{ $i['searched_at'] }}"),  y: {{ $i['alexa_rank'] }}  },
                     @endforeach
-
+				
 				]
 			}
                                ],
