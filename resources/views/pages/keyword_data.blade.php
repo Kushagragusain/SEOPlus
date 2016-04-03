@@ -47,7 +47,6 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-        alert({{count($fetch)}});
         @if(count($fetch) > 0)
             $('#graph').show();
         @endif
