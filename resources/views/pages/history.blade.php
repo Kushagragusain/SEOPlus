@@ -3,19 +3,17 @@
 @section('content')
 <div class="container">
 <div class="card">
-    <div class="card-header bgm-blue
-
- m-b-20">
+    <div class="card-header bgm-blue m-b-20">
 
 
 
-                                    <h2>History<small>Previous Search...</small></h2>
+                                    <h2>History<small>Previous Searches</small></h2>
 
                                 </div>
 
 
 
-    <div class="card-body card-padding">
+    <div class="card-body p-10 p-b-0">
                                        <div class="table-responsive">
      <table id="example" class="display" cellspacing="0" width="100%">
      @if($urls->count() == 0)

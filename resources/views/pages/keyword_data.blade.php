@@ -1,9 +1,10 @@
 @extends('layouts.app', ['link' => 'Add URL'])
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
+
+<div style="position: fixed; top: 100px; left: 30px;"><a href="{{ URL::to('url_rank/') }}"><button class="btn bgm-red btn-float waves-effect"><i class="zmdi zmdi-arrow-back"></i></button></a></div>
+
+<div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
                 <h3>Serarch Results for {{ $keyword }}</h3>
                 @if($check == 'fail')
@@ -12,15 +13,14 @@
                     @if(count($res) == 0)
                         <h4>No result in top 100</h4>
                     @else
-                        <h4>Rank of {{ $domain }} for {{ $keyword }}      :      {{ $res[0]['rank'] }}</h4>
+                        <h4>Rank of {{ $domain }} for {{ $keyword }}:{{ $res[0]['rank'] }}</h4>
                         <h4>Top links</h4>
                         @foreach($res as $i)
                             <h5><a href="{{ $i['url'] }}"> {{ $i['url'] }} </a></h5>
                         @endforeach
                     @endif
-                @endif
-            </div>
-        </div>
     </div>
 </div>
+
+
 @endsection

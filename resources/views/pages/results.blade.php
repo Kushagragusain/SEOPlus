@@ -1,37 +1,18 @@
 @extends('layouts.app', ['link' => 'Add URL'])
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css">
 @section('content')
+
+<div style="position: fixed; top: 100px; left: 30px;"><a href="{{ URL::to('history') }}"><button class="btn bgm-red btn-float waves-effect"><i class="zmdi zmdi-arrow-back"></i></button></a></div>
 <div class="container">
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-default">
-                <div class="card">
-                    <div class="card-header">
-                        <h2>Add keyword(s)<small></small></h2>
-                    </div>
-                <div class="card-body card-padding">
-                    {{ Form::open(array('url' => 'keyword', 'method' => 'POST', 'class' => 'form-horizontal', 'id' => 'form_data', 'onSubmit' => 'return false')) }}
-                        {!! csrf_field() !!}
-                        <input type="hidden" value="{{ $heading }}" name="url" id="url" />
-                        <div class="row">
-                            <div class="col-md-4">
-                                <input type="text" class="form-control" name="keyword" placeholder="eg.apple" id="keyword">
-                                <span class="help-block" id="error"></span>
-                            </div>
-                            <div class="col-md-4">
-                                <input type="button" value="Add" class="btn btn-login btn-primary  waves-input-wrapper waves-effect"       id="add_keyword" />
-                            </div>
-                        </div>
-                    {{ Form::close() }}
-                </div>
-                </div>
-                <div style="text-align:center;" id="key_mes"></div>
-            </div>
+
+
+    <div class="col-md-10 col-md-offset-1">
+
 
             <!-- Result for URL search -->
             <div class="card">
-                <div class="card-header ch-alt">
-                    <h2>Results for "{{ $heading }}"<small>all in one place</small></h2>
+                <div class="card-header bgm-blue m-b-20">
+                    <h2>Results for <h3><div class="c-white text-uppercase">{{ $heading }}</div></h3><small>all in one place</small></h2>
                 </div>
                 <div class="card-body card-padding">
                     <form action="{{ url('url_rank/history') }}">
@@ -42,7 +23,14 @@
                 <div class="card-body card-padding">
                     <div class="pmo-contact">
                         <ul>
-                            <li class="ng-binding"><i class="zmdi zmdi-phone"></i> Alexa Rank<div class="pull-right">{{ $alexa_rank }}              </div>
+             <li class="ng-binding">
+    <i class="zmdi zmdi-gps-dot"></i> Origin Country<div class="pull-right">{{ $origin_country['country'] }}</div>
+                                <div class="media-body">
+
+                                </div>
+                            </li>
+
+                            <li class="ng-binding"><i class="zmdi zmdi-star-half"></i> Alexa Rank<div class="pull-right">{{ $alexa_rank }}              </div>
                                 <div class="media-body">
                                     <div class="progress">
                                         <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%"></div>
@@ -50,16 +38,16 @@
                                 </div>
                             </li>
 
-                            <li class="ng-binding"><i class="zmdi zmdi-email"></i> Google Page Rank<div class="pull-right">{{ $google_page_rank }}</div>
+                            <li class="ng-binding"><i class="zmdi zmdi-google"></i> Google Page Rank<div class="pull-right">{{ $google_page_rank }}</div>
                                 <div class="media-body">
                                     <div class="progress">
-                                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
+                                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: {{ $google_page_rank }}%">
                                         </div>
                                     </div>
                                 </div>
                             </li>
 
-                            <li class="ng-binding"><i class="zmdi zmdi-facebook-box"></i>Total Backlinks<div class="pull-right">{{ $backlinks }}</div>
+                            <li class="ng-binding"><i class="zmdi zmdi-widgets"></i>Total Backlinks<div class="pull-right">{{ $backlinks }}</div>
                                 <div class="media-body">
                                     <div class="progress">
                                         <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100" style="width: 78%">
@@ -68,7 +56,9 @@
                                 </div>
                             </li>
 
-                            <li class="ng-binding"><i class="zmdi zmdi-twitter"></i> Origin Country<div class="pull-right">{{ $origin_country['country'] }}</div>
+
+
+                            <li class="ng-binding"><i class="zmdi zmdi-flash"></i> Origin Country Rank<div class="pull-right">{{ $origin_country['rank'] }}</div>
                                 <div class="media-body">
                                     <div class="progress">
                                         <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
@@ -77,16 +67,7 @@
                                 </div>
                             </li>
 
-                            <li class="ng-binding"><i class="zmdi zmdi-pin"></i> Origin Country Rank<div class="pull-right">{{ $origin_country['rank'] }}</div>
-                                <div class="media-body">
-                                    <div class="progress">
-                                        <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <li class="ng-binding"><i class="zmdi zmdi-email"></i> {{ $specified_country }} Rank<div class="pull-right">{{ $country_rank }}</div>
+                            <li class="ng-binding"><i class="zmdi zmdi-globe"></i> {{ $specified_country }} Rank<div class="pull-right">{{ $country_rank }}</div>
                                 <div class="media-body">
                                     <div class="progress">
                                         <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
@@ -100,17 +81,45 @@
                 </div>
             </div>
 
+<!-- add key word -->
 
-    <div class="card" id="keywords_list" style="display:none;">
-        <div class="card-header bgm-cyan">
+<div class="card">
+                    <div class="card-header">
+                        <h2>Add keyword(s)<small></small></h2>
+                    </div>
+                <div class="card-body card-padding">
+                    {{ Form::open(array('url' => 'keyword', 'method' => 'POST', 'class' => 'form-horizontal', 'id' => 'form_data', 'onSubmit' => 'return false')) }}
+                        {!! csrf_field() !!}
+                        <input type="hidden" value="{{ $heading }}" name="url" id="url" />
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="keyword" placeholder="eg.apple" id="keyword">
+                                <span class="help-block" id="error"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="button" value="Add" class="btn btn-default bgm-blue waves-input-wrapper waves-effect"       id="add_keyword" />
+                            </div>
+                        </div>
+                    {{ Form::close() }}
+                    <div class="panel panel-default">
+
+                <div style="text-align:center;" id="key_mes"></div>
+            </div>
+                </div>
+                </div>
+
+<!-- Key word list -->
+    <div class="card" >
+        <div class="card-header bgm-blue m-b-20">
             <h2>Keywords List</h2>
         </div>
 
-        <div class="card-body card-padding">
+        <div class="card-body" id="keywords_list" style="display:none;">
             <div class="table-responsive">
 				<table class="table table-hover">
                     <thead>
                         <tr><th>Id</th><th>KeyWord</th><th>Action</th></tr>
+
                     </thead>
 
                     <tbody id="tbody">
@@ -121,7 +130,8 @@
         </div>
     </div>
 
-
+    </div>
+</div>
 @endsection
 
 @section('footer')
@@ -168,9 +178,11 @@ $(document).ready(function() {
             $('#keywords_list').show();
             for(i = 0; i < result.length; i++){
                 //$('#tbody').append('<tr><td>'+result[i].id+'</td><td>'+result[i].keyword+'</td><td><input type="button" value="See Results" /></td></tr>');
-                $('#tbody').append('<tr><td>'+result[i].id+'</td><td>'+result[i].keyword+'</td><td><a class="btn btn-xs btn-sucess" data-method="delete" href=keyword/'+result[i].id+'><i class="icon-show">Show</i></a></td><td><a class="btn btn-xs btn-danger" data-method="delete" href=keyword/'+result[i].id+'><i class="icon-remove">Delete</i></a></td></tr>');
+                $('#tbody').append('<tr><td>'+result[i].id+'</td><td>'+result[i].keyword+'</td><td><a class="btn bgm-orange waves-effect" data-method="delete" href=keyword/'+result[i].id+'><i class="zmdi zmdi-check"></i></a>    <a class="btn btn-danger waves-effect" data-method="delete" href=keyword/'+result[i].id+'><i class="zmdi zmdi-close"></i></a></td></tr>');
                 count++;
             }
+
+
         }
     });
 
@@ -194,7 +206,7 @@ $(document).ready(function() {
                 if( result.id != 'null' ){
 
                     //$('#tbody').append('<tr><td>'+result.id+'</td><td>'+result.keyword+'</td><td><input type="button" value="See Results" /></td></tr>');
-                    $('#tbody').append('<tr><td>'+result.id+'</td><td>'+result.keyword+'</td><td><a class="btn btn-xs btn-sucess" data-method="delete" href=keyword/'+result.id+'><i class="icon-show">Show</i></a></td><td><a class="btn btn-xs btn-danger" data-method="delete" href=keyword/'+result.id+'><i class="icon-remove">Delete</i></a></td></tr>');
+                    $('#tbody').append('<tr><td>'+result.id+'</td><td>'+result.keyword+'</td><td><a class="btn bgm-orange waves-effect" data-method="delete" href=keyword/'+result.id+'><i class="zmdi zmdi-check"></i></a>  <a class="btn btn-danger waves-effect" data-method="delete" href=keyword/'+result.id+'><i class="zmdi zmdi-close"></i></a></td></tr>');
 
                     $("#key_mes").text('Keyword added successfully !!').css('font-weight', 'bold');
 
