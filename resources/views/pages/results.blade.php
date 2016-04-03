@@ -69,7 +69,7 @@
                                 </div>
                             </li>
 
-                            <li class="ng-binding"><i class="zmdi zmdi-globe"></i> {{ $specified_country }} Rank<div class="pull-right">{{ $country_rank }}</div>
+                            <li class="ng-binding"><i class="zmdi zmdi-globe"></i> {{ $specified_country }}{{$mes}} Rank<div class="pull-right">{{ $country_rank }}</div>
                                 <div class="media-body">
                                     <div class="progress">
                                         <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
@@ -173,6 +173,7 @@ $(document).ready(function() {
     var count = 1;
 
     //fetch keywords on page load
+
     var url = "{{ URL::to('/fetchkey') }}";
     $.get(url, {domain : $('#url').val()}, function(data){
         console.log('ghjghj');
@@ -181,7 +182,7 @@ $(document).ready(function() {
             $('#keywords_list').show();
             for(i = 0; i < result.length; i++){
                 //$('#tbody').append('<tr><td>'+result[i].id+'</td><td>'+result[i].keyword+'</td><td><input type="button" value="See Results" /></td></tr>');
-                $('#tbody').append('<tr><td>'+result[i].id+'</td><td>'+result[i].keyword+'</td><td><a class="btn bgm-orange waves-effect" data-method="delete" href=keyword/'+result[i].id+'><i class="zmdi zmdi-check"></i></a>    <a class="btn btn-danger waves-effect" data-method="delete" href=keyword/'+result[i].id+'><i class="zmdi zmdi-close"></i></a></td></tr>');
+                $('#tbody').append('<tr><td>'+result[i].id+'</td><td>'+result[i].keyword+'</td><td><a class="btn bgm-orange waves-effect" data-method="delete" href=keyword/'+result[i].id+'><i class="zmdi zmdi-check"></i></a>    <a class="btn btn-danger waves-effect" data-method="delete" href=delete/'+result[i].id+'><i class="zmdi zmdi-close"></i></a></td></tr>');
                 count++;
             }
 
@@ -209,7 +210,7 @@ $(document).ready(function() {
                 if( result.id != 'null' ){
 
                     //$('#tbody').append('<tr><td>'+result.id+'</td><td>'+result.keyword+'</td><td><input type="button" value="See Results" /></td></tr>');
-                    $('#tbody').append('<tr><td>'+result.id+'</td><td>'+result.keyword+'</td><td><a class="btn bgm-orange waves-effect" data-method="delete" href=keyword/'+result.id+'><i class="zmdi zmdi-check"></i></a>  <a class="btn btn-danger waves-effect" data-method="delete" href=keyword/'+result.id+'><i class="zmdi zmdi-close"></i></a></td></tr>');
+                    $('#tbody').append('<tr><td>'+result.id+'</td><td>'+result.keyword+'</td><td><a class="btn bgm-orange waves-effect" data-method="delete" href=keyword/'+result.id+'><i class="zmdi zmdi-check"></i></a>  <a class="btn btn-danger waves-effect" data-method="delete" href=delete/'+result.id+'><i class="zmdi zmdi-close"></i></a></td></tr>');
 
                     $("#key_mes").text('Keyword added successfully !!').css('font-weight', 'bold');
 

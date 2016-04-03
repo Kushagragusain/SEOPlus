@@ -8,9 +8,12 @@ use App\Http\Requests;
 use \SEOstats\Services as SEOstats;
 use App\SearchedUrl;
 use App\SearchedKeyword;
+use App\KeyData;
 use App\Country;
 use Auth;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Redirect;
+use Session;
 
 class SEOController extends Controller
 {
@@ -55,7 +58,10 @@ class SEOController extends Controller
                 $id = $store->id;
                 $rurl = 'url_rank/'.$id;
 
-                return redirect($rurl);
+                return Redirect::to($rurl)->with('mes', 'search');
+                //return Redirect::route('showUrlData')->with('id', $id);
+
+                //return redirect($rurl);
 
                 //return view('pages.results', compact( 'heading', 'alexa_rank', 'google_page_rank','backlinks',                    'origin_country', 'country_rank', 'specified_country' ));
             }
@@ -67,6 +73,7 @@ class SEOController extends Controller
     
     public function fetchUrlData($id){
         $data = SearchedUrl::find($id);
+        $mes = Session::get('mes');
 
         $heading = $data->url;
         $alexa_rank = $data->alexa_rank;
@@ -77,7 +84,7 @@ class SEOController extends Controller
         $country_rank = $data->country_rank;
         $specified_country = $data->specified_country;
 
-        return view('pages.results', compact( 'id', 'heading', 'alexa_rank', 'google_page_rank','backlinks',                    'origin_country', 'country_rank', 'specified_country' ));
+        return view('pages.results', compact( 'id', 'heading', 'alexa_rank', 'google_page_rank','backlinks',                    'origin_country', 'country_rank', 'specified_country', 'mes' ));
     }
 
     /*public function keywordData($id){
@@ -103,6 +110,8 @@ class SEOController extends Controller
         $url = $request->url;
         $ch = 1;
 
+        $urlId = SearchedUrl::latest('searched_at')->where('user_id', Auth::user()->id)->where('url', $url)->first()['id'];
+
         $check_keyword = SearchedKeyword::checkKeyword($url, $result['keyword']);
 
         //new keyword
@@ -110,6 +119,7 @@ class SEOController extends Controller
             $t = Carbon::now();
             $key = new SearchedKeyword;
             $key->user_id = Auth::user()->id;
+            $key->url_id = $urlId;
             $key->url = $url;
             $key->keyword = $result['keyword'];
             $key->searched_at = $t;
@@ -120,15 +130,7 @@ class SEOController extends Controller
             $ch = 0;
         }
         else{
-            $check_keyword_table = SearchedKeyword::checkKeywordTable($url, $result['keyword']);
-            if( $check_keyword_table->count() == 0 ){
-                SearchedKeyword::statusToActive($url, $result['keyword']);
-                $id = SearchedKeyword::id($url, $result['keyword']);
-                foreach( $id as $i )
-                    $result['id'] = $i['id'];
-            }
-            else
-               $result['id'] = 'null';
+            $result['id'] = 'null';
         }
 
         return json_encode($result);
@@ -142,15 +144,45 @@ class SEOController extends Controller
     //put all keywords added by currentle logged in user
     public function fetchkeywords(){
         $url = $_GET['domain'];
+        $urlid = SearchedUrl::fetchId($url)['id'];
+
+        SearchedKeyword::where('user_id', Auth::user()->id)->where('url', $url)->update(['url_id' => $urlid, 'status' => 'active']);
 
         $result = SearchedKeyword::activeKeywords($url);
         return json_encode($result);
+    }
+
+    public function deleteKeyword($id){
+        $urlId = SearchedKeyword::find($id)['url_id'];
+        SearchedKeyword::find($id)->delete();
+        KeyData::where('key_id', $id)->delete();
+        return redirect('url_rank/'.$urlId);
+    }
+
+    public function historydata($id){
+        $rurl = 'url_rank/'.$id;
+        return Redirect::to($rurl)->with('mes', 'history');
     }
 
     public function graph(Request $request){
         $id = $request->id;
         $url = SearchedUrl::find($id)['url'];
         $data = SearchedUrl::where('user_id', Auth::user()->id)->where('url', $url)->get();
-        return view('pages.showGraph', compact('data'));
+
+        $keywords = SearchedKeyword::where('user_id', Auth::user()->id)->where('url', $url)->get();
+        return view('pages.showGraph', compact('data', 'keywords', 'id', 'url'));
+    }
+
+    public function demo(){
+        $uid = $_GET['uid'];
+        $type = $_GET['type'];
+        if( $type == 'url' ){
+            $url = SearchedUrl::find($uid)['url'];
+            $data = SearchedUrl::where('user_id', Auth::user()->id)->where('url', $url)->get();
+        }
+        else{
+            $data = KeyData::where('key_id', $uid)->get();
+        }
+        return json_encode($data);
     }
 }

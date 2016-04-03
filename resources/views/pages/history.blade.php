@@ -33,7 +33,7 @@
 
                 <tr>
                 <td>{{ $i->id }}</td>
-                <td><a href="url_rank/{{ $i->id }}" >{{ $i->url }}</a></td>
+                <td><a href="history/{{ $i->id }}" >{{ $i->url }}</a></td>
                 <td>{{ $i['alexa_rank'] }} </td>
 
                 </tr>

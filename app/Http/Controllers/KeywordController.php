@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\SearchedKeyword;
+use App\SearchedUrl;
 use App\KeyData;
 use Carbon\Carbon;
 
@@ -26,8 +27,12 @@ class KeywordController extends Controller
         $data = SearchedKeyword::findorFail($id);
         $keyword = $data->keyword;
         $domain = $data->url;
+
+        $urlid = SearchedUrl::fetchId($domain)['id'];
+
         $results = array();
         $res = array();
+        $fetch = array();
 
 		for ( $start = ( $this->start-1 ) * 10; $start <= $this->end * 10; $start += 10 ) {
             $ua	= array(
@@ -83,7 +88,8 @@ class KeywordController extends Controller
                     $res[] = array( 'rank' => $i['rank'], 'url' => $i['url'] );
                 }
             }
-            if(count(res) > 0){
+
+            if(count($res) > 0){
                 $sort_col = array();
                 foreach ($res as $key=> $row) {
                     $sort_col[$key] = $row['rank'];
@@ -98,8 +104,9 @@ class KeywordController extends Controller
                 $store->save();
             }
         }
+        $fetch = Keydata::where('key_id', $id)->get();
 
-		return view('pages.keyword_data', compact('keyword', 'res', 'check', 'domain'));
+		return view('pages.keyword_data', compact('keyword', 'res', 'check', 'domain', 'urlid', 'fetch'));
     }
 
     private function _isCurl() {

@@ -1,43 +1,17 @@
 @extends('layouts.app', ['link' => 'Add Url'])
 
 @section('content')
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header bgm-blue  m-b-20">
+            <h2>Alexa Rank Chart for <h3><div class="c-White text-uppercase"><div id="tittle"></div></div></h3></h2>
+        </div>
 
-
-     <div class="col-md-8">
-
-   <div class="card">
-                                <div class="card-header bgm-blue  m-b-20">
-                                    <h2>Alexa Rank Chart for <h3><div class="c-White text-uppercase"><div id="tittle"></div>
-</div></h3></h2>
-
-                                </div>
-
-                 <div class="card-body card-padding">
-
-
-                <div id="chartContainer" style="height: 300px; width: 100%;"></div>
-
-            </div>
+        <div class="card-body card-padding">
+            <div id="chartContainer" style="height: 300px; width: 100%;"></div>
         </div>
     </div>
-    <div class="col-md-4">
-
-   <div class="card">
-                                <div class="card-header bgm-blue  m-b-20">
-                                    <h2>Keyword<div class="c-White text-uppercase"></div>
-</h2>
-
-                                </div>
-
-                 <div class="card-body card-padding">
-
-knvlndflkvn;d
-                <div id="chartContainer" style="height: 300px; width: 100%;"></div>
-
-            </div>
-        </div>
-    </div>
-
+</div>
 
 @endsection
 
@@ -47,68 +21,30 @@ knvlndflkvn;d
 
     $(document).ready(function () {
         $('#tittle').text("{{ $data[0]['url'] }}");
-var chart = new CanvasJS.Chart("chartContainer",
-		{
-
-			title:{
-				text: "",
-				fontSize: 20
-			},
-                        animationEnabled: true,
-			axisX:{
-
-				gridColor: "Silver",
-				tickColor: "silver",
-				valueFormatString: "DD/MMM",
-
-			},
-                        toolTip:{
-                          shared:true
-                        },
+            var chart = new CanvasJS.Chart("chartContainer",{ title:{ text: "", fontSize: 20 }, animationEnabled: true,
+			axisX:{	gridColor: "Silver", tickColor: "silver", valueFormatString: "DD/MMM", }, toolTip:{ shared:true },
 			theme: "theme2",
-
-			axisY: {
-				gridColor: "Silver",
-				tickColor: "silver"
-			},
-
-			data: [
-
-			{
-				type: "line",
-				showInLegend: true,
-				name: "Alexa Rank",
-				color: "#20B2AA",
-				lineThickness: 3,
-
-				dataPoints: [
-
-
-                      @foreach( $data as $i )
-                        { x: new Date("{{ $i['searched_at'] }}"),  y: {{ $i['alexa_rank'] }}  },
-                    @endforeach
-
-				]
-			}
-                               ],
-          legend:{
-            cursor:"pointer",
-            itemclick:function(e){
-              if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
-              	e.dataSeries.visible = true;
-              }
-              else{
-                e.dataSeries.visible = true;
-              }
-              chart.render();
+			axisY: { gridColor: "Silver", tickColor: "silver" },
+			data: [ { type: "line", showInLegend: true, name: "Alexa Rank", color: "#20B2AA", lineThickness: 3,
+                     dataPoints: [
+                        @foreach( $data as $i )
+                            { x: new Date("{{ $i['searched_at'] }}"),  y: {{ $i['alexa_rank'] }}  },
+                        @endforeach
+                  ]
+                }],
+                legend:{ cursor:"pointer", itemclick:function(e){
+                if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = true;
+                }
+                else{
+                    e.dataSeries.visible = true;
+                }
+                chart.render();
+                }
             }
-          }
-		});
-
-chart.render();
-
+        });
+        chart.render();
     });
-
 </script>
 
 @endsection
