@@ -37,6 +37,10 @@ Route::group(['middleware' => 'web'], function () {
             return view('pages.dashboard');        
         });
         
+        Route::get('demo', function(){
+            return view('pages.dmeo');
+        });
+
        //to see all previous searches
         Route::get('history', 'SEOController@history');
         
@@ -44,9 +48,11 @@ Route::group(['middleware' => 'web'], function () {
 
         Route::get('fetchkey', 'SEOController@fetchkeywords');
 
+        Route::get('url_rank/history', 'SEOController@graph');
+
         Route::get('url_rank/{id}', 'SEOController@fetchUrlData');
 
-        Route::get('url_rank/keyword/{id}', 'SEOController@keywordData');
+        Route::get('url_rank/keyword/{id}', 'KeywordController@find');
     });
     
 
@@ -56,4 +62,3 @@ Route::group(['middleware' => 'web'], function () {
     
     Route::post('keyword', 'SEOController@keywordData');
 });
-

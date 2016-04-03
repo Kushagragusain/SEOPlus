@@ -34,6 +34,12 @@
                     <h2>Results for "{{ $heading }}"<small>all in one place</small></h2>
                 </div>
                 <div class="card-body card-padding">
+                    <form action="{{ url('url_rank/history') }}">
+                        <input type="hidden" name="id" value="{{ $id }}" />
+                        <input type="submit" value="See history graph" />
+                    </form>
+                </div>
+                <div class="card-body card-padding">
                     <div class="pmo-contact">
                         <ul>
                             <li class="ng-binding"><i class="zmdi zmdi-phone"></i> Alexa Rank<div class="pull-right">{{ $alexa_rank }}              </div>
@@ -124,11 +130,6 @@
 <script>
     //$('#example').DataTable();
     var pattern = /[0-9a-zA-Z]/;
-
-    //to change submit button text on click
-    $(":submit").click(function(){
-        $(":submit").attr('value', 'Added');
-    });
 
     //validate keywords while writing
     $('#keyword').focusin(function(){

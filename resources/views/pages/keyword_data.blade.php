@@ -6,14 +6,18 @@
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
                 <h3>Serarch Results for {{ $keyword }}</h3>
-                <h4>Total seraches for {{$keyword }}  :  {{ $totsearch }}</h4>
-                <h4>Top links in {{ $url }} for {{$keyword }}</h4>
-                @if( count( $res ) == 0 )
-                    <h5>No results</h5>
+                @if($check == 'fail')
+                    <h4>Sorry, some error ocuured. Please try again</h4>
                 @else
-                    @foreach( $res as $i )
-                        <h5><a href="{{ $i['url'] }}">{{ $i['url'] }}</a></h5>
-                    @endforeach
+                    @if(count($res) == 0)
+                        <h4>No result in top 100</h4>
+                    @else
+                        <h4>Rank of {{ $domain }} for {{ $keyword }}      :      {{ $res[0]['rank'] }}</h4>
+                        <h4>Top links</h4>
+                        @foreach($res as $i)
+                            <h5><a href="{{ $i['url'] }}"> {{ $i['url'] }} </a></h5>
+                        @endforeach
+                    @endif
                 @endif
             </div>
         </div>

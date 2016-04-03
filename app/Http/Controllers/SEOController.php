@@ -32,6 +32,10 @@ class SEOController extends Controller
                 $backlinks = SEOstats\Google::getBacklinksTotal();
                 $origin_country = SEOstats\Alexa::getCountryRank();
                 $country_rank = SEOstats\SemRush::getDomainRank($url, $request->country);
+                if( $country_rank=='n.a.' )
+                    $country_rank_res = 'NA';
+                else
+                    $country_rank_res = $country_rank['Rk'];
 
                 //store searched url in table searched_urls
                 $store = new SearchedUrl;
@@ -44,7 +48,7 @@ class SEOController extends Controller
                 $store->origin_country_name = $origin_country['country'];
                 $store->origin_country_rank = $origin_country['rank'];
                 $store->specified_country = $specified_country;
-                $store->country_rank = $country_rank['Rk'];
+                $store->country_rank = $country_rank_res;
                 $store->searched_at = Carbon::now();
                 $store->save();
 
@@ -73,10 +77,10 @@ class SEOController extends Controller
         $country_rank = $data->country_rank;
         $specified_country = $data->specified_country;
 
-        return view('pages.results', compact( 'heading', 'alexa_rank', 'google_page_rank','backlinks',                    'origin_country', 'country_rank', 'specified_country' ));
+        return view('pages.results', compact( 'id', 'heading', 'alexa_rank', 'google_page_rank','backlinks',                    'origin_country', 'country_rank', 'specified_country' ));
     }
 
-    public function keywordData($id){
+    /*public function keywordData($id){
         $data = SearchedKeyword::findorFail($id);
         $url = $data->url;
         $keyword = $data->keyword;
@@ -85,7 +89,7 @@ class SEOController extends Controller
         $totsearch = SEOstats\Google::getSearchResultsTotal($keyword);
 
         return view('pages.keyword_data', compact('keyword', 'url', 'res', 'totsearch'));
-    }
+    }*/
     
     public function history(){
         $urls = SearchedUrl::where('user_id', Auth::user()->id)->get();
@@ -141,5 +145,12 @@ class SEOController extends Controller
 
         $result = SearchedKeyword::activeKeywords($url);
         return json_encode($result);
+    }
+
+    public function graph(Request $request){
+        $id = $request->id;
+        $url = SearchedUrl::find($id)['url'];
+        $data = SearchedUrl::where('user_id', Auth::user()->id)->where('url', $url)->get();
+        return view('pages.showGraph', compact('data'));
     }
 }
