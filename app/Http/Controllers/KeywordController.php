@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\SearchedKeyword;
+use App\SearchedUrl;
 use App\KeyData;
 use Carbon\Carbon;
 
@@ -26,6 +27,9 @@ class KeywordController extends Controller
         $data = SearchedKeyword::findorFail($id);
         $keyword = $data->keyword;
         $domain = $data->url;
+
+        $urlid = SearchedUrl::fetchId($domain)['id'];
+
         $results = array();
         $res = array();
 
@@ -83,22 +87,24 @@ class KeywordController extends Controller
                     $res[] = array( 'rank' => $i['rank'], 'url' => $i['url'] );
                 }
             }
+
+            if(count($res) > 0){
+                $sort_col = array();
+                foreach ($res as $key=> $row) {
+                    $sort_col[$key] = $row['rank'];
+                }
+
+                array_multisort($sort_col, SORT_ASC, $res);
+
+                $store = new Keydata;
+                $store->key_id = $id;
+                $store->keyword_rank = $res[0]['rank'];
+                $store->searched_at = Carbon::now();
+                $store->save();
+            }
         }
 
-        $sort_col = array();
-        foreach ($res as $key=> $row) {
-            $sort_col[$key] = $row['rank'];
-        }
-
-        array_multisort($sort_col, SORT_ASC, $res);
-
-        $store = new Keydata;
-        $store->key_id = $id;
-        $store->keyword_rank = $res[0]['rank'];
-        $store->searched_at = Carbon::now();
-        $store->save();
-
-		return view('pages.keyword_data', compact('keyword', 'res', 'check', 'domain'));
+		return view('pages.keyword_data', compact('keyword', 'res', 'check', 'domain', 'urlid'));
     }
 
     private function _isCurl() {

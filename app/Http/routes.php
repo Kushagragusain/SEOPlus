@@ -50,11 +50,16 @@ Route::group(['middleware' => 'web'], function () {
 
         Route::get('url_rank/history', 'SEOController@graph');
 
-        Route::get('url_rank/{id}', 'SEOController@fetchUrlData');
+        Route::get('history/{id}', 'SEOController@historydata');
+
+        Route::get('url_rank/{id}', array('as' => 'showUrlData', 'uses' => 'SEOController@fetchUrlData'));
+
+        Route::get('url_rank/delete/{id}', 'SEOController@deleteKeyword');
 
         Route::get('url_rank/keyword/{id}', 'KeywordController@find');
+
+        Route::get('demo', 'SEOController@demo');
     });
-    
 
     Route::post('search/url', 'SEOController@domainSave');
 

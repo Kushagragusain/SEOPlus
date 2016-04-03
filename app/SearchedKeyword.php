@@ -19,7 +19,7 @@ class SearchedKeyword extends Model
 
     //to fetch keywords of current session of user
     public function scopeActiveKeywords($query, $url){
-         return $query->where( 'user_id', Auth::user()->id )->where('status', 'active')->where('url', $url)->get();
+         return $query->where( 'user_id', Auth::user()->id )->where('url', $url)->get();
      }
 
     //to check existance of a keyword for a user
@@ -28,12 +28,16 @@ class SearchedKeyword extends Model
      }
 
     //to check existance of a keyword for a user
-    public function scopeCheckKeywordTable($query, $url, $keyword){
+    /*public function scopeCheckKeywordTable($query, $url, $keyword){
          return $query->where( 'user_id', Auth::user()->id )->where('url', $url)->where('keyword', $keyword)->where('status', 'active')->get();
-     }
+     }*/
 
     //change status to active from old
     public function scopeStatusToActive($query, $url, $keyword){
-         return $query->where( 'user_id', Auth::user()->id )->where('url', $url)->where('keyword', $keyword)->update(['status'=>'active']);
+         return $query->where( 'user_id', Auth::user()->id )->where('url', $url)->where('keyword', $keyword)->update(['status' => 'active']);
+     }
+
+    public function scopeUpdateId($query, $url, $keyword, $urlId){
+         return $query  ->where( 'user_id', Auth::user()->id )->where('url', $url)->where('keyword', $keyword)->update(['url_id' => $urlId]);
      }
 }
