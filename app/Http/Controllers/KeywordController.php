@@ -32,6 +32,7 @@ class KeywordController extends Controller
 
         $results = array();
         $res = array();
+        $fetch = array();
 
 		for ( $start = ( $this->start-1 ) * 10; $start <= $this->end * 10; $start += 10 ) {
             $ua	= array(
@@ -103,8 +104,9 @@ class KeywordController extends Controller
                 $store->save();
             }
         }
+        $fetch = Keydata::where('key_id', $id)->get();
 
-		return view('pages.keyword_data', compact('keyword', 'res', 'check', 'domain', 'urlid'));
+		return view('pages.keyword_data', compact('keyword', 'res', 'check', 'domain', 'urlid', 'fetch'));
     }
 
     private function _isCurl() {

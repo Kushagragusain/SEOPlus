@@ -1848,7 +1848,7 @@
 		if (!this._creditLink) {
 			this._creditLink = document.createElement("a");
 			this._creditLink.setAttribute("class", "canvasjs-chart-credit");
-			this._creditLink.setAttribute("style", "outline:none;margin:0px;position:absolute;right:3px;top:" + (this.height - 14) + "px;color:dimgrey;text-decoration:none;font-size:10px;font-family:Lucida Grande, Lucida Sans Unicode, Arial, sans-serif");
+			this._creditLink.setAttribute("style", "outline:none;margin:0px;position:absolute;right:3px;top:" + (this.height - 14) + "px;text-decoration:none;font-size:0px;font-family:Lucida Grande, Lucida Sans Unicode, Arial, sans-serif");
 
 			this._creditLink.setAttribute("tabIndex", -1);
 
