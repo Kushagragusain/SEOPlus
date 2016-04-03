@@ -33,12 +33,21 @@
             </blockquote>
             Details over
         </div>
-        <div id="graph" style="display:none"></div>
+
+    </div>
+
+
+    <div class="card">
+    <div class="card-header bgm-blue  m-b-20">
+            <h2>Keyword Rank Chart for<h3><div class="c-white text-uppercase"><div id="tittle"></div></div></h3></h2>
+        </div>
+    <div class="card-body card-padding">
+
+                <div class="clearfix"></div>
+    <div id="graph" style="height: 300px; width: 100%;"></div>
+        </div>
     </div>
 </div>
-
-
-
 
 @endsection
 
@@ -55,7 +64,7 @@
 			axisX:{	gridColor: "Silver", tickColor: "silver", valueFormatString: "DD/MMM", }, toolTip:{ shared:true },
 			theme: "theme2",
 			axisY: { gridColor: "Silver", tickColor: "silver" },
-			data: [ { type: "line", showInLegend: true, name: "Alexa Rank", color: "#20B2AA", lineThickness: 3,
+			data: [ { type: "line", showInLegend: true, name: "Keyword Rank", color: "#F44336", lineThickness: 2,
                      dataPoints: [
                          @if(count($fetch) > 0)
                             @foreach( $fetch as $i )

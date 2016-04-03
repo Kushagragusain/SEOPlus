@@ -4,9 +4,7 @@
 
 <div style="position: fixed; top: 100px; left: 30px;"><a href="{{ URL::to('history') }}"><button class="btn bgm-red btn-float waves-effect"><i class="zmdi zmdi-arrow-back"></i></button></a></div>
 <div class="container">
-
-
-    <div class="col-md-10 col-md-offset-1">
+<div class="col-md-10 col-md-offset-1">
 
 
             <!-- Result for URL search -->
@@ -85,7 +83,7 @@
 
 <!-- add key word -->
 
-<div class="card">
+            <div class="card">
                     <div class="card-header">
                         <h2>Add keyword(s)<small></small></h2>
                     </div>
@@ -112,12 +110,12 @@
                 </div>
 
 <!-- Key word list -->
-    <div class="card" >
-        <div class="card-header bgm-blue m-b-20">
+            <div class="card" >
+            <div class="card-header bgm-blue m-b-20">
             <h2>Keywords List</h2>
-        </div>
+            </div>
 
-        <div class="card-body" id="keywords_list" style="display:none;">
+            <div class="card-body" id="keywords_list" style="display:none;">
             <div class="table-responsive">
 				<table class="table table-hover">
                     <thead>
@@ -181,8 +179,7 @@ $(document).ready(function() {
         if( result.length > 0 ){
             $('#keywords_list').show();
             for(i = 0; i < result.length; i++){
-                //$('#tbody').append('<tr><td>'+result[i].id+'</td><td>'+result[i].keyword+'</td><td><input type="button" value="See Results" /></td></tr>');
-                $('#tbody').append('<tr><td>'+result[i].id+'</td><td>'+result[i].keyword+'</td><td><a class="btn bgm-orange waves-effect" data-method="delete" href=keyword/'+result[i].id+'><i class="zmdi zmdi-check"></i></a>    <a class="btn btn-danger waves-effect" data-method="delete" href=delete/'+result[i].id+'><i class="zmdi zmdi-close"></i></a></td></tr>');
+             $('#tbody').append('<tr><td>'+result[i].id+'</td><td>'+result[i].keyword+'</td><td><a class="btn bgm-orange waves-effect" data-method="delete" href=keyword/'+result[i].id+'><i class="zmdi zmdi-check"></i></a>    <a class="btn btn-danger waves-effect" data-method="delete" href=delete/'+result[i].id+'><i class="zmdi zmdi-close"></i></a></td></tr>');
                 count++;
             }
 
@@ -206,18 +203,15 @@ $(document).ready(function() {
             $('#keyword').val('');
             $.post(url, d, function(data){
                 var result = $.parseJSON(data);
-
+                //console.log(data);
                 if( result.id != 'null' ){
-
-                    //$('#tbody').append('<tr><td>'+result.id+'</td><td>'+result.keyword+'</td><td><input type="button" value="See Results" /></td></tr>');
-                    $('#tbody').append('<tr><td>'+result.id+'</td><td>'+result.keyword+'</td><td><a class="btn bgm-orange waves-effect" data-method="delete" href=keyword/'+result.id+'><i class="zmdi zmdi-check"></i></a>  <a class="btn btn-danger waves-effect" data-method="delete" href=delete/'+result.id+'><i class="zmdi zmdi-close"></i></a></td></tr>');
-
-                    $("#key_mes").text('Keyword added successfully !!').css('font-weight', 'bold');
+                 $('#tbody').append('<tr><td>'+result.id+'</td><td>'+result.keyword+'</td><td><a class="btn bgm-orange waves-effect" data-method="delete" href=keyword/'+result.id+'><i class="zmdi zmdi-check"></i></a>  <a class="btn btn-danger waves-effect" data-method="delete" href=delete/'+result.id+'><i class="zmdi zmdi-close"></i></a></td></tr>');
+                 $("#key_mes").text('Keyword added successfully !!').css('font-weight', 'bold');
 
                     count++;
                 }
                 else
-                    $("#key_mes").text('Keyword already added !!').css('font-weight', 'bold');
+                    $("#key_mes").text('Keyword not already added !!').css('font-weight', 'bold');
             });
         }
     });

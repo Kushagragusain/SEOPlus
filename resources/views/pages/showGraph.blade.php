@@ -1,7 +1,9 @@
 @extends('layouts.app', ['link' => 'Add Url'])
 
 @section('content')
-<div class="col-md-8">
+
+<div class="col-md-10 col-md-offset-1">
+
     <div class="card">
         <div class="card-header bgm-blue  m-b-20">
             <h2>Alexa Rank Chart for <h3><div class="c-White text-uppercase"><div id="tittle"></div></div></h3></h2>
