@@ -10,15 +10,14 @@
             <!-- Result for URL search -->
             <div class="card">
                 <div class="card-header bgm-blue m-b-20">
-                    <h2>Results for <h3><div class="c-white text-uppercase">{{ $heading }}</div></h3><small>all in one place</small></h2>
+                    <h2>Results for <span class="text-uppercase">{{ $heading }}</span></h2><small> <span class="c-white">all in one place</span></small>
+                    <span class="c-white pull-right" style="padding-right: 10px" >charts</span>
+
                     <form action="{{ url('url_rank/history') }}">
                         <input type="hidden" name="id" value="{{ $id }}" />
                         <input type="submit" value="See history graph" class="btn bgm-blue btn-float waves-effect"  />
                         <button class="btn bgm-red btn-float waves-effect"><i class="zmdi zmdi-chart"></i></button>
                     </form>
-                </div>
-                <div class="card-body card-padding">
-
                 </div>
                 <div class="card-body card-padding">
                     <div class="pmo-contact">
