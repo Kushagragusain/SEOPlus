@@ -19,7 +19,7 @@
                             <h4>No result in top 100</h4>
                             <div class="clearfix"></div>
                         @else
-                            <h4>Rank of {{ $domain }} for {{ $keyword }}:{{ $res[0]['rank'] }}</h4>
+                            <h4>Rank of {{ $domain }} for {{ $keyword }}:{{ $rank }}</h4>
                             <div class="clearfix"></div>
                             <br>
                             <h4>Top links</h4>
@@ -56,10 +56,9 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-        @if(count($fetch) > 0)
-            $('#graph').show();
-        @endif
+        $('#graph').show();
         $('#tittle').text("{{ $keyword }}");
+        if( {{count($fetch)}} > 0 ){
             var chart = new CanvasJS.Chart("graph",{ title:{ text: "", fontSize: 20 }, animationEnabled: true,
 			axisX:{	gridColor: "Silver", tickColor: "silver", valueFormatString: "DD/MMM", }, toolTip:{ shared:true },
 			theme: "theme2",
@@ -71,20 +70,23 @@
                                 { x: new Date("{{ $i['searched_at'] }}"),  y: {{ $i['keyword_rank'] }}  },
                             @endforeach
                         @endif
-                  ]
-                }],
-                legend:{ cursor:"pointer", itemclick:function(e){
-                if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
-                    e.dataSeries.visible = true;
+                      ]
+                    }],
+                    legend:{ cursor:"pointer", itemclick:function(e){
+                    if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                        e.dataSeries.visible = true;
+                    }
+                    else{
+                        e.dataSeries.visible = true;
+                    }
+                    chart.render();
+                    }
                 }
-                else{
-                    e.dataSeries.visible = true;
-                }
-                chart.render();
-                }
-            }
-        });
-        chart.render();
+            });
+            chart.render();
+        }
+        else
+            $('#graph').html('<h3>Sorry, No previous search data available !!!</h3>').css('text-align', 'center');
     });
 </script>
 

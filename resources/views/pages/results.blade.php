@@ -111,7 +111,8 @@
 <!-- Key word list -->
             <div class="card" >
             <div class="card-header bgm-blue m-b-20">
-            <h2>Keywords List</h2>
+                <h2>Keywords List
+                    <span class="pull-right" id="confirm_delete"></span></h2>
             </div>
 
             <div class="card-body" id="keywords_list" style="display:none;">
@@ -167,53 +168,89 @@
 
 <script>
 $(document).ready(function() {
-    var count = 1;
-
+  var count = 1;
+    fetchKey();
     //fetch keywords on page load
 
-    var url = "{{ URL::to('/fetchkey') }}";
-    $.get(url, {domain : $('#url').val()}, function(data){
-        console.log('ghjghj');
-        var result = $.parseJSON(data);
-        if( result.length > 0 ){
-            $('#keywords_list').show();
-            for(i = 0; i < result.length; i++){
-             $('#tbody').append('<tr><td>'+result[i].id+'</td><td>'+result[i].keyword+'</td><td><a class="btn bgm-orange waves-effect" data-method="delete" href=keyword/'+result[i].id+'><i class="zmdi zmdi-check"></i></a>    <a class="btn btn-danger waves-effect" data-method="delete" href=delete/'+result[i].id+'><i class="zmdi zmdi-close"></i></a></td></tr>');
-                count++;
-            }
-
-
-        }
+    $('#tbody').on('click','.delete-button', function(){
+        var dom = $(this).closest('tr');
+        deleteKey($(this).attr('data-id') , dom);
     });
 
+
+    function fetchKey(){
+        $('#tbody').html('');
+         count = 1;
+        //alert('in');
+        var url = "{{ URL::to('/fetchkey') }}";
+        $.get(url, {domain : $('#url').val()}, function(data){
+            console.log('ghjghj');
+            var result = $.parseJSON(data);
+            if( result.length > 0 ){
+                $('#keywords_list').show();
+                var content = '';
+                for(i = 0; i < result.length; i++){
+                    content += '<tr><td>'+count+'</td><td>'+result[i].keyword+'</td><td><a class="btn bgm-orange waves-effect" data-method="delete" href=keyword/'+result[i].id+'><i class="zmdi zmdi-check"></i></a>  <a class="btn btn-danger waves-effect delete-button" data-method="delete" data-id="'+result[i].id+'" ><i class="zmdi zmdi-close"></i></a></td></tr>';
+                    count++;
+                }
+                $('#tbody').html(content);
+//$('#confirm_delete').text('');
+
+            }
+            else{
+               $('#keywords_list').hide();
+            }
+        });
+    }
     //add new keywords
+
     $('#add_keyword').click(function(){
         var x = $('#keyword').val();
+        $('#confirm_delete').text('');
         if(x == ''){
             $("#error").text('Field should not be empty.').css('font-weight', 'bold');
         }
+
+
+
         else if( document.getElementById('error').innerHTML == '' ){
 
             //code after keyword gets validated
             $('#keywords_list').show();
             var d = $('#form_data').serializeArray();
             var url = "{{ URL::to('/addkey') }}";
+            //var url = deletekey/+id;
 
             $('#keyword').val('');
             $.post(url, d, function(data){
                 var result = $.parseJSON(data);
                 //console.log(data);
                 if( result.id != 'null' ){
-                 $('#tbody').append('<tr><td>'+result.id+'</td><td>'+result.keyword+'</td><td><a class="btn bgm-orange waves-effect" data-method="delete" href=keyword/'+result.id+'><i class="zmdi zmdi-check"></i></a>  <a class="btn btn-danger waves-effect" data-method="delete" href=delete/'+result.id+'><i class="zmdi zmdi-close"></i></a></td></tr>');
-                 $("#key_mes").text('Keyword added successfully !!').css('font-weight', 'bold');
+                    $('#tbody').append('<tr><td>'+count+'</td><td>'+result.keyword+'</td><td><a class="btn bgm-orange waves-effect" data-method="delete" href=keyword/'+result.id+'><i class="zmdi zmdi-check"></i></a>  <a class="btn btn-danger waves-effect delete-button" data-method="delete" data-id="'+result.id+'" ><i class="zmdi zmdi-close"></i></a></td></tr>');
+
+                    $("#key_mes").text('Keyword added successfully !!').css('font-weight', 'bold');
 
                     count++;
                 }
                 else
                     $("#key_mes").text('Keyword not already added !!').css('font-weight', 'bold');
+
             });
         }
     });
+
+   function deleteKey(id, dom){
+        var url = "{{ URL::to('/delete') }}";
+
+       //alert('Keyword deleted successfully.');
+        $.get(url, { id : id }, function(data){
+            //dom.remove();
+
+            fetchKey();
+
+            $('#confirm_delete').text('Keyword deleted successfully.');
+       });
+   }
 } );
 </script>
 

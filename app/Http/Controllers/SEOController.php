@@ -8,7 +8,7 @@ use App\Http\Requests;
 use \SEOstats\Services as SEOstats;
 use App\SearchedUrl;
 use App\SearchedKeyword;
-use App\KeyData;
+use App\Keydata;
 use App\Country;
 use Auth;
 use Carbon\Carbon;
@@ -152,11 +152,10 @@ class SEOController extends Controller
         return json_encode($result);
     }
 
-    public function deleteKeyword($id){
-        $urlId = SearchedKeyword::find($id)['url_id'];
+    public function deleteKeyword(){
+        $id = $_GET['id'];
         SearchedKeyword::find($id)->delete();
-        KeyData::where('key_id', $id)->delete();
-        return redirect('url_rank/'.$urlId);
+        Keydata::where('key_id', $id)->delete();
     }
 
     public function historydata($id){
@@ -170,10 +169,10 @@ class SEOController extends Controller
         $data = SearchedUrl::where('user_id', Auth::user()->id)->where('url', $url)->get();
 
         $keywords = SearchedKeyword::where('user_id', Auth::user()->id)->where('url', $url)->get();
-        return view('pages.showGraph', compact('data', 'keywords', 'id', 'url'));
+        return view('pages.showGraph', compact('id', 'data', 'keywords', 'id', 'url'));
     }
 
-    public function demo(){
+    /*public function demo(){
         $uid = $_GET['uid'];
         $type = $_GET['type'];
         if( $type == 'url' ){
@@ -181,8 +180,8 @@ class SEOController extends Controller
             $data = SearchedUrl::where('user_id', Auth::user()->id)->where('url', $url)->get();
         }
         else{
-            $data = KeyData::where('key_id', $uid)->get();
+            $data = Keydata::where('key_id', $uid)->get();
         }
         return json_encode($data);
-    }
+    }*/
 }

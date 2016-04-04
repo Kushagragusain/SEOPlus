@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\SearchedKeyword;
 use App\SearchedUrl;
-use App\KeyData;
+use App\Keydata;
 use Carbon\Carbon;
 
 class KeywordController extends Controller
@@ -83,30 +83,35 @@ class KeywordController extends Controller
         }
 
         if($check == 'success'){
+            $i = 1;
+            $rank = 10000000;
             foreach( $results as $i ){
-                if (strpos($i['url'], $domain)){
-                    $res[] = array( 'rank' => $i['rank'], 'url' => $i['url'] );
+                if (strpos($i['url'], $domain) && $i['rank'] < $rank ){
+                    $rank = $i['rank'];
                 }
+                if( $i <= 10 )
+                    $res[] = array( 'rank' => $i['rank'], 'url' => $i['url'] );
+                $i++;
             }
 
-            if(count($res) > 0){
+            /*if(count($res) > 0){
                 $sort_col = array();
                 foreach ($res as $key=> $row) {
                     $sort_col[$key] = $row['rank'];
                 }
 
                 array_multisort($sort_col, SORT_ASC, $res);
+            */
 
                 $store = new Keydata;
                 $store->key_id = $id;
-                $store->keyword_rank = $res[0]['rank'];
+                $store->keyword_rank = $rank;
                 $store->searched_at = Carbon::now();
                 $store->save();
-            }
         }
         $fetch = Keydata::where('key_id', $id)->get();
 
-		return view('pages.keyword_data', compact('keyword', 'res', 'check', 'domain', 'urlid', 'fetch'));
+		return view('pages.keyword_data', compact('keyword', 'rank', 'res', 'check', 'domain', 'urlid', 'fetch'));
     }
 
     private function _isCurl() {

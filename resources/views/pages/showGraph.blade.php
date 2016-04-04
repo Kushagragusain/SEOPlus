@@ -1,7 +1,8 @@
 @extends('layouts.app', ['link' => 'Add Url'])
 
 @section('content')
-
+<div style="position: fixed; top: 100px; left: 30px;"><a href="{{ URL::to('url_rank') }}/{{ $id }}"><button class="btn bgm-red btn-float"><i class="zmdi zmdi-arrow-back"></i></button></a></div>
+<div class="container">
 <div class="col-md-10 col-md-offset-1">
 
     <div class="card">

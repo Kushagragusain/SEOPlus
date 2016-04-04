@@ -54,7 +54,7 @@ Route::group(['middleware' => 'web'], function () {
 
         Route::get('url_rank/{id}', array('as' => 'showUrlData', 'uses' => 'SEOController@fetchUrlData'));
 
-        Route::get('url_rank/delete/{id}', 'SEOController@deleteKeyword');
+        Route::get('delete', 'SEOController@deleteKeyword');
 
         Route::get('url_rank/keyword/{id}', 'KeywordController@find');
 
