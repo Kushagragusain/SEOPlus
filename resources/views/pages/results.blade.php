@@ -32,7 +32,7 @@
                             <li class="ng-binding"><i class="zmdi zmdi-star-half"></i> Alexa Rank<div class="pull-right">{{ $alexa_rank }}              </div>
                                 <div class="media-body">
                                     <div class="progress">
-                                        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%"></div>
+                                        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" id="ale"></div>
                                     </div>
                                 </div>
                             </li>
@@ -40,7 +40,7 @@
                             <li class="ng-binding"><i class="zmdi zmdi-google"></i> Google Page Rank<div class="pull-right">{{ $google_page_rank }}</div>
                                 <div class="media-body">
                                     <div class="progress">
-                                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: {{ $google_page_rank }}%">
+                                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" id="gpr">
                                         </div>
                                     </div>
                                 </div>
@@ -49,7 +49,7 @@
                             <li class="ng-binding"><i class="zmdi zmdi-widgets"></i>Total Backlinks<div class="pull-right">{{ $backlinks }}</div>
                                 <div class="media-body">
                                     <div class="progress">
-                                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100" style="width: 78%">
+                                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100" style="width: 35%;">
                                         </div>
                                     </div>
                                 </div>
@@ -60,7 +60,7 @@
                             <li class="ng-binding"><i class="zmdi zmdi-flash"></i> Origin Country Rank<div class="pull-right">{{ $origin_country['rank'] }}</div>
                                 <div class="media-body">
                                     <div class="progress">
-                                        <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+                                        <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 35%;">
                                         </div>
                                     </div>
                                 </div>
@@ -69,7 +69,7 @@
                             <li class="ng-binding"><i class="zmdi zmdi-globe"></i> {{ $specified_country }}{{$mes}} Rank<div class="pull-right">{{ $country_rank }}</div>
                                 <div class="media-body">
                                     <div class="progress">
-                                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
+                                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" id="scr">
                                         </div>
                                     </div>
                                 </div>
@@ -140,7 +140,7 @@
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
 <script>
     //$('#example').DataTable();
-    var pattern = /[0-9a-zA-Z]/;
+    var pattern = /[0-9a-zA-Z ]/;
 
     //validate keywords while writing
     $('#keyword').focusin(function(){
@@ -176,6 +176,29 @@ $(document).ready(function() {
         var dom = $(this).closest('tr');
         deleteKey($(this).attr('data-id') , dom);
     });
+
+
+    //Progress bars
+    var gprw = 10;
+    if({{ $google_page_rank }} < 100 && {{ $google_page_rank}} > 0) {
+        var gprw = 101 - {{ $google_page_rank }};
+    }
+    gprw += '%';
+    $('#gpr').css("width", gprw);
+
+    var alew = 10;
+    if({{ $alexa_rank }} < 100 && {{ $alexa_rank}} > 0) {
+        var alew = 101 - {{ $alexa_rank }};
+    }
+    alew += '%';
+    $('#ale').css("width", alew);
+
+    var scrw = 10;
+    if({{  $country_rank }} < 100) {
+        var scrw = 101 - {{  $country_rank }};
+    }
+    scrw += '%';
+    $('#scr').css("width", scrw);
 
 
     function fetchKey(){
@@ -252,6 +275,8 @@ $(document).ready(function() {
             $('#confirm_delete').fadeIn().text('Keyword deleted successfully.').fadeOut(2000);
        });
    }
+
+
 } );
 </script>
 

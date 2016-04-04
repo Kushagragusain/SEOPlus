@@ -59,6 +59,8 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('url_rank/keyword/{id}', 'KeywordController@find');
 
         Route::get('demo', 'SEOController@demo');
+
+        Route::get('foo', 'KeywordController@test');
     });
 
     Route::post('search/url', 'SEOController@domainSave');

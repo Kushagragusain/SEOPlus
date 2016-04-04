@@ -23,7 +23,8 @@ class KeywordController extends Controller
 		$this->end = $end;
 	}
 
-    public function find($id) {
+    /*
+
         if( ctype_digit($id) ){
             $data = SearchedKeyword::findorFail($id);
             $keyword = $data->keyword;
@@ -59,7 +60,7 @@ class KeywordController extends Controller
                 } else {
                     $data	= @file_get_contents( $url, false, $context );
                 }
-
+                var_dump($data);
                 if ( is_array( $data ) ) {
                     $errmsg = $data['errmsg'];
                     $results = array( 'rank' => 'zerox', 'url' => $errmsg );
@@ -79,6 +80,8 @@ class KeywordController extends Controller
                             $rank	= $i++;
                             $results[] = array( 'rank' => $rank, 'url' => $link );
                         }
+
+                        var_dump($i); die();
                     }
                 }
             }
@@ -86,9 +89,12 @@ class KeywordController extends Controller
             if($check == 'success'){
                 $i = 1;
                 $rank = 10000000;
+                var_dump($domain."\n");
                 foreach( $results as $i ){
-                    if (strpos($i['url'], $domain) && $i['rank'] < $rank ){
+                    var_dump("\n".$i['url']);
+                    if (strpos($i['url'], $domain)){
                         $rank = $i['rank'];
+                        var_dump("==hey".$rank."==");
                     }
                     if( $i <= 10 )
                         $res[] = array( 'rank' => $i['rank'], 'url' => $i['url'] );
@@ -102,7 +108,7 @@ class KeywordController extends Controller
                     }
 
                     array_multisort($sort_col, SORT_ASC, $res);
-                */
+
 
                     $store = new Keydata;
                     $store->key_id = $id;
@@ -111,8 +117,163 @@ class KeywordController extends Controller
                     $store->save();
             }
             $fetch = Keydata::where('key_id', $id)->get();
+            var_dump($res);
 
             return view('pages.keyword_data', compact('keyword', 'rank', 'res', 'check', 'domain', 'urlid', 'fetch'));
+        }
+        else
+            return view('pages.error');
+    }
+
+    private function _isCurl() {
+	   return function_exists( 'curl_version' );
+    }
+
+    private function _curl( $url ) {
+		try {
+	       $ch = curl_init( $url );
+
+			curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+			curl_setopt( $ch, CURLOPT_HEADER, false );
+			curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, true );
+			curl_setopt( $ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:34.0) Gecko/20100101 Firefox/34.0' );
+			curl_setopt( $ch, CURLOPT_AUTOREFERER, true );
+			curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, 120 );
+            curl_setopt( $ch, CURLOPT_TIMEOUT, 120 );
+			curl_setopt( $ch, CURLOPT_MAXREDIRS, 10 );
+			curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
+			curl_setopt( $ch, CURLOPT_SSLVERSION, 3 );
+			$content = curl_exec( $ch );
+			$errno = curl_errno( $ch );
+			$error = curl_error( $ch );
+			curl_close( $ch );
+
+			if ( !$errno ) {
+				return $content;
+			} else {
+				return array( 'errno' => $errno, 'errmsg' => $error );
+			}
+        } catch ( Exception $e ) {
+		  return array( 'errno' => $e->getCode(), 'errmsg' => $e->getMessage() );
+		}
+    }
+
+
+
+
+    @if($found == 'fail')
+                        <h3>Sorry, some error ocuured. Please try again</h3>
+                    @else
+                        @if(count($res) == 0)
+                            <h4>No result in top 100</h4>
+                            <div class="clearfix"></div>
+                        @else
+                            <h4>Rank of {{ $domain }} for {{ $keyword }}:{{ $rank }}</h4>
+                            <div class="clearfix"></div>
+                            <br>
+                            <h4>Top links</h4>
+                            <div class="clearfix"></div>
+                            @foreach($res as $i)
+                                <h5><a href="{{ $i['url'] }}"> {{ $i['url'] }} </a></h5>
+                                <div class="clearfix"></div>
+                            @endforeach
+                        @endif
+                    @endif
+    */
+    public function foo() {
+
+        $query = 'furnace%20calgary';
+        $domain = "emergencyfurnacerepaircalgary.com";
+
+        //To get top 100 results. Only 8 results at a time.
+        for($i = 0; $i < 10; $i += 8) {
+        $url = "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=".$query.'&rsz=large'.'&start='.$i;
+
+        $body = file_get_contents($url);
+        $json = json_decode($body);
+
+        $urls = [];
+        $found = 0;
+        $rank = 0;
+
+        for($x=0;$x<count($json->responseData->results);$x++){
+            $urls[$i+$x] = $json->responseData->results[$x]->visibleUrl;
+
+            echo $urls[$i];
+            //Check if URL matches
+            if($found == 0 && strpos($urls[$i], $domain) !== false) {
+                $found = 1;
+                $rank = $i+1;
+            }
+            echo " ".$found;
+        }
+
+        }
+
+        print_r($rank);
+        echo "/n";
+        print_r($urls);
+
+
+    }
+
+    public function find($id) {
+        if( ctype_digit($id) ){
+            $data = SearchedKeyword::findorFail($id);
+            $keyword = $data->keyword;
+            $domain = $data->url;
+
+            $query = str_replace(' ', '%20', $keyword);
+            $urlid = SearchedUrl::fetchId($domain)['id'];
+
+            $results = array();
+            $res = array();
+            $fetch = array();
+            $counter = 0;
+            $res = [];
+            $check = 0;
+            $rank = 0;
+            $error = "";
+
+            var_dump($_SERVER['REMOTE_ADDR']);
+
+                for($i = 0; $i < 50; $i += 8) {
+
+                    $url = "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=".$query.'&rsz=large'.'&start='.$i.'&userip='. $_SERVER['REMOTE_ADDR'];
+
+                    $body = file_get_contents($url);
+                    $json = json_decode($body);
+
+                    if($json->responseData === NULL) {
+                        var_dump($json);
+                        die();
+                        $error = "multiple";
+                        break;
+                    }
+                    for($x=0;$x<count($json->responseData->results);$x++){
+                        $res[$counter] = $json->responseData->results[$x]->visibleUrl;
+
+                        //Check if URL matches
+                        if($check == 0 && strpos($res[$counter], $domain) !== false) {
+                            $check = 1;
+                            $rank = $counter+1;
+                        }
+
+                         $counter++;
+                    }
+
+                }
+
+            if($error !== "multiple") {
+            $store = new Keydata;
+            $store->key_id = $id;
+            $store->keyword_rank = $rank;
+            $store->searched_at = Carbon::now();
+            $store->save();
+            }
+            $fetch = Keydata::where('key_id', $id)->get();
+
+            return view('pages.keyword_data', compact('keyword', 'rank', 'res', 'found', 'domain', 'urlid', 'fetch', 'error'));
         }
         else
             return view('pages.error');

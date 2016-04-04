@@ -48,8 +48,14 @@ class SEOController extends Controller
                 $store->alexa_rank = $alexa_rank;
                 $store->google_page_rank = $google_page_rank;
                 $store->backlinks = $backlinks;
+                if($origin_country != 'n.a.') {
                 $store->origin_country_name = $origin_country['country'];
                 $store->origin_country_rank = $origin_country['rank'];
+                }
+                else {
+                    $store->origin_country_name = 'NA';
+                $store->origin_country_rank = 'NA';
+                }
                 $store->specified_country = $specified_country;
                 $store->country_rank = $country_rank_res;
                 $store->searched_at = Carbon::now();
