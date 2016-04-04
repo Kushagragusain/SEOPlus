@@ -96,7 +96,7 @@
                                 <span class="help-block" id="error"></span>
                             </div>
                             <div class="col-md-4">
-                                <input type="button" value="Add" class="btn btn-default bgm-blue waves-input-wrapper waves-effect"       id="add_keyword" />
+                                <input type="submit" value="Add" class="btn btn-default bgm-blue waves-input-wrapper waves-effect" id="add_keyword" />
                             </div>
                         </div>
                     {{ Form::close() }}
@@ -184,7 +184,7 @@ $(document).ready(function() {
         //alert('in');
         var url = "{{ URL::to('/fetchkey') }}";
         $.get(url, {domain : $('#url').val()}, function(data){
-            console.log('ghjghj');
+           // console.log('ghjghj');
             var result = $.parseJSON(data);
             if( result.length > 0 ){
                 $('#keywords_list').show();
@@ -223,17 +223,18 @@ $(document).ready(function() {
 
             $('#keyword').val('');
             $.post(url, d, function(data){
+                $("#key_mes").fadeIn();
                 var result = $.parseJSON(data);
                 //console.log(data);
                 if( result.id != 'null' ){
                     $('#tbody').append('<tr><td>'+count+'</td><td>'+result.keyword+'</td><td><a class="btn bgm-orange waves-effect" data-method="delete" href=keyword/'+result.id+'><i class="zmdi zmdi-check"></i></a>  <a class="btn btn-danger waves-effect delete-button" data-method="delete" data-id="'+result.id+'" ><i class="zmdi zmdi-close"></i></a></td></tr>');
 
-                    $("#key_mes").text('Keyword added successfully !!').css('font-weight', 'bold');
+                    $("#key_mes").text('Keyword added successfully !!').css('font-weight', 'bold').fadeOut(2000);
 
                     count++;
                 }
                 else
-                    $("#key_mes").text('Keyword not already added !!').css('font-weight', 'bold');
+                    $("#key_mes").text('Keyword already exists !!').css('font-weight', 'bold').fadeOut(2000);
 
             });
         }
@@ -248,7 +249,7 @@ $(document).ready(function() {
 
             fetchKey();
 
-            $('#confirm_delete').text('Keyword deleted successfully.');
+            $('#confirm_delete').fadeIn().text('Keyword deleted successfully.').fadeOut(2000);
        });
    }
 } );

@@ -72,19 +72,23 @@ class SEOController extends Controller
     }
     
     public function fetchUrlData($id){
-        $data = SearchedUrl::find($id);
-        $mes = Session::get('mes');
+        if( ctype_digit($id) ){
+            $data = SearchedUrl::find($id);
+            $mes = Session::get('mes');
 
-        $heading = $data->url;
-        $alexa_rank = $data->alexa_rank;
-        $google_page_rank = $data->google_page_rank;
-        $backlinks = $data->backlinks;
-        $origin_country['country'] = $data->origin_country_name;
-        $origin_country['rank'] = $data->origin_country_rank;
-        $country_rank = $data->country_rank;
-        $specified_country = $data->specified_country;
+            $heading = $data->url;
+            $alexa_rank = $data->alexa_rank;
+            $google_page_rank = $data->google_page_rank;
+            $backlinks = $data->backlinks;
+            $origin_country['country'] = $data->origin_country_name;
+            $origin_country['rank'] = $data->origin_country_rank;
+            $country_rank = $data->country_rank;
+            $specified_country = $data->specified_country;
 
-        return view('pages.results', compact( 'id', 'heading', 'alexa_rank', 'google_page_rank','backlinks',                    'origin_country', 'country_rank', 'specified_country', 'mes' ));
+            return view('pages.results', compact( 'id', 'heading', 'alexa_rank', 'google_page_rank','backlinks',                    'origin_country', 'country_rank', 'specified_country', 'mes' ));
+        }
+        else
+            return view('pages.error');
     }
 
     /*public function keywordData($id){
@@ -165,11 +169,15 @@ class SEOController extends Controller
 
     public function graph(Request $request){
         $id = $request->id;
-        $url = SearchedUrl::find($id)['url'];
-        $data = SearchedUrl::where('user_id', Auth::user()->id)->where('url', $url)->get();
+        if( ctype_digit($id) ){
+            $url = SearchedUrl::find($id)['url'];
+            $data = SearchedUrl::where('user_id', Auth::user()->id)->where('url', $url)->get();
 
-        $keywords = SearchedKeyword::where('user_id', Auth::user()->id)->where('url', $url)->get();
-        return view('pages.showGraph', compact('id', 'data', 'keywords', 'id', 'url'));
+            $keywords = SearchedKeyword::where('user_id', Auth::user()->id)->where('url', $url)->get();
+            return view('pages.showGraph', compact('id', 'data', 'keywords', 'id', 'url'));
+        }
+        else
+            return view('pages.error');
     }
 
     /*public function demo(){
