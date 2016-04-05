@@ -11,7 +11,7 @@
         </div>
 
         <div class="card-body card-padding">
-            <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+            <div id="chartContainer" style="height: 300px; width: 100%; overflow-x:scroll"></div>
         </div>
     </div>
 </div>
@@ -25,6 +25,7 @@
     $(document).ready(function () {
         $('#tittle').text("{{ $data[0]['url'] }}");
             var chart = new CanvasJS.Chart("chartContainer",{ title:{ text: "", fontSize: 20 }, animationEnabled: true,
+            exportEnabled: true,
 			axisX:{	gridColor: "Silver", tickColor: "silver", valueFormatString: "DD/MMM", }, toolTip:{ shared:true },
 			theme: "theme2",
 			axisY: { gridColor: "Silver", tickColor: "silver" },

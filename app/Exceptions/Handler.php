@@ -45,6 +45,16 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
-        return parent::render($request, $e);
+        if(env('APP_DEBUG')) {
+            return parent::render($request, $e);
+        }
+
+        if($e instanceof NotFoundHttpException) {
+            return return view('pages.error');
+        }
+
+        else {
+             return return view('pages.error');
+        }
     }
 }

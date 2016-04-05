@@ -1,5 +1,6 @@
 @extends('layouts.app', ['link' => 'Add URL'])
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css">
+
 @section('content')
 
 <div style="position: fixed; top: 100px; left: 30px;"><a href="{{ URL::to('history') }}"><button class="btn bgm-red btn-float"><i class="zmdi zmdi-arrow-back"></i></button></a></div>
@@ -116,10 +117,10 @@
             </div>
 
             <div class="card-body" id="keywords_list" style="display:none;">
-            <div class="table-responsive">
-				<table class="table table-hover">
-                    <thead>
-                        <tr><th>Id</th><th>KeyWord</th><th>Action</th></tr>
+            <div class="table-responsive ">
+				<table class="table table-hover sortable" >
+                    <thead style="cursor: pointer; font-weight: bold;">
+                        <tr style=" background-color: #e0e0e0;"><th>Id</th><th>KeyWord</th><th>Action</th></tr>
 
                     </thead>
 

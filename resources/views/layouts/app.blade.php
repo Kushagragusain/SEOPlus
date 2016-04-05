@@ -31,7 +31,7 @@
 
 
                 <li class="logo">
-                    <a href="{{URL::to('/')}}">Seo-Plus</a>
+                    <a href="{{URL::to('/dashboard')}}">Seo-Plus</a>
                 </li>
 
                 <li class="pull-right">
@@ -160,6 +160,7 @@
 
 
         <script src="{{URL::to('assets')}}/js/functions.js"></script>
+        <script src="{{URL::to('assets')}}/js/sorttable.js"></script>
         <script src="js/functions.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script>

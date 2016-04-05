@@ -3,20 +3,17 @@
 
 
 <div class="container">
-<div class="col-md-10 col-md-offset-1">
+        <body class="four-zero-content">
+<div class="four-zero p-absolute m-t-25" >
+            <h2>WIT!</h2>
+            <small>Nah.. it's 404</small>
 
-    <div class="card">
-
-        <div class="card-body card-padding">
-
-            <h3>Error found</h3>
-            <br>
-            <br>
-            <br>
-           <h1><span class="c-Red"><center>Opps!! wrong URL</center></span></h1>
+            <footer>
+                <a href="{{URL::to('/dashboard')}}"><i class="zmdi zmdi-arrow-back m-t-10"></i></a>
+                <a href="{{URL::to('/dashboard')}}"><i class="zmdi zmdi-home m-t-10"></i></a>
+            </footer>
         </div>
-    </div>
-</div>
+            </body>
 </div>
 
 
