@@ -22,7 +22,7 @@
 
 (function () {
 
-	var isDebugMode = false;
+	var isDebugMode = true;
 
 	var isCanvasSupported = !!document.createElement("canvas").getContext;
 	//isCanvasSupported = false;
@@ -37,7 +37,7 @@
 			backgroundColor: "white",
 			theme: "theme1",
 			animationEnabled: false,
-			animationDuration: 1200,
+			animationDuration: 2000,
 
 			dataPointWidth: null,
 			dataPointMinWidth: null,
@@ -2254,6 +2254,7 @@
 			if (dataSeries.markerSize === null) {
 				if (((dataSeries.type === "line" || dataSeries.type === "stepLine" || dataSeries.type === "spline") && dataSeries.dataPoints && dataSeries.dataPoints.length < this.width / 16) || dataSeries.type === "scatter") {
 					//if (dataSeries.type === "line") {
+                     window.console.log(dataSeries.dataPoints.length  );
 					dataSeries.markerSize = 8;
 				}
 			}
@@ -2262,9 +2263,11 @@
 				if (dataSeries.dataPoints.some) {
 					if (dataSeries.dataPoints.some(function (element) { return element.x; }))
 						dataSeries.dataPoints.sort(compareDataPointX);
+
 				}
 				else
 					dataSeries.dataPoints.sort(compareDataPointX);
+
 			}
 
 			//if (dataSeries.markerBorderThickness === null && dataSeries.type === "scatter") {
@@ -2281,8 +2284,8 @@
 
 			var seriesAxisPlacement = dataSeries.axisPlacement;
 
-			//if (isDebugMode && window.console)
-			//    window.console.log(dataSeries.type);
+			if (isDebugMode && window.console)
+
 
 			var errorMessage;
 
@@ -2348,6 +2351,7 @@
 		var plotAreaElements = []; //Elements to be rendered inside the plotArea
 
 		//Create Primary and Secondary axis and assign them to the series
+
 		for (var i = 0; i < this.data.length; i++) {
 
 			if (this.plotInfo.axisPlacement === "normal" || this.plotInfo.axisPlacement === "xySwapped") {
@@ -2384,6 +2388,7 @@
 				}
 
 				this.data[i].axisX = this.axisX;
+
 			}
 		}
 
@@ -2399,7 +2404,9 @@
 		//Show toolBar when viewportMinimum/viewportMaximum are set
 		var showToolBar = false;
 		if (this._axes.length > 0 && (this.zoomEnabled || this.panEnabled)) {
+
 			for (var i = 0; i < this._axes.length; i++) {
+
 				if (this._axes[i].viewportMinimum !== null || this._axes[i].viewportMaximum !== null) {
 					showToolBar = true;
 					break;
@@ -2424,7 +2431,8 @@
 			this._title = new Title(this, this._options.title);
 
 			if (!this._title.dockInsidePlotArea)
-				this._title.render();
+               {
+				this._title.render();}
 			else
 				plotAreaElements.push(this._title);
 		}
@@ -2445,10 +2453,13 @@
 		}
 
 		this.legend = new Legend(this, this._options.legend, this.theme);
+
 		for (var i = 0; i < this.data.length; i++) {
 			if (this.data[i].showInLegend || this.data[i].type === "pie" || this.data[i].type === "doughnut") {
 				this.legend.dataSeries.push(this.data[i]);
+
 			}
+
 		}
 
 		if (!this.legend.dockInsidePlotArea)
@@ -2462,6 +2473,7 @@
 			//var freeSpace = this.layoutManager.getFreeSpace();
 
 			Axis.setLayoutAndRender(this.axisX, this.axisY, this.axisY2, this.plotInfo.axisPlacement, this.layoutManager.getFreeSpace());
+
 		} else if (this.plotInfo.axisPlacement === "none") {
 			//In case of charts with axis this method is called inside setLayoutAndRender
 			this.preparePlotArea();
@@ -2471,6 +2483,7 @@
 		}
 
 		for (var index = 0; index < plotAreaElements.length; index++) {
+
 			plotAreaElements[index].render();
 		}
 
@@ -2639,7 +2652,7 @@
 		this.renderCount++;
 
 		//if (window.console) {
-		//    window.console.log(new Date().getTime() - dt);
+		  //window.console.log(new Date());
 		//}
 
 		if (isDebugMode) {
@@ -2649,7 +2662,7 @@
 				var ghostCanvasCopy = document.getElementById("ghostCanvasCopy");
 
 				if (ghostCanvasCopy) {
-					//console.log(ghostCanvasCopy.clientWidth);
+					//window.console.log(ghostCanvasCopy.clientWidth);
 					setCanvasSize(ghostCanvasCopy, _this.width, _this.height);
 					var ghostCanvasCopyCtx = ghostCanvasCopy.getContext("2d");
 
@@ -2715,12 +2728,14 @@
 						plotUnits: []
 					};
 					this.plotInfo.plotTypes.push(plotType)
+
 				}
 
 				for (var j = 0; j < plotType.plotUnits.length; j++) {
 					if (plotType.plotUnits[j].axisYType === dataSeries.axisYType) {
 						plotUnitExists = true;
 						var plotUnit = plotType.plotUnits[j];
+
 						break;
 					}
 				}
@@ -2738,6 +2753,7 @@
 						yTotals: []
 					}
 					plotType.plotUnits.push(plotUnit);
+
 				}
 
 				plotType.totalDataSeries++;
@@ -2756,6 +2772,7 @@
 
 				plotType.plotUnits[j].previousDataSeriesCount = previousDataSeriesCount;
 
+
 				previousDataSeriesCount += plotType.plotUnits[j].dataSeriesIndexes.length;
 			}
 		}
@@ -2765,6 +2782,7 @@
 
 		for (var i = 0; i < this.data.length; i++) {
 			var dataSeries = this.data[i];
+
 
 			if (!dataSeries.dataPoints)
 				continue;
@@ -2796,12 +2814,14 @@
 					this._processStacked100PlotUnit(plotUnit);
 				else if (plotUnit.type === "candlestick" || plotUnit.type === "ohlc" || plotUnit.type === "rangeColumn" || plotUnit.type === "rangeBar" || plotUnit.type === "rangeArea" || plotUnit.type === "rangeSplineArea")
 					this._processMultiYPlotUnit(plotUnit);
+
 			}
 		}
 
 	}
 
 	Chart.prototype._processMultiseriesPlotUnit = function (plotUnit) {
+
 		if (!plotUnit.dataSeriesIndexes || plotUnit.dataSeriesIndexes.length < 1)
 			return;
 
@@ -2811,8 +2831,10 @@
 		var isDateTime = false;
 
 
+
 		for (var j = 0; j < plotUnit.dataSeriesIndexes.length; j++) {
 			var dataSeries = this.data[plotUnit.dataSeriesIndexes[j]];
+
 			var i = 0;
 			var isFirstDPInViewPort = false;
 			var isLastDPInViewPort = false;
@@ -2830,22 +2852,29 @@
 			if (dataSeries.dataPoints[i].x && dataSeries.dataPoints[i].x.getTime || dataSeries.xValueType === "dateTime") {
 				isDateTime = true;
 			}
-
+// gettin X and Y cordinates
 			for (i = 0; i < dataSeries.dataPoints.length; i++) {
 
 				if (typeof dataSeries.dataPoints[i].x === "undefined") {
 					dataSeries.dataPoints[i].x = i;
-				}
 
+				}
+// when we use X axis
 				if (dataSeries.dataPoints[i].x.getTime) {
 					isDateTime = true;
 					dataPointX = dataSeries.dataPoints[i].x.getTime();//dataPointX is used so that getTime is called only once in case of dateTime values
+                   // window.console.log(dataSeries.dataPoints[i].x.getDate());
+                     //window.console.log(axisXDataInfo.min);
 				}
-				else
+                // when we use label
+				else{
 					dataPointX = dataSeries.dataPoints[i].x;
+                   //window.console.log(axisXDataInfo.max);
+                  // window.console.log(dataPointX);
+                }
 
 				dataPointY = dataSeries.dataPoints[i].y;
-
+               // window.console.log(dataPointY);
 
 				if (dataPointX < axisXDataInfo.min)
 					axisXDataInfo.min = dataPointX;
@@ -2860,11 +2889,14 @@
 
 
 				if (i > 0) {
-					var xDiff = dataPointX - dataSeries.dataPoints[i - 1].x;
-					xDiff < 0 && (xDiff = xDiff * -1); //If Condition shortcut
+				var xDiff = dataPointX - dataSeries.dataPoints[i - 1].x;
 
-					if (axisXDataInfo.minDiff > xDiff && xDiff !== 0) {
+					//xDiff < 0 && (xDiff = xDiff * -1); //If Condition shortcut
+
+                    if (axisXDataInfo.minDiff > xDiff && xDiff !== 0) {
+
 						axisXDataInfo.minDiff = xDiff;
+                         //window.console.log(axisXDataInfo.minDiff);
 					}
 
 					if (dataPointY !== null && dataSeries.dataPoints[i - 1].y !== null) {
@@ -2873,17 +2905,19 @@
 
 						if (axisYDataInfo.minDiff > yDiff && yDiff !== 0) {
 							axisYDataInfo.minDiff = yDiff;
+                            //window.console.log(axisYDataInfo.minDiff);
 						}
 					}
 				}
 
 				// This section makes sure that partially visible dataPoints are included in the begining
 				if (dataPointX < plotAreaXMin && !isFirstDPInViewPort) {
+                    window.console.log("plotAreaXMin");
 					continue;
 				} else if (!isFirstDPInViewPort) {
-					isFirstDPInViewPort = true;
+                    isFirstDPInViewPort = true;
+                    if (i > 0) {
 
-					if (i > 0) {
 						i -= 2;
 						continue;
 					}
@@ -2891,13 +2925,18 @@
 
 				// This section makes sure that partially visible dataPoints are included at the end
 				if (dataPointX > plotAreaXMax && !isLastDPInViewPort) {
+
 					isLastDPInViewPort = true;
 				} else if (dataPointX > plotAreaXMax && isLastDPInViewPort) {
+
 					continue;
 				}
 
-				if (dataSeries.dataPoints[i].label)
+				if (dataSeries.dataPoints[i].label){
 					plotUnit.axisX.labels[dataPointX] = dataSeries.dataPoints[i].label;
+
+
+                }
 
 
 				if (dataPointX < axisXDataInfo.viewPortMin)
@@ -2915,6 +2954,7 @@
 			}
 
 			this.plotInfo.axisXValueType = dataSeries.xValueType = isDateTime ? "dateTime" : "number";
+              //window.console.log(this.plotInfo.axisXValueType);
 		}
 
 		//this.dataPoints.sort(compareDataPointX);
@@ -2922,10 +2962,12 @@
 	}
 
 	Chart.prototype._processStackedPlotUnit = function (plotUnit) {
+
 		if (!plotUnit.dataSeriesIndexes || plotUnit.dataSeriesIndexes.length < 1)
 			return;
 
 		var axisYDataInfo = plotUnit.axisY.dataInfo;
+
 		var axisXDataInfo = plotUnit.axisX.dataInfo;
 
 		var dataPointX, dataPointY;
@@ -2937,6 +2979,7 @@
 		var firstSeriesMin = Infinity;
 		for (var j = 0; j < plotUnit.dataSeriesIndexes.length; j++) {
 			var dataSeries = this.data[plotUnit.dataSeriesIndexes[j]];
+              window.console.log(dataSeries);
 			var i = 0;
 			var isFirstDPInViewPort = false;
 			var isLastDPInViewPort = false;
@@ -3109,6 +3152,7 @@
 	}
 
 	Chart.prototype._processStacked100PlotUnit = function (plotUnit) {
+
 		if (!plotUnit.dataSeriesIndexes || plotUnit.dataSeriesIndexes.length < 1)
 			return;
 
@@ -3257,6 +3301,7 @@
 	}
 
 	Chart.prototype._processMultiYPlotUnit = function (plotUnit) {
+
 		if (!plotUnit.dataSeriesIndexes || plotUnit.dataSeriesIndexes.length < 1)
 			return;
 
@@ -3384,11 +3429,13 @@
 	//getClosest returns objects nearby and hence shouldn't be used for events like click, mouseover, mousemove, etc which require object that is exactly under the mouse.
 	Chart.prototype.getDataPointAtXY = function (mouseX, mouseY, getClosest) {
 
+
 		getClosest = getClosest || false;
 		var results = [];
 
 		for (var i = this._dataInRenderedOrder.length - 1; i >= 0; i--) {
 			var dataSeries = this._dataInRenderedOrder[i];
+
 
 			var result = null;
 
@@ -3418,8 +3465,10 @@
 
 			if (!closestResult) {
 				closestResult = results[m];
+
 			} else if (results[m].distance <= closestResult.distance) {
 				closestResult = results[m];
+
 			}
 		}
 
@@ -3484,6 +3533,7 @@
 
 	Chart.prototype.attachEvent = function (param) {
 		this._events.push(param);
+
 	}
 
 	Chart.prototype._touchEventHandler = function (ev) {
@@ -3563,6 +3613,7 @@
 	}
 
 	Chart.prototype._dispatchRangeEvent = function (eventName, triggerSource) {
+
 		var eventParameter = {};
 
 		eventParameter.chart = this._publicChartReference;
@@ -3582,7 +3633,9 @@
 			eventParameter[axes[i]] = {
 				viewportMinimum: this[axes[i]].sessionVariables.newViewportMinimum,
 				viewportMaximum: this[axes[i]].sessionVariables.newViewportMaximum
+
 			}
+
 		}
 
 		this.dispatchEvent(eventName, eventParameter, this._publicChartReference);
@@ -3632,7 +3685,7 @@
 		//}
 
 		if (isDebugMode && window.console) {
-			window.console.log(type + " --> x: " + xy.x + "; y:" + xy.y);
+			//window.console.log(type + " --> x: " + xy.x + "; y:" + xy.y);
 			if (rightclick)
 				window.console.log(ev.which);
 
@@ -4023,6 +4076,7 @@
 	//#region Render Methods
 
 	Chart.prototype.renderIndexLabels = function (targetCtx) {
+
 		var ctx = targetCtx || this.plotArea.ctx;
 
 		var plotArea = this.plotArea;
@@ -4040,6 +4094,7 @@
 		for (var i = 0; i < this._indexLabels.length; i++) {
 
 			var indexLabel = this._indexLabels[i];
+
 			var chartTypeLower = indexLabel.chartType.toLowerCase();
 
 			var x, y, angle;
@@ -4330,11 +4385,13 @@
 
 	Chart.prototype.renderLine = function (plotUnit) {
 
+
 		var ctx = plotUnit.targetCanvasCtx || this.plotArea.ctx;
 
 		var totalDataSeries = plotUnit.dataSeriesIndexes.length;
+
 		if (totalDataSeries <= 0)
-			return;
+            return;
 
 		var ghostCtx = this._eventManager.ghostCtx;
 		//var ghostCtx = this.overlaidCanvasCtx;
@@ -4345,7 +4402,7 @@
 
 		ctx.beginPath();
 		ctx.rect(plotArea.x1, plotArea.y1, plotArea.width, plotArea.height);
-		ctx.clip();
+       ctx.clip();
 
 		var markers = [];
 
@@ -9926,6 +9983,7 @@
 		this._x2 = x2;
 		this._y2 = y2;
 
+
 		this._topOccupied = this._padding;
 		this._bottomOccupied = this._padding;
 		this._leftOccupied = this._padding;
@@ -9933,8 +9991,11 @@
 	}
 
 	LayoutManager.prototype.registerSpace = function (position, size) {
-		if (position === "top") {
+
+         if (position === "top") {
 			this._topOccupied += size.height;
+
+
 		}
 		else if (position === "bottom") {
 			this._bottomOccupied += size.height;
@@ -9970,6 +10031,7 @@
 			y2: this._y2 - this._bottomOccupied,
 			width: (this._x2 - this._x1) - this._rightOccupied - this._leftOccupied,
 			height: (this._y2 - this._y1) - this._bottomOccupied - this._topOccupied
+
 		};
 	}
 
@@ -10368,10 +10430,13 @@
 
 	//TBI: Implement Markes for Legend
 	function Legend(chart, options, theme) {
+
 		Legend.base.constructor.call(this, "Legend", options, theme);
 
 		this.chart = chart;
+
 		this.canvas = chart.canvas;
+
 		this.ctx = this.chart.ctx;
 		this.ghostCtx = this.chart._eventManager.ghostCtx;
 		this.items = [];
@@ -10767,6 +10832,7 @@
 		this.noDataPointsInPlotArea = 0;
 		//this.maxWidthInX = 0;
 		this.id = id;
+
 		this.chart._eventManager.objectMap[id] = {
 			id: id, objectType: "dataSeries", dataSeriesIndex: index
 		}
@@ -10786,6 +10852,7 @@
 
 		this.axisPlacement = this.getDefaultAxisPlacement();
 
+
 		if (typeof (this._options.indexLabelFontSize) === "undefined") {
 
 			this.indexLabelFontSize = this.chart.getAutoFontSize(this.indexLabelFontSize);
@@ -10795,6 +10862,7 @@
 
 	//Static Method that returns the axisPlacement for a given ChartType. Returns one of "normal", "xySwapped", "none"
 	DataSeries.prototype.getDefaultAxisPlacement = function () {
+
 
 		//if (!this.visible)
 		//	return "none";
@@ -11210,6 +11278,7 @@
 	}
 
 	DataSeries.prototype.getMarkerProperties = function (index, x, y, ctx) {
+
 		var dataPoints = this.dataPoints;
 		var dataSeries = this;
 
@@ -11234,6 +11303,7 @@
 	//#region Axis
 
 	function Axis(chart, options, type, position) {
+
 		Axis.base.constructor.call(this, "Axis", options, chart.theme);
 
 		this.chart = chart;
@@ -11253,6 +11323,7 @@
 			viewPortMax: -Infinity,
 			minDiff: Infinity // Used only in case of axisX
 		};
+
 
 		if (type === "axisX") {
 			this.sessionVariables = this.chart.sessionVariables[type];
@@ -11365,6 +11436,7 @@
 		if (this._position === "bottom" || this._position === "top") {
 			intervalInPixels = this.lineCoordinates.width / Math.abs(this.viewportMaximum - this.viewportMinimum) * this.interval;
 
+
 			if (this.labelAutoFit) {
 				labelMaxWidth = typeof (this._options.labelMaxWidth) === "undefined" ? intervalInPixels * .9 >> 0 : this.labelMaxWidth;
 			}
@@ -11390,15 +11462,20 @@
 		}
 
 		if (this.type === "axisX" && this.chart.plotInfo.axisXValueType === "dateTime") {
-			endPoint = addToDateTime(new Date(this.viewportMaximum), this.interval, this.intervalType)
-			//endPoint = this.viewportMaximum;
+            endPoint = addToDateTime(new Date(this.viewportMaximum), this.interval, this.intervalType)
+            //endPoint = this.viewportMaximum;
 
-			for (i = this.intervalStartPosition; i < endPoint; addToDateTime(i, this.interval, this.intervalType)) {
 
-				//var text = dateFormat(i, this.valueFormatString);
+            for (i = this.intervalStartPosition; i < endPoint; addToDateTime(i, this.interval, this.intervalType)) {
+               //var text = dateFormat(i, this.valueFormatString);
 				var timeInMilliseconds = i.getTime();
 				var text = this.labelFormatter ? this.labelFormatter({ chart: this.chart._publicChartReference, axis: this._options, value: i, label: this.labels[i] ? this.labels[i] : null })
-					: this.type === "axisX" && this.labels[timeInMilliseconds] ? this.labels[timeInMilliseconds] : dateFormat(i, this.valueFormatString, this.chart._cultureInfo);
+					: this.type === "axisX" && this.labels[timeInMilliseconds] ? this.labels[timeInMilliseconds] :
+
+                dateFormat(i, this.valueFormatString, this.chart._cultureInfo);
+
+                  window.console.log(text);
+
 
 				textBlock = new TextBlock(this.ctx, {
 					x: 0,
@@ -11430,28 +11507,36 @@
 			//Check if it should be rendered as a category axis. If yes, then ceil the interval
 			if (this.labels && this.labels.length) {
 				var tempInterval = Math.ceil(this.interval);
+
 				var tempStartPoint = Math.ceil(this.intervalStartPosition);
+                window.console.log(tempStartPoint);
 				var hasAllLabels = false;
 				for (i = tempStartPoint; i < this.viewportMaximum; i += tempInterval) {
 					if (this.labels[i]) {
-						hasAllLabels = true;
+                         hasAllLabels = true;
 					} else {
+                        window.console.log("this.labels[i]");
 						hasAllLabels = false;
-						break;
+					break;
 					}
 				}
 
 				if (hasAllLabels) {
 					this.interval = tempInterval;
-					this.intervalStartPosition = tempStartPoint;
+                  this.intervalStartPosition = tempStartPoint;
 				}
 			}
 
 			//parseFloat & toPrecision are being used to avoid issues related to precision.
-			for (i = this.intervalStartPosition; i <= endPoint; i = parseFloat((i + this.interval).toFixed(14))) {
 
-				var text = this.labelFormatter ? this.labelFormatter({ chart: this.chart._publicChartReference, axis: this._options, value: i, label: this.labels[i] ? this.labels[i] : null })
+			for (i = this.intervalStartPosition; i <= endPoint; i = parseFloat((i + this.interval).toFixed(1))) {
+                var text = this.labelFormatter ? this.labelFormatter({ chart: this.chart._publicChartReference, axis: this._options, value: i, label: this.labels[i] ? this.labels[i] : null })
 					: this.type === "axisX" && this.labels[i] ? this.labels[i] : numberFormat(i, this.valueFormatString, this.chart._cultureInfo);
+
+                window.console.log(text);
+
+
+
 
 				textBlock = new TextBlock(this.ctx, {
 					x: 0,
@@ -11544,9 +11629,10 @@
 
 		var axisWidth = titleHeight + maxLabelEffectiveWidth + this.tickLength + 5;
 
-		//if (isDebugMode && window.console) {
-		//	window.console.log(this.type + "--- axisWidth: " + axisWidth);
-		//}
+
+		if (isDebugMode && window.console) {
+			window.console.log(this.type + "--- axisWidth: " + axisWidth);
+		}
 
 		return axisWidth;
 	}

@@ -19,19 +19,19 @@
 @endsection
 
 @section('footer')
-<script type="text/javascript" charset="utf8" src="{{url('\assets\jquery\canvasjs.js')}}"></script>
+<script type="text/javascript" charset="utf8" src="{{url('/assets/jquery/canvasjs.js')}}"></script>
 <script type="text/javascript">
 
     $(document).ready(function () {
         $('#tittle').text("{{ $data[0]['url'] }}");
             var chart = new CanvasJS.Chart("chartContainer",{ title:{ text: "", fontSize: 20 }, animationEnabled: true,
-			axisX:{	gridColor: "Silver", tickColor: "silver", valueFormatString: "DD/MMM", }, toolTip:{ shared:true },
+
 			theme: "theme2",
 			axisY: { gridColor: "Silver", tickColor: "silver" },
 			data: [ { type: "line", showInLegend: true, name: "Alexa Rank", color: "#20B2AA", lineThickness: 3,
                      dataPoints: [
                         @foreach( $data as $i )
-                            { x: new Date("{{ $i['searched_at'] }}"),  y: {{ $i['alexa_rank'] }}  },
+                            {label:("{{ $i['searched_at'] }}"),  y: {{ $i['alexa_rank'] }}  },
                         @endforeach
                   ]
                 }],
