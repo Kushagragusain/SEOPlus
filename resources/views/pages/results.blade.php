@@ -143,7 +143,7 @@
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
 <script>
     //$('#example').DataTable();
-    var pattern = /[0-9a-zA-Z]/;
+    var pattern = /[0-9a-zA-Z ]/;
 
     //validate keywords while writing
     $('#keyword').focusin(function(){
