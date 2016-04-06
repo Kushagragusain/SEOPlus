@@ -62,7 +62,7 @@ Route::group(['middleware' => 'web'], function () {
 
         Route::get('foo', 'KeywordController@foo');
 
-        Route::get('addkey', 'SEOController@addkeyword');
+        Route::post('addkey', 'SEOController@addkeyword');
 
 
 

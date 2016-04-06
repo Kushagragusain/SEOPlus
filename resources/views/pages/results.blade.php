@@ -1,6 +1,5 @@
 @extends('layouts.app', ['link' => 'Add URL'])
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css">
-
 @section('content')
 
 <div style="position: fixed; top: 100px; left: 30px; z-index: 9999;"><a href="{{ URL::to('history') }}"><button class="btn bgm-red btn-float"><i class="zmdi zmdi-arrow-back"></i></button></a></div>
@@ -33,7 +32,7 @@
                             <li class="ng-binding"><i class="zmdi zmdi-star-half"></i> Alexa Rank<div class="pull-right">{{ $alexa_rank }}              </div>
                                 <div class="media-body">
                                     <div class="progress">
-                                        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" id="ale" width="87%"></div>
+                                        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%"></div>
                                     </div>
                                 </div>
                             </li>
@@ -41,7 +40,7 @@
                             <li class="ng-binding"><i class="zmdi zmdi-google"></i> Google Page Rank<div class="pull-right">{{ $google_page_rank }}</div>
                                 <div class="media-body">
                                     <div class="progress">
-                                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" id="gpr" width="57%">
+                                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: {{ $google_page_rank }}%">
                                         </div>
                                     </div>
                                 </div>
@@ -50,7 +49,7 @@
                             <li class="ng-binding"><i class="zmdi zmdi-widgets"></i>Total Backlinks<div class="pull-right">{{ $backlinks }}</div>
                                 <div class="media-body">
                                     <div class="progress">
-                                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100" style="width: 35%;">
+                                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100" style="width: 78%">
                                         </div>
                                     </div>
                                 </div>
@@ -61,7 +60,7 @@
                             <li class="ng-binding"><i class="zmdi zmdi-flash"></i> Origin Country Rank<div class="pull-right">{{ $origin_country['rank'] }}</div>
                                 <div class="media-body">
                                     <div class="progress">
-                                        <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 35%;">
+                                        <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
                                         </div>
                                     </div>
                                 </div>
@@ -70,7 +69,7 @@
                             <li class="ng-binding"><i class="zmdi zmdi-globe"></i> {{ $specified_country }}{{$mes}} Rank<div class="pull-right">{{ $country_rank }}</div>
                                 <div class="media-body">
                                     <div class="progress">
-                                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" id="scr" width="77%">
+                                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
                                         </div>
                                     </div>
                                 </div>
@@ -84,6 +83,9 @@
 <!-- add key word -->
 
             <div class="card">
+                 <div class="card-header bgm-blue ">
+
+                </div>
                     <div class="card-header">
                         <h2>Add keyword(s)<small></small></h2>
                     </div>
@@ -99,17 +101,15 @@
                             <div class="col-md-4">
                                 <input type="submit" value="Add" class="btn btn-default bgm-blue waves-input-wrapper waves-effect" id="add_keyword" />
                             </div>
+                              <div class="col-md-4">
+                                <div  id="key_mes"></div>
+                            </div>
                         </div>
                     {{ Form::close() }}
-                    <div class="panel panel-default">
-
-                <div style="text-align:center;" id="key_mes"></div>
-            </div>
-                </div>
 
                 </div>
 
-
+                </div>
 
 <!-- Key word list -->
             <div class="card" >
@@ -119,18 +119,16 @@
             </div>
 
             <div class="card-body" id="keywords_list" style="display:none;">
-            <div class="table-responsive ">
-				<table class="table table-hover sortable" >
-                    <thead style="cursor: pointer; font-weight: bold;">
-                        <tr style=" background-color: #e0e0e0;"><th>Id</th><th>KeyWord</th><th>Action</th></tr>
+            <div class="table-responsive">
+				<table class="table table-hover">
+                    <thead>
+                        <tr><th>Id</th><th>KeyWord</th><th>Action</th></tr>
 
                     </thead>
 
                     <tbody id="tbody">
 
                     </tbody>
-
-
 				</table>
             </div>
         </div>
@@ -141,40 +139,11 @@
 @endsection
 
 @section('footer')
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.10/js/dataTables.bootstrap.min.js"></script>
-
-<script>
-  $(document).ready(function() {
-      var url = "{{ URL::to('/fetchkey1') }}/"+$('#url').val();
-
-        console.log(url);
-      $('#showtable').html("<div style=\"cursor: pointer;\">Toggle column: <a class=\"toggle-vis\" data-column=\"0\">S.No</a> - <a class=\"toggle-vis\" data-column=\"1\">Website</a>- <a class=\"toggle-vis\" data-column=\"2\">Rank</a>  - </div><div class=\"table-responsive\"><table id=\"example\" class=\"table table-hover table-banded\" cellspacing=\"0\" width=\"100%\"><thead ><tr ><th>S.No</th><th>Website</th><th>Rank</th><th>Action</th></tr></thead><tbody></tbody></table></div>");
-           var table = $('#example').DataTable({
-               responsive: true,
-                "ajax": url,
-               "columns": [
-                    { "data": "id" },
-                   { "data": "keyword" },
-                    ]
-               });
-            $('a.toggle-vis').on( 'click', function (e) {
-        e.preventDefault();
-
-        // Get the column API object
-        var column = table.column( $(this).attr('data-column') );
-
-        // Toggle the visibility
-        column.visible( ! column.visible() );
-    } );
-
-} );
-  </script>
-
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
 <script>
     //$('#example').DataTable();
-    var pattern = /[0-9a-zA-Z ]/;
+    var pattern = /[0-9a-zA-Z]/;
 
     //validate keywords while writing
     $('#keyword').focusin(function(){
@@ -210,6 +179,7 @@ $(document).ready(function() {
         var dom = $(this).closest('tr');
         deleteKey($(this).attr('data-id') , dom);
     });
+
 
     function fetchKey(){
         $('#tbody').html('');
@@ -255,43 +225,21 @@ $(document).ready(function() {
             //var url = deletekey/+id;
 
             $('#keyword').val('');
-            $('#keyword').focusin();
-            $('#showtable').html("<div style=\"cursor: pointer;\">Toggle column: <a class=\"toggle-vis\" data-column=\"0\">S.No</a> - <a class=\"toggle-vis\" data-column=\"1\">Website</a>- <a class=\"toggle-vis\" data-column=\"2\">Rank</a>  - </div><div class=\"table-responsive\"><table id=\"example\" class=\"table table-hover table-banded\" cellspacing=\"0\" width=\"100%\"><thead ><tr ><th>S.No</th><th>Website</th><th>Rank</th><th>Action</th></tr></thead><tbody></tbody></table></div>");
+            $.post(url, d, function(data){
+                $("#key_mes").fadeIn();
+                var result = $.parseJSON(data);
+                //console.log(data);
+                if( result.id != 'null' ){
+                    $('#tbody').append('<tr><td>'+count+'</td><td>'+result.keyword+'</td><td><a class="btn bgm-orange waves-effect" data-method="delete" href=keyword/'+result.id+'><i class="zmdi zmdi-check"></i></a>  <a class="btn btn-danger waves-effect delete-button" data-method="delete" data-id="'+result.id+'" ><i class="zmdi zmdi-close"></i></a></td></tr>');
 
-            id = [];
-            id['index'] = 1;
+                    $("#key_mes").text('Keyword added successfully !!').css('font-weight', 'bold').fadeOut(2000);
 
-            var table = $('#example').DataTable({
-                   responsive: true,
+                    count++;
+                }
+                else
+                    $("#key_mes").text('Keyword already exists !!').css('font-weight', 'bold').fadeOut(2000);
 
-                   "ajax": {
-                    "url": url,
-                    "data": function ( d )
-                        {
-                        d.keyword = x;
-                        d.url = '{{ $heading }}';
-                        // d.custom = $('#myInput').val();
-                        // etc
-                            }
-                        },
-
-                   "columns": [
-                        { "data": "sno" },
-                       { "data": "website" },
-                        { "data": "action" },
-                        ]
-                   });
-                    $('a.toggle-vis').on( 'click', function (e) {
-                e.preventDefault();
-
-                // Get the column API object
-                var column = table.column( $(this).attr('data-column') );
-
-                // Toggle the visibility
-                column.visible( ! column.visible() );
-            } );
-
-             //old keyword add
+            });
         }
     });
 
@@ -307,11 +255,7 @@ $(document).ready(function() {
             $('#confirm_delete').fadeIn().text('Keyword deleted successfully.').fadeOut(2000);
        });
    }
-
-
 } );
-
-
 </script>
 
 @endsection

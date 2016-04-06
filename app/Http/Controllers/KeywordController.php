@@ -248,7 +248,7 @@ class KeywordController extends Controller
                     $slast = rand(10, 254);
                     $ip = "51.203.".$last.".".$slast;
 
-                    $url = "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=".$query.'&rsz=large'.'&start='.$i.'&userip='.$ip;
+                    $url = "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=".$query."&rsz=large"."&start=".$i."&userIp=".$ip;
 
                     $body = file_get_contents($url);
                   //  var_dump($body);
@@ -271,6 +271,8 @@ class KeywordController extends Controller
                          $counter++;
                     }
 
+                    $ssleep = 10;
+                   // sleep($ssleep);
                 }
             var_dump($rank);
 

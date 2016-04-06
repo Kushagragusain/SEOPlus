@@ -60,6 +60,7 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
+        console.log({{$ip}});
         $('#tittle').text("{{ $keyword }}");
 
       if( {{count($fetch)}} > 0 ){
