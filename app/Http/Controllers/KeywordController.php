@@ -240,30 +240,34 @@ class KeywordController extends Controller
             $KEY = "AIzaSyCgEhwLRxr2-dN68_x58XMSsLelpKJxTxA";
             $CSE = "003799387166088970884:mguauzeslus";
 
-           // var_dump($_SERVER['REMOTE_ADDR']);
+           var_dump($_SERVER['REMOTE_ADDR']);
 
-            for($i = 0; $i < 7; $i += 8) {
-            $url = "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=".$query.'&rsz=large'.'&start='.$i.'&num=100';
+                for($i = 0; $i < 7; $i += 8) {
 
-            $body = file_get_contents($url);
-            $json = json_decode($body);
-            var_dump($json);
+                    $url = "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=".$query.'&rsz=large'.'&start='.$i.'&userip='. $_SERVER['REMOTE_ADDR'].'&num=100'.;
 
-            for($x=0;$x<count($json->responseData->results);$x++){
-                $urls[$counter] = $json->responseData->results[$x]->visibleUrl;
-                var_dump($urls[$counter]."<br>");
-                //Check if URL matches
-                if($found === 0 && strpos($urls[$counter], $domain) !== false) {
-                    $found = 1;
-                    $rank = $counter+1;
+                    $body = file_get_contents($url);
+                    $json = json_decode($body);
+
+                    if($json->responseData === NULL) {
+                        var_dump($json);
+                        $error = "multiple";
+                        break;
+                    }
+                    for($x=0;$x<count($json->responseData->results);$x++){
+                        $res[$counter] = $json->responseData->results[$x]->visibleUrl;
+
+                        //Check if URL matches
+                        if($check == 0 && strpos($res[$counter], $domain) !== false) {
+                            $check = 1;
+                            $rank = $counter+1;
+                        }
+
+                         $counter++;
+                    }
+
                 }
 
-                $counter++;
-            }
-            }
-
-            var_dump($rank);
-            die();
             if($error !== "multiple") {
             $store = new Keydata;
             $store->key_id = $id;
@@ -273,8 +277,8 @@ class KeywordController extends Controller
             }
             $fetch = Keydata::where('key_id', $id)->get();
 
-            return view('pages.keyword_data', compact('keyword', 'rank', 'urls', 'check', 'domain', 'urlid', 'fetch', 'error'));
-        }
+            return view('pages.keyword_data', compact('keyword', 'rank', 'res', 'found', 'domain', 'urlid', 'fetch', 'error'));
+     }
         else
             return view('pages.error');
     }
