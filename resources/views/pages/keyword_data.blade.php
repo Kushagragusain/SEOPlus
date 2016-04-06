@@ -28,7 +28,7 @@
                         @if($error == "multiple")
                             <h4>Too many attempts. Wait or restart.</h4>
                             <div class="clearfix"></div>
-                        @elseif(count($urls) == 0)
+                        @elseif(count($res) == 0)
                             <h4>No result in top 100</h4>
                             <div class="clearfix"></div>
                         @else
@@ -38,7 +38,7 @@
                             <h4>Top links</h4>
                             <div class="clearfix"></div>
                 <?php $cc = 0; ?>
-                            @foreach($urls as $i)
+                            @foreach($res as $i)
                                 <h5>{{ $cc }}<a href="{{ $i }}"> {{ $i }} </a></h5>
                                 <div class="clearfix"></div>
                 <?php $cc++; ?>
