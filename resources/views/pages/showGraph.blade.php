@@ -19,7 +19,7 @@
 @endsection
 
 @section('footer')
-<script type="text/javascript" charset="utf8" src="{{url('\assets\jquery\canvasjs.js')}}"></script>
+<script type="text/javascript" charset="utf8" src="{{url('/assets/jquery/canvasjs.js')}}"></script>
 <script type="text/javascript">
 
     $(document).ready(function () {
@@ -32,7 +32,7 @@
 			data: [ { type: "line", showInLegend: true, name: "Alexa Rank", color: "#20B2AA", lineThickness: 3,
                      dataPoints: [
                         @foreach( $data as $i )
-                            { x: new Date("{{ $i['searched_at'] }}"),  y: {{ $i['alexa_rank'] }}  },
+                            {label:("{{ $i['searched_at'] }}"),  y: {{ $i['alexa_rank'] }}  },
                         @endforeach
                   ]
                 }],

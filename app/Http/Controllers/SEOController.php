@@ -116,6 +116,7 @@ class SEOController extends Controller
 
     //add new keyword to display table
     public function addkeyword(Request $request){
+
         $result['keyword'] = $request->keyword;
         $url = $request->url;
         $ch = 1;

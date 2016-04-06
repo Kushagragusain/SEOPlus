@@ -9,7 +9,7 @@
 
 
             <!-- Result for URL search -->
-            <div class="card">
+         <!--   <div class="card">
                 <div class="card-header bgm-blue m-b-20">
                     <h2>Results for <span class="text-uppercase">{{ $heading }}</span></h2><small> <span class="c-white">all in one place</span></small>
                     <span class="c-white pull-right" style="padding-right: 10px" >charts</span>
@@ -82,7 +82,11 @@
             </div>
 
 <!-- add key word -->
-
+<div class="card">
+<div id="showtable" class="text-center">
+      gdfgdfbdf
+                                </div>
+    </div>
             <div class="card">
                     <div class="card-header">
                         <h2>Add keyword(s)<small></small></h2>
@@ -127,8 +131,14 @@
                     <tbody id="tbody">
 
                     </tbody>
+
+
 				</table>
             </div>
+                <ul class="pagination">
+                    <li><span >1</span></li>
+                    <li><span >2</span></li>
+                           </ul>
         </div>
     </div>
 
@@ -139,8 +149,39 @@
 @endsection
 
 @section('footer')
-<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.10/js/dataTables.bootstrap.min.js"></script>
+
+<script>
+  $(document).ready(function() {
+      var url = "{{ URL::to('/fetchkey1') }}/"+$('#url').val();
+
+        console.log(url);
+      $('#showtable').html("<div style=\"cursor: pointer;\">Toggle column: <a class=\"toggle-vis\" data-column=\"0\">S.No</a> - <a class=\"toggle-vis\" data-column=\"1\">Website</a>- <a class=\"toggle-vis\" data-column=\"2\">Rank</a>  - </div><div class=\"table-responsive\"><table id=\"example\" class=\"table table-hover table-banded\" cellspacing=\"0\" width=\"100%\"><thead ><tr ><th>S.No</th><th>Website</th><th>Rank</th><th>Action</th></tr></thead><tbody></tbody></table></div>");
+           var table = $('#example').DataTable({
+               responsive: true,
+                "ajax": url,
+               "columns": [
+                    { "data": "id" },
+                   { "data": "keyword" },
+                    ]
+               });
+            $('a.toggle-vis').on( 'click', function (e) {
+        e.preventDefault();
+
+        // Get the column API object
+        var column = table.column( $(this).attr('data-column') );
+
+        // Toggle the visibility
+        column.visible( ! column.visible() );
+    } );
+
+} );
+  </script>
+
+//Old script
+
 <script>
     //$('#example').DataTable();
     var pattern = /[0-9a-zA-Z ]/;
@@ -238,21 +279,41 @@ $(document).ready(function() {
             //var url = deletekey/+id;
 
             $('#keyword').val('');
-            $.post(url, d, function(data){
-                $("#key_mes").fadeIn();
-                var result = $.parseJSON(data);
-                //console.log(data);
-                if( result.id != 'null' ){
-                    $('#tbody').append('<tr><td>'+count+'</td><td>'+result.keyword+'</td><td><a class="btn bgm-orange waves-effect" data-method="delete" href=keyword/'+result.id+'><i class="zmdi zmdi-check"></i></a>  <a class="btn btn-danger waves-effect delete-button" data-method="delete" data-id="'+result.id+'" ><i class="zmdi zmdi-close"></i></a></td></tr>');
+            $('#keyword').focusin();
+            $('#showtable').html("<div style=\"cursor: pointer;\">Toggle column: <a class=\"toggle-vis\" data-column=\"0\">S.No</a> - <a class=\"toggle-vis\" data-column=\"1\">Website</a>- <a class=\"toggle-vis\" data-column=\"2\">Rank</a>  - </div><div class=\"table-responsive\"><table id=\"example\" class=\"table table-hover table-banded\" cellspacing=\"0\" width=\"100%\"><thead ><tr ><th>S.No</th><th>Website</th><th>Rank</th><th>Action</th></tr></thead><tbody></tbody></table></div>");
 
-                    $("#key_mes").text('Keyword added successfully !!').css('font-weight', 'bold').fadeOut(2000);
+            id = [];
+            id['index'] = 1;
+               var table = $('#example').DataTable({
+                   responsive: true,
+                    "ajax": {
+                    "url": url,
+                    "data": function ( d )
+                        {
+                d.keyword = x;
+                d.url = '{{ $heading }}';
+                // d.custom = $('#myInput').val();
+                // etc
+                            }
+                        },
 
-                    count++;
-                }
-                else
-                    $("#key_mes").text('Keyword already exists !!').css('font-weight', 'bold').fadeOut(2000);
+                   "columns": [
+                        { "data": "sno" },
+                   { "data": "website" },
+                    { "data": "action" },
+                        ]
+                   });
+                    $('a.toggle-vis').on( 'click', function (e) {
+                e.preventDefault();
 
-            });
+                // Get the column API object
+                var column = table.column( $(this).attr('data-column') );
+
+                // Toggle the visibility
+                column.visible( ! column.visible() );
+            } );
+
+             //old keyword add
         }
     });
 
