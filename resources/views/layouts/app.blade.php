@@ -16,6 +16,7 @@
 
         <!-- CSS -->
         <link href="{{URL::to('assets')}}/css/app.min.1.css" rel="stylesheet">
+<link  type="text/css" href="{{URL::to('assets')}}/js/plugins/export/export.css" rel="stylesheet">
 
         <link href="{{URL::to('assets')}}/css/app.min.2.css" rel="stylesheet">
 
@@ -162,9 +163,10 @@
 
 
         <script src="{{URL::to('assets')}}/js/functions.js"></script>
-       <!-- <script src="{{URL::to('assets')}}/js/amcharts.js"></script>
+       <script src="{{URL::to('assets')}}/js/amcharts.js"></script>
         <script src="{{URL::to('assets')}}/js/serial.js"></script>
-        <script src="{{URL::to('assets')}}/js/light.js"></script>-->
+        <script src="{{URL::to('assets')}}/js/plugins/export/export.min.js"></script>
+        <script src="{{URL::to('assets')}}/js/light.js"></script>
         <script src="js/functions.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script>

@@ -1,5 +1,5 @@
 @extends('layouts.app', ['link' => 'Add Url'])
-<link  type="text/css" href="//cdn.amcharts.com/lib/3/plugins/export/export.css" rel="stylesheet">
+
 @section('content')
 <div style="position: fixed; top: 100px; left: 30px; z-index: 9999;"><a href="{{ URL::to('url_rank') }}/{{ $id }}"><button class="btn bgm-red btn-float"><i class="zmdi zmdi-arrow-back"></i></button></a></div>
 <div class="container">
@@ -21,10 +21,7 @@
 
 @section('footer')
 
-<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
-<script src="https://www.amcharts.com/lib/3/serial.js"></script>
-<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
-<script src="//cdn.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+
 <script>
     $(document).ready(function () {
         $('#tittle').text("{{ $data[0]['url'] }}");
