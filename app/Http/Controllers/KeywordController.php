@@ -9,6 +9,8 @@ use App\SearchedKeyword;
 use App\SearchedUrl;
 use App\Keydata;
 use Carbon\Carbon;
+use \SEOstats\Services as SEOstats;
+use App\GoogleKeywordsRank;
 
 class KeywordController extends Controller
 {
@@ -182,7 +184,7 @@ class KeywordController extends Controller
     */
     public function foo() {
 
-        $query = 'furnace%20calgary';
+        /*$query = 'furnace%20calgary';
         $domain = "emergencyfurnacerepaircalgary.com";
 
         //To get top 100 results. Only 8 results at a time.
@@ -212,9 +214,26 @@ class KeywordController extends Controller
 
         print_r($rank);
         echo "/n";
-        print_r($urls);
+        print_r($urls);*/
 
+        $gRank = new GoogleKeywordsRank('http://www.ycerdan.fr');
+        $gRank->setMaxPages(5);
 
+        $keywords = array();
+        $keywords[] = "typo3";
+
+        $keywordsPositions = $gRank->getKeywordsArrayRank($keywords);
+
+        foreach ($keywordsPositions as $keywords) {
+            echo 'For the keyword "' . $keywords[0] . '": ';
+            if ($keywords[1] == 0) {
+                echo 'you are not in the ' . ($gRank->getMaxPages() * 10) . ' first results';
+            } else {
+                echo 'you are ranked ' . $keywords[1];
+            }
+        }
+        var_dump($keywordsPositions);
+        die();
     }
 
     public function find($id) {
@@ -222,39 +241,43 @@ class KeywordController extends Controller
             $data = SearchedKeyword::findorFail($id);
             $keyword = $data->keyword;
             $domain = $data->url;
-
-            $query = str_replace(' ', '%20', $keyword);
+            $domain = "http://".$domain;
+            //$query = str_replace(' ', '%20', $keyword);
             $urlid = SearchedUrl::fetchId($domain)['id'];
 
             $results = array();
-            $res = array();
             $fetch = array();
             $counter = 0;
-            $res = [];
             $check = 0;
             $rank = 0;
             $error = "";
+            $getres = [];
+            $res = [];
+
+            $KEY = "AIzaSyCgEhwLRxr2-dN68_x58XMSsLelpKJxTxA";
+            $CSE = "003799387166088970884:mguauzeslus";
 
             var_dump($_SERVER['REMOTE_ADDR']);
 
-                for($i = 0; $i < 50; $i += 8) {
+               for($i = 0; $i < 10; $i += 8) {
+                   // var_dump("hi");
 
-                    $url = "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=".$query.'&rsz=large'.'&start='.$i.'&userip='. $_SERVER['REMOTE_ADDR'];
+                    $url = "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=".$query.'&rsz=large'.'&start='.$i.'&key=AIzaSyCgEhwLRxr2-dN68_x58XMSsLelpKJxTxA';
 
                     $body = file_get_contents($url);
+                    //var_dump($body);
                     $json = json_decode($body);
 
                     if($json->responseData === NULL) {
-                        var_dump($json);
-                        die();
                         $error = "multiple";
                         break;
                     }
                     for($x=0;$x<count($json->responseData->results);$x++){
                         $res[$counter] = $json->responseData->results[$x]->visibleUrl;
-
+                         var_dump($res[$counter]);
+                        echo "<br>";
                         //Check if URL matches
-                        if($check == 0 && strpos($res[$counter], $domain) !== false) {
+                        if($check === 0 && strpos($res[$counter], $domain) !== false) {
                             $check = 1;
                             $rank = $counter+1;
                         }
@@ -264,6 +287,36 @@ class KeywordController extends Controller
 
                 }
 
+                 var_dump($rank);
+            die();
+            /*try {
+
+                // Create a new SEOstats instance.
+                $seostats = new \SEOstats\SEOstats;
+
+                $getres = SEOstats\Google::getSerps('furnace calgary', 10);
+               // var_dump($getres);
+
+            }
+            catch (\Exception $e) {
+                var_dump($e->getMessage());
+            }
+
+            //var_dump("h3");
+            $x = 0;
+            foreach($getres as $pp) {
+              //  var_dump("hi");
+              //  var_dump($pp["url"]);
+                $res[$x] = $pp["url"];
+                //Check if URL matches
+                        if($check === 0 && strpos($pp["url"], $domain) !== false) {
+                            $check = 1;
+                            $rank = $counter+1;
+                            break;
+                        }
+                $counter++;
+               // echo $counter."<br>";
+            }*/
             if($error !== "multiple") {
             $store = new Keydata;
             $store->key_id = $id;
@@ -273,7 +326,7 @@ class KeywordController extends Controller
             }
             $fetch = Keydata::where('key_id', $id)->get();
 
-            return view('pages.keyword_data', compact('keyword', 'rank', 'res', 'found', 'domain', 'urlid', 'fetch', 'error'));
+            return view('pages.keyword_data', compact('keyword', 'rank', 'res', 'check', 'domain', 'urlid', 'fetch', 'error'));
         }
         else
             return view('pages.error');

@@ -60,7 +60,7 @@ Route::group(['middleware' => 'web'], function () {
 
         Route::get('demo', 'SEOController@demo');
 
-        Route::get('foo', 'KeywordController@test');
+        Route::get('foo', 'KeywordController@foo');
     });
 
     Route::post('search/url', 'SEOController@domainSave');
