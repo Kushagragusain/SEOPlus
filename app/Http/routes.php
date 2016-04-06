@@ -41,12 +41,8 @@ Route::group(['middleware' => 'web'], function () {
             return view('pages.dmeo');
         });
 
-        Route::get('history', function(){
-            return view('pages.history');
-        });
-
        //to see all previous searches
-        Route::get('historyfetch', 'SEOController@history');
+        Route::get('history', 'SEOController@history');
         
         Route::get('updatedb', 'SEOController@updateSearchedKeyworddb');
 

@@ -2,6 +2,12 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css">
 @section('content')
 <div class="container">
+<div class="card">
+    <div class="card-header bgm-blue m-b-20">
+
+        <h2>History<small>Previous Searches</small></h2>
+
+  </div>
 
     <div class="card-body p-10 p-b-0">
                                        <div class="table-responsive">
@@ -19,32 +25,28 @@
         </thead>
 
         <tbody>
-            {{--*/ $count=1 /*--}}
-
              @foreach($urls as $i)
 
                 <tr>
-                <td>{{ $count}}</td>
+                <td>{{ $i->id }}</td>
                 <td><a href="history/{{ $i->id }}" >{{ $i->url }}</a></td>
                 <td>{{ $i['alexa_rank'] }} </td>
 
                 </tr>
-            {{--*/ $count++ /*--}}
             @endforeach
         </tbody>
      @endif
     </table>
 
-
+                    </div>
+                                </div>
+                            </div>
 
 </div>
 @endsection
 @section('footer')
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.10/js/dataTables.bootstrap.min.js"></script>
 
-
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
             <script>
                 $(document).ready(function(){
                     //load url history on page load
@@ -74,36 +76,14 @@
 
 
   <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-
   <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
   <script>
   $(document).ready(function() {
-      var url = "{{ URL::to('/historyfetch') }}";
-      $('#showtable').html("<div style=\"cursor: pointer;\">Toggle column: <a class=\"toggle-vis\" data-column=\"0\">S.No</a> - <a class=\"toggle-vis\" data-column=\"1\">Website</a>- <a class=\"toggle-vis\" data-column=\"2\">Rank</a>  - </div><div class=\"table-responsive\"><table id=\"example\" class=\"table table-hover table-banded\" cellspacing=\"0\" width=\"100%\"><thead ><tr ><th>S.No</th><th>Website</th><th>Rank</th></tr></thead><tbody></tbody></table></div>");
-           var table = $('#example').DataTable({
-                responsive: true,
-               "ajax": url,
-               "columns": [
-                    { "data": "sno" },
-                   { "data": "website" },
-                    { "data": "rank" },
-                    ]
-               });
-            $('a.toggle-vis').on( 'click', function (e) {
-        e.preventDefault();
-
-        // Get the column API object
-        var column = table.column( $(this).attr('data-column') );
-
-        // Toggle the visibility
-        column.visible( ! column.visible() );
-    } );
-
+    $('#example').DataTable();
 } );
   </script>
 
 @endsection
-
 
 
 

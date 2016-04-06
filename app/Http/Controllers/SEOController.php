@@ -118,6 +118,7 @@ class SEOController extends Controller
     public function addkeyword(Request $request){
 
         $result['keyword'] = $request->keyword;
+        var_dump($result); die();
         $url = $request->url;
         $ch = 1;
 

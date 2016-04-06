@@ -242,11 +242,16 @@ class KeywordController extends Controller
 
            var_dump($_SERVER['REMOTE_ADDR']);
 
-                for($i = 0; $i < 7; $i += 8) {
+                for($i = 0; $i < 30; $i += 8) {
 
-                    $url = "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=".$query.'&rsz=large'.'&start='.$i.'&userip='. $_SERVER['REMOTE_ADDR'].'&num=100'.;
+                    $last = rand(10, 254);
+                    $slast = rand(10, 254);
+                    $ip = "51.203.".$last.".".$slast;
+
+                    $url = "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=".$query.'&rsz=large'.'&start='.$i.'&userip='.$ip;
 
                     $body = file_get_contents($url);
+                  //  var_dump($body);
                     $json = json_decode($body);
 
                     if($json->responseData === NULL) {
@@ -267,6 +272,7 @@ class KeywordController extends Controller
                     }
 
                 }
+            var_dump($rank);
 
             if($error !== "multiple") {
             $store = new Keydata;
@@ -277,7 +283,7 @@ class KeywordController extends Controller
             }
             $fetch = Keydata::where('key_id', $id)->get();
 
-            return view('pages.keyword_data', compact('keyword', 'rank', 'res', 'found', 'domain', 'urlid', 'fetch', 'error'));
+            return view('pages.keyword_data', compact('keyword', 'rank', 'res', 'found', 'domain', 'urlid', 'fetch', 'error', 'ip'));
      }
         else
             return view('pages.error');

@@ -138,8 +138,6 @@
 
     </div>
 </div>
-
-<button onclick="getGoogleSearchResults()">abc</button>
 @endsection
 
 @section('footer')
@@ -262,23 +260,25 @@ $(document).ready(function() {
 
             id = [];
             id['index'] = 1;
-               var table = $('#example').DataTable({
+
+            var table = $('#example').DataTable({
                    responsive: true,
-                    "ajax": {
+
+                   "ajax": {
                     "url": url,
                     "data": function ( d )
                         {
-                d.keyword = x;
-                d.url = '{{ $heading }}';
-                // d.custom = $('#myInput').val();
-                // etc
+                        d.keyword = x;
+                        d.url = '{{ $heading }}';
+                        // d.custom = $('#myInput').val();
+                        // etc
                             }
                         },
 
                    "columns": [
                         { "data": "sno" },
-                   { "data": "website" },
-                    { "data": "action" },
+                       { "data": "website" },
+                        { "data": "action" },
                         ]
                    });
                     $('a.toggle-vis').on( 'click', function (e) {

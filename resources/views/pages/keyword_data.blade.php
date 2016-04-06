@@ -37,7 +37,7 @@
                             <br>
                             <h4>Top links</h4>
                             <div class="clearfix"></div>
-                <?php $cc = 0; ?>
+                <?php $cc = 1; ?>
                             @foreach($res as $i)
                                 <h5>{{ $cc }}<a href="{{ $i }}"> {{ $i }} </a></h5>
                                 <div class="clearfix"></div>
