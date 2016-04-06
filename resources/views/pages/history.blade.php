@@ -29,14 +29,17 @@
         </thead>
 
         <tbody>
+            {{--*/ $count=1 /*--}}
+
              @foreach($urls as $i)
 
                 <tr>
-                <td>{{ $i->id }}</td>
+                <td>{{ $count}}</td>
                 <td><a href="history/{{ $i->id }}" >{{ $i->url }}</a></td>
                 <td>{{ $i['alexa_rank'] }} </td>
 
                 </tr>
+            {{--*/ $count++ /*--}}
             @endforeach
         </tbody>
      @endif
