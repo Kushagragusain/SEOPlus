@@ -2,16 +2,39 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css">
 @section('content')
 <div class="container">
-    <div class="card">
 
-  <div id="showtable" class="text-center">
-      gdfgdfbdf
-                                </div>
+    <div class="card-body p-10 p-b-0">
+                                       <div class="table-responsive">
+     <table id="example" class="display" cellspacing="0" width="100%">
+     @if($urls->count() == 0)
+        No searches
+    @else
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Website</th>
+                <th>Rank</th>
 
+            </tr>
+        </thead>
 
+        <tbody>
+            {{--*/ $count=1 /*--}}
 
+             @foreach($urls as $i)
 
-</div>
+                <tr>
+                <td>{{ $count}}</td>
+                <td><a href="history/{{ $i->id }}" >{{ $i->url }}</a></td>
+                <td>{{ $i['alexa_rank'] }} </td>
+
+                </tr>
+            {{--*/ $count++ /*--}}
+            @endforeach
+        </tbody>
+     @endif
+    </table>
+
 
 
 </div>

@@ -262,7 +262,7 @@ class KeywordController extends Controller
                for($i = 0; $i < 10; $i += 8) {
                    // var_dump("hi");
 
-                    $url = "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=".$query.'&rsz=large'.'&start='.$i.'&key=AIzaSyCgEhwLRxr2-dN68_x58XMSsLelpKJxTxA';
+                    $url = "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=".$query.'&rsz=large'.'&start='.$i.'&key=AIzaSyCgEhwLRxr2-dN68_x58XMSsLelpKJxTxA&cx=003799387166088970884:mguauzeslus';
 
                     $body = file_get_contents($url);
                     //var_dump($body);

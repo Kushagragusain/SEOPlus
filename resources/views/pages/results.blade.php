@@ -3,13 +3,13 @@
 
 @section('content')
 
-<div style="position: fixed; top: 100px; left: 30px;"><a href="{{ URL::to('history') }}"><button class="btn bgm-red btn-float"><i class="zmdi zmdi-arrow-back"></i></button></a></div>
+<div style="position: fixed; top: 100px; left: 30px; z-index: 9999;"><a href="{{ URL::to('history') }}"><button class="btn bgm-red btn-float"><i class="zmdi zmdi-arrow-back"></i></button></a></div>
 <div class="container">
 <div class="col-md-10 col-md-offset-1">
 
 
             <!-- Result for URL search -->
-         <!--   <div class="card">
+            <div class="card">
                 <div class="card-header bgm-blue m-b-20">
                     <h2>Results for <span class="text-uppercase">{{ $heading }}</span></h2><small> <span class="c-white">all in one place</span></small>
                     <span class="c-white pull-right" style="padding-right: 10px" >charts</span>
@@ -82,11 +82,7 @@
             </div>
 
 <!-- add key word -->
-<div class="card">
-<div id="showtable" class="text-center">
-      gdfgdfbdf
-                                </div>
-    </div>
+
             <div class="card">
                     <div class="card-header">
                         <h2>Add keyword(s)<small></small></h2>
@@ -135,10 +131,6 @@
 
 				</table>
             </div>
-                <ul class="pagination">
-                    <li><span >1</span></li>
-                    <li><span >2</span></li>
-                           </ul>
         </div>
     </div>
 
