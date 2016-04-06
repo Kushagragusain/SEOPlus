@@ -13,17 +13,6 @@
     <div class="card-body card-padding">
 
                 <div class="clearfix"></div>
-    <div id="graph" style="height: 300px; width: 100%;"></div>
-        </div>
-    </div>
-
-    <div class="card">
-    <div class="card-header bgm-blue  m-b-20">
-            <h2>Keyword Rank Chart for<h3><div class="c-white text-uppercase"><div id="tittle"></div></div></h3></h2>
-        </div>
-    <div class="card-body card-padding">
-
-                <div class="clearfix"></div>
     <div id="chartdiv" style="height: 35em; width: 100%;"></div>
         </div>
     </div>
@@ -39,7 +28,7 @@
                         @if($error == "multiple")
                             <h4>Too many attempts. Wait or restart.</h4>
                             <div class="clearfix"></div>
-                        @elseif(count($res) == 0)
+                        @elseif(count($urls) == 0)
                             <h4>No result in top 100</h4>
                             <div class="clearfix"></div>
                         @else
@@ -49,7 +38,7 @@
                             <h4>Top links</h4>
                             <div class="clearfix"></div>
                 <?php $cc = 0; ?>
-                            @foreach($res as $i)
+                            @foreach($urls as $i)
                                 <h5>{{ $cc }}<a href="{{ $i }}"> {{ $i }} </a></h5>
                                 <div class="clearfix"></div>
                 <?php $cc++; ?>

@@ -109,6 +109,8 @@
 
                 </div>
 
+
+
 <!-- Key word list -->
             <div class="card" >
             <div class="card-header bgm-blue m-b-20">
@@ -172,8 +174,6 @@
 } );
   </script>
 
-//Old script
-
 <script>
     //$('#example').DataTable();
     var pattern = /[0-9a-zA-Z ]/;
@@ -212,20 +212,6 @@ $(document).ready(function() {
         var dom = $(this).closest('tr');
         deleteKey($(this).attr('data-id') , dom);
     });
-
-    var alew = 1;
-    if(!isNaN({{ $alexa_rank }}) && {{ $alexa_rank }} < 100 && {{ $alexa_rank }} > 0) {
-        alew = 101 - <?php echo $alexa_rank; ?>;
-    }
-
-    var gprw = 1;
-    var y = <?php echo $google_page_rank; ?>;
-    if(!isNaN(y) && y < 100 && y > 0) {
-        alew = 101 - y;
-    }
-    gprw += "%";
-    console.log(gprw);
-    $('#gpr').css("width", gprw);
 
     function fetchKey(){
         $('#tbody').html('');
@@ -322,51 +308,10 @@ $(document).ready(function() {
        });
    }
 
-    function getGoogleSearchResults() {
-
-  // Get the API key from Google's developer console
-  // Get the CSE ID from google.com/cse
-
-        var KEY = "AIzaSyCgEhwLRxr2-dN68_x58XMSsLelpKJxTxA";
-        var CSE = "003799387166088970884:mguauzeslus";
-        var q = "keyword%20console";
-
- var api = "https://www.googleapis.com/customsearch/v1?key="
-              + KEY + "&cx=" + CSE + "&q=" + encodeURIComponent(q);
-
-  try {
-
-    var response = UrlFetchApp.fetch(api, {
-      muteHttpExceptions: true
-    });
-
-    if (response.getResponseCode() == 200) {
-
-      var content = JSON.parse(response);
-
-      // Did the search return any results?
-      if (content.searchInformation.totalResults > 0) {
-
-        var count = content.items.length;
-
-        for (var i = 0; i < count; i++) {
-
-          // Save the page title, description and hyperlink
-          Logger.log(content.items[i].title);
-          Logger.log(content.items[i].snippet);
-          Logger.log(content.items[i].link);
-        }
-      }
-    }
-  } catch (f) {
-    Logger.log(f.toString());
-  }
-
-}
-
-
 
 } );
+
+
 </script>
 
 @endsection
