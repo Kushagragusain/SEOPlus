@@ -37,7 +37,7 @@
                     <a href="{{URL::to('/dashboard')}}">Seo-Plus</a>
                 </li>
 
-                <li class="pull-right">
+             <!--   <li class="pull-right">
                     <ul class="top-menu">
                         <li id="top-search">
                         @if (Auth::guest())
@@ -62,7 +62,59 @@
                             </li>
                         @endif
                     </ul>
+                </li>-->
+
+
+
+
+
+                <li class="pull-right">
+                    <ul class="top-menu">
+
+                        @if (Auth::guest())
+                       <li >
+                            <a href="{{ url('/login') }}"><span class="tm-label">Login</span></a>
+                        </li>
+                         <li >
+                            <a href="{{ url('/register') }}"><span class="tm-label">Register</span></a>
+                        </li>
+                        @else
+                          <li >
+                            <a href="{{ url('/dashboard') }}"><span class="tm-label">{{ $link }}</span></a>
+                        </li>
+                        @if($link != '')
+                         @endif
+                                     <li >
+                            <a href="{{ url('/history') }}"><span class="tm-label">History</span></a>
+                        </li>
+
+
+                        <li class="dropdown">
+                            <a data-toggle="dropdown" href="">
+                                <span class="tm-label">{{ Auth::user()->user_name }}<span class="caret"></span> </span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-sm pull-right">
+
+                                     <div class="listview">
+
+                                        <a class="lv-item" href="{{ url('/logout') }}" id="logout"> Logout</a>
+
+                            </div>
+                            </div>
+                        </li>
+
+                        @endif
+
+
+                    </ul>
                 </li>
+
+
+
+
+
+
+
             </ul>
 
 

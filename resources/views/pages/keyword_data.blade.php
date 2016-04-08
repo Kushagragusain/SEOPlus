@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div style="position: fixed; top: 100px; left: 30px; z-index: 9999;"><a href="{{URL::to('url_rank')}}/{{$urlid}}"><button class="btn bgm-red btn-float"><i class="zmdi zmdi-arrow-back"></i></button></a></div>
+<div style="position: fixed; top: 100px; left: 30px; z-index: 9999;"><a href="{{URL::to('url_rank')}}/{{$urlid}}"><button class="btn bgm-red btn-float" data-toggle="tooltip" data-placement="top" title="Back"><i class="zmdi zmdi-arrow-back"></i></button></a></div>
 
 <div class="col-md-10 col-md-offset-1">
 
