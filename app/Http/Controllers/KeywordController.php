@@ -184,7 +184,7 @@ class KeywordController extends Controller
                         @endif
                     @endif
     */
-    public function foo() {
+    public function foo($id) {
 
         if( ctype_digit($id) ){
             $data = SearchedKeyword::findorFail($id);
@@ -197,23 +197,76 @@ class KeywordController extends Controller
             $res = array();
             $fetch = array();
 
-            for ( $start = ( $this->start-1 ) * 10; $start <= $this->end * 10; $start += 10 ) {
+
+
+            //
+            $keyword = str_replace( ' ', '+', trim( $keyword ) );
+            $make_url = 'http://www.google.com/search?q='.$keyword.'&num=100' ;
+             $index=0; // counting start from here
+             $found=false; // set this flag to true when position found
+
+            $rr = "";
+                for ($page = 0; $page < 10; $page++)
+             {
+                 if($found==true) // break the loop when position found
+                 break;
+                 $readPage = fopen($make_url ,'r');
+                 $contains = '';
+                  if ($readPage)
+                {
+                    while (!feof($readPage))
+                    {
+                        $buffer = fgets($readPage, 4096);
+                        $contains .= $buffer;
+                    }
+                    fclose($readPage);
+                }
+                $rr .= $contains;
+                $results = array();
+                preg_match_all('/a href="([^"]+)" class=l.+?>.+?<\/a>/',$contains,$results);
+                foreach ($results[1] as $link)
+                {
+                $link = preg_replace('(^http://|/$)','',$link);
+                $index=$index+1;
+                if (strlen(stristr($link,$data->url))>0)
+                {
+                $found=true;
+                }
+                }
+            }
+            var_dump($rr);
+            die();
+            if($found==true)
+            return $index;
+            else
+            return -1;
+
+            //
+
+
+
+
+
+
+            //for ( $start = ( $this->start-1 ) * 10; $start <= $this->start * 10; $start += 10 ) {
                 $ua	= array(
                     0 	=> 'Mozilla/5.0 (Windows NT 6.3; rv:36.0) Gecko/20100101 Firefox/36.0',
                     10 	=> 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36',
                     20 	=> 'Mozilla/5.0 (compatible, MSIE 11, Windows NT 6.3; Trident/7.0;  rv:11.0) like Gecko'
                 );
 
+                $rand = rand(0, 2) * 10;
+
                 $options = array(
                     "http" => array(
                         "method" => "GET",
                         "header" => "Accept-language: en\r\n" .
                             "Cookie: SEO Zen\r\n" .
-                        "User-Agent: " . $ua[ $start ] )
+                        "User-Agent: " . $ua[ $rand ] )
                 );
 
                 $keyword = str_replace( ' ', '+', trim( $keyword ) );
-                $url = 'https://www.google.com/search?ie=UTF-8&q=' . $keyword . '&start=' . $start . '&num=30';
+                $url = 'https://www.google.com/search?ie=UTF-8&q=' . $keyword . '&num=100&safe=off&site=&source=hp';
                 $context = stream_context_create( $options );
 
                 if ( $this->_isCurl() ) {
@@ -222,6 +275,7 @@ class KeywordController extends Controller
                     $data	= @file_get_contents( $url, false, $context );
                 }
                 var_dump($data);
+                die();
                 if ( is_array( $data ) ) {
                     $errmsg = $data['errmsg'];
                     $results = array( 'rank' => 'zerox', 'url' => $errmsg );
@@ -245,7 +299,7 @@ class KeywordController extends Controller
                         var_dump($i); die();
                     }
                 }
-            }
+            //}
 
             if($check == 'success'){
                 $i = 1;
@@ -469,4 +523,23 @@ class KeywordController extends Controller
 		  return array( 'errno' => $e->getCode(), 'errmsg' => $e->getMessage() );
 		}
     }
+
+    public function setProxy($proxy) {
+    $this->proxy = $proxy;
+}
+
+private function _getProxy() {
+        return '173.234.94.90:54253';
+}
+
+public function setUserAgent($agent) {
+    $this->agent = $agent;
+}
+
+private function _getUserAgent() {
+    if (isset($this->agent))
+        return $this->agent;
+    else
+        return false;
+}
 }
