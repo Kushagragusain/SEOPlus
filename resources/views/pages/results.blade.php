@@ -193,7 +193,7 @@ $(document).ready(function() {
                 $('#keywords_list').show();
                 var content = '';
                 for(i = 0; i < result.length; i++){
-                    content += '<tr><td>'+count+'</td><td>'+result[i].keyword+'</td><td>'+result[i].latest_rank+'</td><td><a class="btn bgm-orange waves-effect" data-method="delete" href=keyword/'+result[i].id+'><i class="zmdi zmdi-check"></i></a>  <a class="btn btn-danger waves-effect delete-button" data-method="delete" data-id="'+result[i].id+'" ><i class="zmdi zmdi-close"></i></a></td></tr>';
+                    content += '<tr><td>'+count+'</td><td>'+result[i].keyword+'</td><td>'+result[i].latest_rank+'</td><td><a class="btn bgm-orange waves-effect" data-method="delete" href=keyword/'+result[i].id+'><i class="zmdi zmdi-search"></i></a>  <a class="btn btn-danger waves-effect delete-button" data-method="delete" data-id="'+result[i].id+'" ><i class="zmdi zmdi-close"></i></a></td></tr>';
                     count++;
                 }
                 $('#tbody').html(content);
@@ -231,7 +231,7 @@ $(document).ready(function() {
                 //console.log(data);
                 if( result.id != 'null' ){
                     console.log(result);
-                    $('#tbody').append('<tr><td>'+count+'</td><td>'+result.keyword+'</td><td>'+result.latest_rank+'</td><td><a class="btn bgm-orange waves-effect" data-method="delete" href=keyword/'+result.id+'><i class="zmdi zmdi-check"></i></a>  <a class="btn btn-danger waves-effect delete-button" data-method="delete" data-id="'+result.id+'" ><i class="zmdi zmdi-close"></i></a></td></tr>');
+                    $('#tbody').append('<tr><td>'+count+'</td><td>'+result.keyword+'</td><td>'+result.latest_rank+'</td><td><a class="btn bgm-orange waves-effect" data-method="delete" href=keyword/'+result.id+'><i class="zmdi zmdi-search"></i></a>  <a class="btn btn-danger waves-effect delete-button" data-method="delete" data-id="'+result.id+'" ><i class="zmdi zmdi-close"></i></a></td></tr>');
 
                     $("#key_mes").text('Keyword added successfully !!').css('font-weight', 'bold').fadeOut(2000);
 

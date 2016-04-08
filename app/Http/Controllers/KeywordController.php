@@ -389,7 +389,7 @@ class KeywordController extends Controller
                         $saveurls .= $res[$counter]."*";
                         //$te = "www.".$res[$counter];
 
-                        var_dump($res[$counter]);
+                       // var_dump($res[$counter]);
                         //Check if URL matches
                         if($check == 0 && (strpos(trim($res[$counter]), trim($domain)) !== false)) {
                             $check = 1;
