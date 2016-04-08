@@ -303,34 +303,44 @@ class KeywordController extends Controller
             $check = 0;
             $rank = 0;
             $error = "";
-            $getres = [];
+            $getres = "";
             $res = [];
             $urls = [];
+            $got = 0;
+
 
             $saveurls = "";
-            $nw = new DateTime(Carbon::now());
-            $nw->sub(new \DateInterval('P7D'));
+            $nw = date_create(Carbon::now());
+           // $nw->sub(new \DateInterval('P7D'));
 
             //Checking keyword history and time elapsed.
             $temp = DB::table('storekeyurls')->where('keywordname', $keyword)
-                ->where('latestcheck', '>', $nw)
                 ->first();
 
+            if((sizeof($temp) > 0)) {
+            $er = date_create($temp->latestcheck);
+            $d_dates = date_diff($nw, $er);
+            }
 
+            if((sizeof($temp) > 0) && ($d_dates->format("%a") < 7)) {
 
-            if(sizeof($temp) > 0) {
                 $ans = $temp->urls;
+
+                //Calculate rank also from this content.
                 $token = strtok($ans, "*");
                 $cc = 0;
                     while ($token !== false)
                     {
                     $res[$cc] = $token;
+                   // $te = "www.".$res[$cc];
+                        if($got == 0 && ((strpos(trim($res[$cc]), trim($domain)) !== false))) {
+                            $rank = $cc+1;
+                            $got = 1;
+                          //  var_dump("hi");
+                        }
                     $token = strtok("*");
                     $cc++;
                     }
-
-
-                $rank = $temp->latestrank;
 
                 //store in keydata
                 $store = new Keydata;
@@ -340,6 +350,7 @@ class KeywordController extends Controller
                 $store->save();
             }
             else {
+            $getres = "Outside";
             $KEY = "AIzaSyCgEhwLRxr2-dN68_x58XMSsLelpKJxTxA";
             $CSE = "003799387166088970884:mguauzeslus";
 
@@ -351,6 +362,7 @@ class KeywordController extends Controller
                     $second = rand(20, 250);
                     $slast = rand(10, 254);
                     $last = rand(10, 254);
+
                     $ip = $first.".".$second.".".$slast.".".$last;
 
                     //generate random string
@@ -361,10 +373,10 @@ class KeywordController extends Controller
                         $newstr .= chr($rvar);
                     }
 
-                    $url = "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=".$query."&rsz=large"."&start=".$i."&userIp=".$ip."&userip=".$ip."&rand=".$newstr;
+                    $url = "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=".$query."&rsz=large"."&start=".$i."&userIp=".$ip."&rand=".$newstr;
 
                     $body = file_get_contents($url);
-                  //  var_dump($body);
+                    //var_dump($body);
                     $json = json_decode($body);
 
                     if($json->responseData === NULL) {
@@ -375,13 +387,14 @@ class KeywordController extends Controller
                     for($x=0;$x<count($json->responseData->results);$x++){
                         $res[$counter] = $json->responseData->results[$x]->visibleUrl;
                         $saveurls .= $res[$counter]."*";
+                        //$te = "www.".$res[$counter];
 
+                        var_dump($res[$counter]);
                         //Check if URL matches
-                        if($check == 0 && strpos($res[$counter], $domain) !== false) {
+                        if($check == 0 && (strpos(trim($res[$counter]), trim($domain)) !== false)) {
                             $check = 1;
                             $rank = $counter+1;
                         }
-
                          $counter++;
                     }
 
@@ -403,12 +416,12 @@ class KeywordController extends Controller
                     //var_dump("saving old");
                 DB::table('storekeyurls')
                     ->where('keywordname', $keyword)
-                    ->update(['urls' => $saveurls, 'latestcheck' => $x, 'latestrank' => $rank]);
+                    ->update(['urls' => $saveurls, 'latestcheck' => $x]);
                 }
                 else {
                 //Save keyword data as new
                 DB::table('storekeyurls')->insert([
-                    ['keywordname' => $keyword, 'urls' => $saveurls, 'latestcheck' => $x, 'latestrank' => $rank]
+                    ['keywordname' => $keyword, 'urls' => $saveurls, 'latestcheck' => $x]
                 ]);
                 }
 
@@ -417,8 +430,8 @@ class KeywordController extends Controller
             }
 
             $fetch = Keydata::where('key_id', $id)->get();
-
-            return view('pages.keyword_data', compact('keyword', 'rank', 'res', 'found', 'domain', 'urlid', 'fetch', 'error', 'ip'));
+            SearchedKeyword::findorFail($id)->update(['latest_rank' => $rank]);
+            return view('pages.keyword_data', compact('keyword', 'rank', 'res', 'found', 'domain', 'urlid', 'fetch', 'error', 'ip', 'getres'));
      }
         else
             return view('pages.error');

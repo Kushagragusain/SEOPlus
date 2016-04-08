@@ -135,8 +135,10 @@ class SEOController extends Controller
             $key->keyword = $result['keyword'];
             $key->searched_at = $t;
             $key->status = 'active';
+            $key->latest_rank = 'N.A.';
             $key->save();
             $result['id'] = $key->id;
+            $result['latest_rank'] = $key->latest_rank;
 
             $ch = 0;
         }

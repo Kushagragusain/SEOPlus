@@ -39,7 +39,7 @@
                             <div class="clearfix"></div>
                 <?php $cc = 1; ?>
                             @foreach($res as $i)
-                                <h5>{{ $cc }}<a href="{{ $i }}"> {{ $i }} </a></h5>
+                                <h5>{{ $cc }}<a href="http://{{ $i }}"> {{ $i }} </a></h5>
                                 <div class="clearfix"></div>
                 <?php $cc++; ?>
                             @endforeach

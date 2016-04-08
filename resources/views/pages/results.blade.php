@@ -66,7 +66,7 @@
                                 </div>
                             </li>
 
-                            <li class="ng-binding"><i class="zmdi zmdi-globe"></i> {{ $specified_country }}{{$mes}} Rank<div class="pull-right">{{ $country_rank }}</div>
+                            <li class="ng-binding"><i class="zmdi zmdi-globe"></i> {{ $specified_country }} {{$mes}} Rank<div class="pull-right">{{ $country_rank }}</div>
                                 <div class="media-body">
                                     <div class="progress">
                                         <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
@@ -122,7 +122,7 @@
             <div class="table-responsive">
 				<table class="table table-hover">
                     <thead>
-                        <tr><th>Id</th><th>KeyWord</th><th>Action</th></tr>
+                        <tr><th>Id</th><th>KeyWord</th><th>Rank</th><th>Action</th></tr>
 
                     </thead>
 
@@ -193,7 +193,7 @@ $(document).ready(function() {
                 $('#keywords_list').show();
                 var content = '';
                 for(i = 0; i < result.length; i++){
-                    content += '<tr><td>'+count+'</td><td>'+result[i].keyword+'</td><td><a class="btn bgm-orange waves-effect" data-method="delete" href=keyword/'+result[i].id+'><i class="zmdi zmdi-check"></i></a>  <a class="btn btn-danger waves-effect delete-button" data-method="delete" data-id="'+result[i].id+'" ><i class="zmdi zmdi-close"></i></a></td></tr>';
+                    content += '<tr><td>'+count+'</td><td>'+result[i].keyword+'</td><td>'+result[i].latest_rank+'</td><td><a class="btn bgm-orange waves-effect" data-method="delete" href=keyword/'+result[i].id+'><i class="zmdi zmdi-check"></i></a>  <a class="btn btn-danger waves-effect delete-button" data-method="delete" data-id="'+result[i].id+'" ><i class="zmdi zmdi-close"></i></a></td></tr>';
                     count++;
                 }
                 $('#tbody').html(content);
@@ -230,7 +230,8 @@ $(document).ready(function() {
                 var result = $.parseJSON(data);
                 //console.log(data);
                 if( result.id != 'null' ){
-                    $('#tbody').append('<tr><td>'+count+'</td><td>'+result.keyword+'</td><td><a class="btn bgm-orange waves-effect" data-method="delete" href=keyword/'+result.id+'><i class="zmdi zmdi-check"></i></a>  <a class="btn btn-danger waves-effect delete-button" data-method="delete" data-id="'+result.id+'" ><i class="zmdi zmdi-close"></i></a></td></tr>');
+                    console.log(result);
+                    $('#tbody').append('<tr><td>'+count+'</td><td>'+result.keyword+'</td><td>'+result.latest_rank+'</td><td><a class="btn bgm-orange waves-effect" data-method="delete" href=keyword/'+result.id+'><i class="zmdi zmdi-check"></i></a>  <a class="btn btn-danger waves-effect delete-button" data-method="delete" data-id="'+result.id+'" ><i class="zmdi zmdi-close"></i></a></td></tr>');
 
                     $("#key_mes").text('Keyword added successfully !!').css('font-weight', 'bold').fadeOut(2000);
 
