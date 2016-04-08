@@ -91,7 +91,16 @@ class SEOController extends Controller
             $country_rank = $data->country_rank;
             $specified_country = $data->specified_country;
 
-            return view('pages.results', compact( 'id', 'heading', 'alexa_rank', 'google_page_rank','backlinks',                    'origin_country', 'country_rank', 'specified_country', 'mes' ));
+            $keydata = SearchedKeyword::where('user_id', Auth::user()->id)->where('url', $heading)->get();
+            $tot_key = count($keydata);
+            $avg_rank = 0;
+            foreach( $keydata as $i ){
+                if( $i['latest_rank'] != 'N.A.' )
+                    $avg_rank += (int)$i['latest_rank'];
+            }
+            $avg_rank /= $tot_key;
+            $avg_rank = round($avg_rank);
+            return view('pages.results', compact( 'id', 'heading', 'alexa_rank', 'google_page_rank','backlinks',                    'origin_country', 'country_rank', 'specified_country', 'avg_rank', 'tot_key' ));
         }
         else
             return view('pages.error');

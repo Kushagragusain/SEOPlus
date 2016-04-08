@@ -66,7 +66,7 @@
                                 </div>
                             </li>
 
-                            <li class="ng-binding"><i class="zmdi zmdi-globe"></i> {{ $specified_country }} {{$mes}} Rank<div class="pull-right">{{ $country_rank }}</div>
+                            <li class="ng-binding"><i class="zmdi zmdi-globe"></i> {{ $specified_country }} Rank<div class="pull-right">{{ $country_rank }}</div>
                                 <div class="media-body">
                                     <div class="progress">
                                         <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
@@ -84,6 +84,8 @@
 
             <div class="card">
                  <div class="card-header bgm-blue ">
+                     <span  id="key_mes" class="pull-right"></span>
+
 
                 </div>
                     <div class="card-header">
@@ -102,7 +104,14 @@
                                 <input type="submit" value="Add" class="btn btn-default bgm-blue waves-input-wrapper waves-effect" id="add_keyword" />
                             </div>
                               <div class="col-md-4">
-                                <div  id="key_mes"></div>
+
+
+
+
+                                  <div id="keyavg">
+                                      <h4>Total keywords : {{ $tot_key }}</h4>
+                                      <h4>Average ranking : {{ $avg_rank }}</h4>
+                                  </div>
                             </div>
                         </div>
                     {{ Form::close() }}
