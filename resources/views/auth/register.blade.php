@@ -45,7 +45,7 @@
             </div>
 <!-- Email -->
            <div class="input-group m-b-20 ">
-                <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
+                <span class="input-group-addon"><i class="zmdi zmdi-email"></i></span>
                 <div class="fg-line {{ $errors->has('email') ? ' has-error' : '' }}">
                     <input type="email" class="form-control" placeholder="E-Mail Address" name="email" value="{{ old('email') }}">
                    </div>
@@ -56,9 +56,9 @@
             @endif
             </div>
 
-                <!-- password -->
+    <!-- password -->
            <div class="input-group m-b-20 ">
-                <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
+                <span class="input-group-addon"><i class="zmdi zmdi-lock"></i></span>
                 <div class="fg-line {{ $errors->has('password') ? ' has-error' : '' }}">
 
                      <input type="password" class="form-control" placeholder="Password" name="password">
@@ -72,7 +72,7 @@
 
                   <!-- Confirm password -->
            <div class="input-group m-b-20 ">
-                <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
+                <span class="input-group-addon"><i class="zmdi zmdi-lock"></i></span>
                 <div class="fg-line {{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
 
                      <input type="password" class="form-control" placeholder="Confirm Password" name="password_confirmation">

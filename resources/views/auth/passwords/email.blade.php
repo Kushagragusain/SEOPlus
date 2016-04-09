@@ -28,9 +28,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
-
-            @if (count($errors) > 0)
+                @if (count($errors) > 0)
             <p>
                 <strong class="c-red">{{ $errors->first('email') }} !!</strong>
             </p>
@@ -40,17 +38,14 @@
             {!! csrf_field() !!}
 
             <div class="input-group m-b-20 ">
-                <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
+                <span class="input-group-addon"><i class="zmdi zmdi-email"></i></span>
                 <div class="fg-line {{ $errors->has('email') ? ' has-error' : '' }}">
 
                     <input type="email" class="form-control" placeholder="Email address"  name="email" value="{{ old('email') }}">
 
                 </div>
             </div>
-
-
-
-            <div class="form-group">
+                <div class="form-group">
             <button href="" class="btn btn-login btn-danger btn-float" type="submit"><i class="zmdi zmdi-arrow-forward"></i></button>
             </div>
 
