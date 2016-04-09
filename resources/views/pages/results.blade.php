@@ -2,7 +2,7 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css">
 @section('content')
 
-<div style="position: fixed; top: 100px; left: 30px; z-index: 9999;"><a href="{{ URL::to('history') }}"><button class="btn bgm-red btn-float"data-toggle="tooltip" data-placement="top" title="Back"><i class="zmdi zmdi-arrow-back"></i></button></a></div>
+<div style="position: fixed; top: 100px; left: 30px; z-index: 9999;"><a href="{{ URL::to('history') }}"><button class="btn bgm-red btn-float" ><i class="zmdi zmdi-arrow-back"></i></button></a></div>
 <div class="container">
 <div class="col-md-10 col-md-offset-1">
 
@@ -16,7 +16,7 @@
                     <form action="{{ url('url_rank/history') }}">
                         <input type="hidden" name="id" value="{{ $id }}" />
                         <input type="submit" value="See history graph" class="btn bgm-blue btn-float waves-effect"  />
-                        <button class="btn bgm-red btn-float waves-effect" data-toggle="tooltip" data-placement="top" title="Charts"><i class="zmdi zmdi-chart"></i></button>
+                        <button class="btn bgm-red btn-float waves-effect" ><i class="zmdi zmdi-chart"></i></button>
                     </form>
                 </div>
                 <div class="card-body card-padding">
@@ -83,13 +83,9 @@
 <!-- add key word -->
 
             <div class="card">
-                 <div class="card-header bgm-blue ">
-                     <span  id="key_mes" class="pull-right"></span>
 
-
-                </div>
-                    <div class="card-header">
-                        <h2>Add keyword(s)<small></small></h2>
+                    <div class="card-header bgm-blue m-b-20">
+                        <h2>Add keyword(s) <span class="pull-right" id="key_mes"></span></h2>
                     </div>
                 <div class="card-body card-padding">
                     {{ Form::open(array('url' => 'keyword', 'method' => 'POST', 'class' => 'form-horizontal', 'id' => 'form_data', 'onSubmit' => 'return false')) }}
@@ -100,17 +96,21 @@
                                 <input type="text" class="form-control" name="keyword" placeholder="eg.apple" id="keyword">
                                 <span class="help-block" id="error"></span>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-2">
                                  <button  type="submit" value="Add" class="btn btn-primary btn-lg waves-effect" id="add_keyword" >Add</button>
                             </div>
-                              <div class="col-md-4">
-
-
-
-
+                              <div class="col-md-6">
                                   <div id="keyavg">
-                                      <h4>Total keywords : {{ $tot_key }}</h4>
-                                      <h4>Average ranking : {{ $avg_rank }}</h4>
+                                      <ul class="list-group">
+                                        <li class="list-group-item">
+                                            <span class="badge">{{ $tot_key }}</span>
+                                            Total keywords
+                                        </li>
+                                        <li class="list-group-item">
+                                            <span class="badge">{{ $avg_rank }}</span>
+                                            Average ranking
+                                        </li>
+                                         </ul>
                                   </div>
                             </div>
                         </div>
@@ -202,7 +202,7 @@ $(document).ready(function() {
                 $('#keywords_list').show();
                 var content = '';
                 for(i = 0; i < result.length; i++){
-                    content += '<tr><td>'+count+'</td><td>'+result[i].keyword+'</td><td>'+result[i].latest_rank+'</td><td><a class="btn bgm-orange waves-effect" data-toggle="tooltip" data-placement="top" title="Search" data-method="delete" href=keyword/'+result[i].id+'><i class="zmdi zmdi-search"></i></a>  <a class="btn btn-danger waves-effect delete-button" data-toggle="tooltip" data-placement="top" title="Remove" data-method="delete" data-id="'+result[i].id+'" ><i class="zmdi zmdi-close"></i></a></td></tr>';
+                    content += '<tr><td>'+count+'</td><td>'+result[i].keyword+'</td><td>'+result[i].latest_rank+'</td><td><a class="btn bgm-orange waves-effect" d data-method="delete" href=keyword/'+result[i].id+'><i class="zmdi zmdi-search"></i></a>  <a class="btn btn-danger waves-effect delete-button"  data-method="delete" data-id="'+result[i].id+'" ><i class="zmdi zmdi-close"></i></a></td></tr>';
                     count++;
                 }
                 $('#tbody').html(content);
@@ -240,14 +240,14 @@ $(document).ready(function() {
                 //console.log(data);
                 if( result.id != 'null' ){
                     console.log(result);
-                    $('#tbody').append('<tr><td>'+count+'</td><td>'+result.keyword+'</td><td>'+result.latest_rank+'</td><td><a class="btn bgm-orange waves-effect" data-method="delete" href=keyword/'+result.id+'><i class="zmdi zmdi-search"></i></a>  <a class="btn btn-danger waves-effect delete-button" data-toggle="tooltip" data-placement="top" title="Search"  data-toggle="tooltip" data-placement="top" title="Remove" data-method="delete" data-id="'+result.id+'" ><i class="zmdi zmdi-close"></i></a></td></tr>');
+                    $('#tbody').append('<tr><td>'+count+'</td><td>'+result.keyword+'</td><td>'+result.latest_rank+'</td><td><a class="btn bgm-orange waves-effect" data-method="delete" href=keyword/'+result.id+'><i class="zmdi zmdi-search"></i></a>  <a class="btn btn-danger waves-effect delete-button" data-method="delete" data-id="'+result.id+'" ><i class="zmdi zmdi-close"></i></a></td></tr>');
 
-                    $("#key_mes").text('Keyword added successfully !!').css('font-weight', 'bold').fadeOut(2000);
+                    $("#key_mes").text('Keyword added successfully !!').fadeOut(2000);
 
                     count++;
                 }
                 else
-                    $("#key_mes").text('Keyword already exists !!').css('font-weight', 'bold').fadeOut(2000);
+                    $("#key_mes").text('Keyword already exists !!').fadeOut(2000);
 
             });
         }
