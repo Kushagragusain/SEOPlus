@@ -194,12 +194,16 @@
          <script src="{{URL::to('assets')}}/js/jquery.min.js"></script>
 
 
-               <script src="vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
-        <script src="vendors/bower_components/Waves/dist/waves.min.js"></script>
+               <script src="{{URL::to('assets')}}/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+        <script src="{{URL::to('assets')}}/vendors/bower_components/Waves/dist/waves.min.js"></script>
 
-        <script src="vendors/bower_components/moment/min/moment.min.js"></script>
+        <script src="{{URL::to('assets')}}/vendors/bower_components/moment/min/moment.min.js"></script>
 
-
+            <script src="{{URL::to('assets')}}/vendors/bower_components/flot/jquery.flot.js"></script>
+        <script src="{{URL::to('assets')}}/vendors/bower_components/flot/jquery.flot.resize.js"></script>
+        <script src="{{URL::to('assets')}}/vendors/bower_components/flot.curvedlines/curvedLines.js"></script>
+        <script src="{{URL::to('assets')}}/vendors/sparklines/jquery.sparkline.min.js"></script>
+        <script src="{{URL::to('assets')}}/vendors/bower_components/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js"></script>
 
         <script src="{{URL::to('assets')}}/vendors/bower_components/moment/min/moment.min.js"></script>
 
@@ -221,6 +225,11 @@
        <!-- <script src="{{URL::to('assets')}}/js/amcharts.js"></script>
         <script src="{{URL::to('assets')}}/js/serial.js"></script>
         <script src="{{URL::to('assets')}}/js/light.js"></script>-->
+        <script src="{{URL::to('assets')}}/js/flot-charts/curved-line-chart.js"></script>
+        <script src="{{URL::to('assets')}}/js/flot-charts/line-chart.js"></script>
+        <script src="{{URL::to('assets')}}/js/charts.js"></script>
+
+        <script src="{{URL::to('assets')}}/js/charts.js"></script>
 
        <script src="{{URL::to('assets')}}/js/amcharts.js"></script>
         <script src="{{URL::to('assets')}}/js/serial.js"></script>

@@ -97,7 +97,8 @@
                                 <span class="help-block" id="error"></span>
                             </div>
                             <div class="col-md-2">
-                                 <button  type="submit" value="Add" class="btn btn-primary btn-lg waves-effect" id="add_keyword" >Add</button>
+                                <div class=" p-b-10"><button  type="submit" value="Add" class="btn btn-primary btn-lg waves-effect" id="add_keyword" >Add</button></div>
+
                             </div>
                               <div class="col-md-6">
                                   <div id="keyavg">

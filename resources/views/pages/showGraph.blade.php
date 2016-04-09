@@ -122,4 +122,5 @@ function zoomChart() {
                             });
 </script>
 
+
 @endsection

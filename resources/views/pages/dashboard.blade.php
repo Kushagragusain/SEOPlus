@@ -2,28 +2,37 @@
 
 @section('content')
 <div class="container">
-    <div class="row">
+
     <div class="col-md-10 col-md-offset-1">
         <div class="card">
-<div class="card">
-        <div class="card-header bgm-blue m-b-20">
-            <h2>Search URL<small>Start here</small></h2>
-        </div>
-        <div class="card-body card-padding">
-            <div class="panel-body">
-                {{ Form::open(array('url' => 'search/url', 'method' => 'POST', 'class' => 'form-horizontal', 'onSubmit' => 'return validate()')) }}
-                <div class="form-group{{ $errors->has('url') ? ' has-error' : '' }}">
-                    <label class="col-md-4 control-label">Enter URL</label>
-                    <div class="col-md-6">
-                        <input type="text" class="form-control" name="url" placeholder="eg. google.com" id="searched_input">
-                        <span class="help-block" id="error"></span>
-                    </div>
+            <div class="card">
+                <div class="card-header bgm-blue m-b-20">
+                    <h2>Search URL<i class="zmdi zmdi-search zmdi-hc-fw"></i><small>Start here</small></h2>
                 </div>
-                <div class="form-group" id="country">
-                {{Form::label('country_label', 'Select Country', array('class' => 'col-md-4 control-label'))}}
-                    <div class="col-md-6">
-                        <div class="select">
-                        {{Form::select('country', array(
+                <div class="card-body card-padding">
+                        <div class="panel-body">
+                {{ Form::open(array('url' => 'search/url', 'method' => 'POST', 'class' => 'form-horizontal', 'onSubmit' => 'return validate()')) }}
+                            <div class="form-group{{ $errors->has('url') ? ' has-error' : '' }}">
+
+                                    <label class="col-md-4 control-label">Enter URL</label>
+                                        <div class="col-md-6">
+                                                <div class="input-group">
+                                                    <div class="fg-line">
+                                           <input type="text" class="form-control" name="url" placeholder="eg. google.com" id="searched_input">
+
+                                                    </div>
+                                                    <span class="input-group-addon last"><i class="zmdi zmdi-globe"></i></span>
+                                                </div>
+                                            <span class="help-block" id="error"></span>
+                                        </div>
+                            </div>
+                    <div class="form-group" id="country">
+                        {{Form::label('country_label', 'Select Country', array('class' => 'col-md-4 control-label'))}}
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <div class="fg-line">
+                                        <div class="select">
+                                            {{Form::select('country', array(
                                 'us' => 'United States',
                                 'au' => 'Australia',
                                 'br' => 'Brazil',
@@ -60,24 +69,31 @@
                             'us',
                             array('class' => 'form-control')
                         )}}
-                    </div>
+                                        </div>
+                                    </div>
+                                        <span class="input-group-addon last"><i class="zmdi zmdi-pin"></i></span>
+                                </div>
+
                         <br>
+                        </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-4 col-md-offset-4">
+                                <br>
+
+                                        <button  type="submit" value="check" class="btn btn-primary btn-block btn-lg waves-effect" >check</button>
+
+
+                                    </div>
+                                </div>
+                        {{ Form::close() }}
+                    </div>
+                        </div>
                 </div>
 
-                <div class="form-group">
-                    <div class="col-md-6 col-md-offset-4">
-                        <br>
-                        {{Form::submit('Check', array('class' => 'btn-primary btn-lg waves-effect'))}}
 
-                    </div>
-                </div>
-                {{ Form::close() }}
             </div>
         </div>
-        </div>
-    </div>
-    </div>
-</div>
     </div>
 </div>
 
