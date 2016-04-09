@@ -807,7 +807,7 @@
           }
 
           if (that.options.dropupAuto) {
-            that.$newElement.toggleClass('dropup', selectOffsetTop > selectOffsetBot && (menuHeight - menuExtras) < getHeight);
+            that.$newElement.toggleClass('dropdown', selectOffsetTop > selectOffsetBot && (menuHeight - menuExtras) < getHeight);
           }
           if (that.$newElement.hasClass('dropup')) {
             menuHeight = selectOffsetTop - menuExtras;

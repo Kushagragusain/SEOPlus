@@ -93,7 +93,9 @@
                         <input type="hidden" value="{{ $heading }}" name="url" id="url" />
                         <div class="row">
                             <div class="col-md-4">
+                                <div class="fg-line">
                                 <input type="text" class="form-control" name="keyword" placeholder="eg.apple" id="keyword">
+                                </div>
                                 <span class="help-block" id="error"></span>
                             </div>
                             <div class="col-md-2">
@@ -104,7 +106,7 @@
                                   <div id="keyavg">
                                       <ul class="list-group">
                                         <li class="list-group-item">
-                                            <span class="badge">{{ $tot_key }}</span>
+                                            <span class="badge" id="total_key">{{ $tot_key }}</span>
                                             Total keywords
                                         </li>
                                         <li class="list-group-item">
@@ -234,6 +236,10 @@ $(document).ready(function() {
             var url = "{{ URL::to('/addkey') }}";
             //var url = deletekey/+id;
 
+            var tot = parseInt(document.getElementById('total_key').innerHTML) + 1;
+            document.getElementById('total_key').innerHTML = tot;
+            //alert(tot);
+
             $('#keyword').val('');
             $.post(url, d, function(data){
                 $("#key_mes").fadeIn();
@@ -262,6 +268,8 @@ $(document).ready(function() {
             //dom.remove();
 
             fetchKey();
+            var tot = parseInt(document.getElementById('total_key').innerHTML) - 1;
+            document.getElementById('total_key').innerHTML = tot;
 
             $('#confirm_delete').fadeIn().text('Keyword deleted successfully.').fadeOut(2000);
        });
