@@ -74,7 +74,9 @@
     </div>
 </div>
 
-@endsection @section('footer')
+@endsection
+
+@section('footer')
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script>
     //to change submit button text on click
@@ -110,6 +112,7 @@
             $("#submit").html('Check');
             return false;
         }
+        $("#submit").html('Checking...');
         $(":submit").attr('disabled', 'disabled');
     }
 </script>
