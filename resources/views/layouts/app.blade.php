@@ -8,11 +8,12 @@
         <title>SEOPlus</title>
 
         <!-- Vendor CSS -->
-        <link href="{{URL::to('assets')}}/vendors/bower_components/fullcalendar/dist/fullcalendar.min.css" rel="stylesheet">
+
         <link href="{{URL::to('assets')}}/vendors/bower_components/animate.css/animate.min.css" rel="stylesheet">
         <link href="{{URL::to('assets')}}/vendors/bower_components/bootstrap-sweetalert/lib/sweet-alert.css" rel="stylesheet">
         <link href="{{URL::to('assets')}}/vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css" rel="stylesheet">
         <link href="{{URL::to('assets')}}/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet">
+        <link href="{{URL::to('assets')}}/vendors/bower_components/bootstrap-select/dist/css/bootstrap-select.css" rel="stylesheet">
 
         <!-- CSS -->
         <link href="{{URL::to('assets')}}/css/app.min.1.css" rel="stylesheet">
@@ -79,12 +80,13 @@
                             <a href="{{ url('/register') }}"><span class="tm-label">Register</span></a>
                         </li>
                         @else
-                          <li >
+
+                         @if($link != '')
+                                 <li >
                             <a href="{{ url('/dashboard') }}"><span class="tm-label">{{ $link }}</span></a>
                         </li>
-                        @if($link != '')
-                         @endif
-                                     <li >
+                            @endif
+                        <li >
                             <a href="{{ url('/history') }}"><span class="tm-label">History</span></a>
                         </li>
 
@@ -194,11 +196,9 @@
          <script src="{{URL::to('assets')}}/js/jquery.min.js"></script>
 
 
-               <script src="vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
-        <script src="vendors/bower_components/Waves/dist/waves.min.js"></script>
-
-        <script src="vendors/bower_components/moment/min/moment.min.js"></script>
-
+               <script src="{{URL::to('assets')}}/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+        <script src="{{URL::to('assets')}}/vendors/bower_components/bootstrap-select/dist/js/bootstrap-select.js"></script>
+        <script src="{{URL::to('assets')}}/vendors/bower_components/Waves/dist/waves.min.js"></script>
 
 
         <script src="{{URL::to('assets')}}/vendors/bower_components/moment/min/moment.min.js"></script>
@@ -206,7 +206,7 @@
         <script src="{{URL::to('assets')}}/vendors/bower_components/Waves/dist/waves.min.js"></script>
 
 
-        <script src="{{URL::to('assets')}}/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+
 
         <!-- Placeholder for IE9 -->
         <!--[if IE 9 ]>
@@ -221,6 +221,7 @@
        <!-- <script src="{{URL::to('assets')}}/js/amcharts.js"></script>
         <script src="{{URL::to('assets')}}/js/serial.js"></script>
         <script src="{{URL::to('assets')}}/js/light.js"></script>-->
+
 
        <script src="{{URL::to('assets')}}/js/amcharts.js"></script>
         <script src="{{URL::to('assets')}}/js/serial.js"></script>
