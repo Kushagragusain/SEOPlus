@@ -92,17 +92,17 @@
                         {!! csrf_field() !!}
                         <input type="hidden" value="{{ $heading }}" name="url" id="url" />
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-4 col-sm-10 col-xs-12">
                                 <div class="fg-line">
                                 <input type="text" class="form-control" name="keyword" placeholder="eg.apple" id="keyword">
                                 </div>
                                 <span class="help-block" id="error"></span>
                             </div>
-                            <div class="col-md-2">
-                                <div class=" p-b-10"><button  type="submit" value="Add" class="btn btn-primary btn-lg waves-effect" id="add_keyword" >Add</button></div>
+                            <div class="col-md-2 col-sm-2 col-xs-12">
+                                <div class="m-b-30"><button  type="submit" value="Add" class="btn btn-primary btn-lg btn-block waves-effect" id="add_keyword" >Add</button></div>
 
                             </div>
-                              <div class="col-md-6">
+                              <div class="col-md-6 col-xs-12">
                                   <div id="keyavg">
                                       <ul class="list-group">
                                         <li class="list-group-item">
