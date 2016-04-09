@@ -39,8 +39,9 @@
                             <div class="clearfix"></div>
                 <?php $cc = 1; ?>
                             @foreach($res as $i)
+
                                 <h5>
-                                    {{ $cc }}<a href="http://{{ $i }}"> {{ $i }} </a>
+                                    {{ $cc }}<a href="http://{{ $i }}" @if($rank == $cc) style="color:red;"@endif > {{ $i }} </a>
                                 </h5>
                                 <div class="clearfix"></div>
                 <?php $cc++; ?>
