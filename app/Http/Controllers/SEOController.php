@@ -98,6 +98,7 @@ class SEOController extends Controller
                 if( $i['latest_rank'] != 'N.A.' )
                     $avg_rank += (int)$i['latest_rank'];
             }
+            if($tot_key != 0)
             $avg_rank /= $tot_key;
             $avg_rank = round($avg_rank);
             return view('pages.results', compact( 'id', 'heading', 'alexa_rank', 'google_page_rank','backlinks',                    'origin_country', 'country_rank', 'specified_country', 'avg_rank', 'tot_key' ));
