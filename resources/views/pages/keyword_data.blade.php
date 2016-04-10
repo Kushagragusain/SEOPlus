@@ -37,13 +37,19 @@
                             <br>
                             <h4>Top links</h4>
                             <div class="clearfix"></div>
-                <?php $cc = 1; ?>
+                            <?php $cc = 1; ?>
                             @foreach($res as $i)
-                                <h5>
-                                    {{ $cc }}<a href="http://{{ $i }}"> {{ $i }} </a>
-                                </h5>
+                                @if( $rank == $cc )
+                                    <h5 style="color:red;">
+                                        {{ $cc }}<a href="http://{{ $i }}"> {{ $i }} </a>
+                                    </h5>
+                                @else
+                                    <h5>
+                                        {{ $cc }}<a href="http://{{ $i }}"> {{ $i }} </a>
+                                    </h5>
+                                @endif
                                 <div class="clearfix"></div>
-                <?php $cc++; ?>
+                                <?php $cc++; ?>
                             @endforeach
 
                     @endif

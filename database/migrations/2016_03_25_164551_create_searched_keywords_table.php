@@ -20,6 +20,8 @@ class CreateSearchedKeywordsTable extends Migration
             $table->string('keyword');
             $table->string('searched_at');
             $table->string('status');
+            $table->string('latest_rank')->default('N.A.');
+            $table->string('previous_rank')->default('N.A.');
             $table->timestamps();
         });
     }
