@@ -19,7 +19,7 @@
                         <li class="list-group-item col-md-12" style="border: 0px;">
 
                             <span class="badge col-md-3 pull-left m-r-30" style="height:3em;">
-                                                <label class=" control-label pull-right p-t-5 f-15">Enter URL</label>
+                                <label class=" control-label pull-right p-t-5 f-15"><span class="c-blue">....</span>Enter URL</label>
                                             </span>
                             <div class="col-md-9 form-group{{ $errors->has('url') ? ' has-error' : '' }}  ">
                                 <div class="input-group">
@@ -27,6 +27,7 @@
                                         <input type="text" class="form-control" name="url" placeholder="eg. google.com" id="searched_input">
 
                                     </div>
+                                    <span class="input-group-addon c-white"><i class="zmdi zmdi-globe"></i></span>
                                     <span class="input-group-addon"><i class="zmdi zmdi-globe"></i></span>
                                 </div>
                                 <span class="help-block" id="error"></span>
