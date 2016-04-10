@@ -48,8 +48,8 @@ class Handler extends ExceptionHandler
         if(env('APP_DEBUG')) {
             return parent::render($request, $e);
          }
-        else {
-             return view('pages.error');
-        }
+
+        return response()->view('pages.error', [], 500);
+
     }
 }
