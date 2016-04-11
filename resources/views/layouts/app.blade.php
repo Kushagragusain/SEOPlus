@@ -26,96 +26,55 @@
 
 <body>
     <header id="header" class="clearfix" data-current-skin="blue">
+<div class="row">
+    <ul class="header-inner">
+        <li class="logo">
+            <a href="{{URL::to('/dashboard')}}">Seo-Plus</a>
+        </li>
 
 
+        <li class="pull-right">
+
+            <ul class="top-menu">
+
+                @if (Auth::guest())
+                <li>
+                    <a href="{{ url('/login') }}"><span class="tm-label">Login</span></a>
+                </li>
+                <li>
+                    <a href="{{ url('/register') }}"><span class="tm-label">Register</span></a>
+                </li>
+                @else @if($link != '')
+                <li>
+                    <a href="{{ url('/dashboard') }}"><span class="tm-label">{{ $link }}</span></a>
+                </li>
+                @endif
+                <li>
+                    <a href="{{ url('/history') }}"><span class="tm-label">History</span></a>
+                </li>
 
 
-
-
-        <ul class="header-inner">
-
-
-            <li class="logo">
-                <a href="{{URL::to('/dashboard')}}">Seo-Plus</a>
-            </li>
-
-            <!--   <li class="pull-right">
-                    <ul class="top-menu">
-                        <li id="top-search">
-                        @if (Auth::guest())
-                            <li><a href="{{ url('/login') }}">Login</a></li>
-                            <li><a href="{{ url('/register') }}">Register</a></li>
-                        @else
-
-                            <li><a href="{{ url('/dashboard') }}">{{ $link }}</a></li>
-                            @if($link != '')
-                                &nbsp;&nbsp;|&nbsp;&nbsp;
-                            @endif
-                            <li><a href="{{ url('/history') }}">History</a></li>
-                            &nbsp;&nbsp;|&nbsp;&nbsp;
-                            <li class="dropdown" style="margin-right:50px">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    {{ Auth::user()->user_name }} <span class="caret"></span>
-                                </a>
-
-                                <ul class="dropdown-menu dropdown-menu-right">
-                                    <li><a href="{{ url('/logout') }} " id="logout">Logout</a></li>
-                                </ul>
-                            </li>
-                        @endif
-                    </ul>
-                </li>-->
-
-
-
-
-
-            <li class="pull-right">
-                <ul class="top-menu">
-
-                    @if (Auth::guest())
-                    <li>
-                        <a href="{{ url('/login') }}"><span class="tm-label">Login</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ url('/register') }}"><span class="tm-label">Register</span></a>
-                    </li>
-                    @else @if($link != '')
-                    <li>
-                        <a href="{{ url('/dashboard') }}"><span class="tm-label">{{ $link }}</span></a>
-                    </li>
-                    @endif
-                    <li>
-                        <a href="{{ url('/history') }}"><span class="tm-label">History</span></a>
-                    </li>
-
-
-                    <li class="dropdown">
-                        <a data-toggle="dropdown" href="">
-                            <span class="tm-label">{{ Auth::user()->user_name }}<span class="caret"></span> </span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-sm pull-right">
-                            <div class="listview">
-                                <a class="lv-item" href="{{ url('/logout') }}" id="logout"> Logout</a>
-                            </div>
+                <li class="dropdown">
+                    <a data-toggle="dropdown" href="">
+                        <span class="tm-label">{{ Auth::user()->user_name }}<span class="caret"></span> </span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-sm pull-right">
+                        <div class="listview">
+                            <a class="lv-item" href="{{ url('/logout') }}" id="logout"> Logout</a>
                         </div>
-                    </li>
+                    </div>
+                </li>
 
-                    @endif
-
-
-                </ul>
-            </li>
+                @endif
 
 
+            </ul>
+        </li>
 
 
+    </ul>
 
-
-
-        </ul>
-
-
+</div>
 
         <!-- Top Search Content -->
 
@@ -133,15 +92,15 @@
 
 
     <!-- Page Loader -->
-    <div class="page-loader">
-        <div class="preloader pls-blue">
-            <svg class="pl-circular" viewBox="25 25 50 50">
-                <circle class="plc-path" cx="50" cy="50" r="20" />
-            </svg>
+<div class="page-loader">
+    <div class="preloader pls-blue">
+        <svg class="pl-circular" viewBox="25 25 50 50">
+            <circle class="plc-path" cx="50" cy="50" r="20" />
+        </svg>
 
-            <p>Please wait...</p>
-        </div>
+        <p>Please wait...</p>
     </div>
+</div>
 
     <!-- Older IE warning message -->
     <!--[if lt IE 9]>
@@ -185,57 +144,57 @@
                 <p>Sorry for the inconvenience!</p>
             </div>
         <![endif]-->
-
-    <!-- Javascript Libraries -->
-    <script src="{{URL::to('assets')}}/vendors/bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="{{URL::to('assets')}}/js/bootstrap.min.js"></script>
-    <script src="{{URL::to('assets')}}/js/jquery.min.js"></script>
-
-
-    <script src="{{URL::to('assets')}}/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
-    <script src="{{URL::to('assets')}}/vendors/bower_components/bootstrap-select/dist/js/bootstrap-select.js"></script>
-    <script src="{{URL::to('assets')}}/vendors/bower_components/Waves/dist/waves.min.js"></script>
+ @yield('footer')
+<!-- Javascript Libraries -->
+<script src="{{URL::to('assets')}}/vendors/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="{{URL::to('assets')}}/js/bootstrap.min.js"></script>
+<script src="{{URL::to('assets')}}/js/jquery.min.js"></script>
 
 
-    <script src="{{URL::to('assets')}}/vendors/bower_components/moment/min/moment.min.js"></script>
-
-    <script src="{{URL::to('assets')}}/vendors/bower_components/Waves/dist/waves.min.js"></script>
-
-
+<script src="{{URL::to('assets')}}/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="{{URL::to('assets')}}/vendors/bower_components/bootstrap-select/dist/js/bootstrap-select.js"></script>
+<script src="{{URL::to('assets')}}/vendors/bower_components/Waves/dist/waves.min.js"></script>
 
 
-    <!-- Placeholder for IE9 -->
-    <!--[if IE 9 ]>
+<script src="{{URL::to('assets')}}/vendors/bower_components/moment/min/moment.min.js"></script>
+
+<script src="{{URL::to('assets')}}/vendors/bower_components/Waves/dist/waves.min.js"></script>
+
+
+
+
+<!-- Placeholder for IE9 -->
+<!--[if IE 9 ]>
             <script src="vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js"></script>
         <![endif]-->
 
 
 
-    <script src="{{URL::to('assets')}}/js/functions.js"></script>
+<script src="{{URL::to('assets')}}/js/functions.js"></script>
 
-    <script src="{{URL::to('assets')}}/js/sorttable.js"></script>
-    <!-- <script src="{{URL::to('assets')}}/js/amcharts.js"></script>
+<script src="{{URL::to('assets')}}/js/sorttable.js"></script>
+<!-- <script src="{{URL::to('assets')}}/js/amcharts.js"></script>
         <script src="{{URL::to('assets')}}/js/serial.js"></script>
         <script src="{{URL::to('assets')}}/js/light.js"></script>-->
 
 
-    <script src="{{URL::to('assets')}}/js/amcharts.js"></script>
-    <script src="{{URL::to('assets')}}/js/serial.js"></script>
-    <script src="{{URL::to('assets')}}/js/plugins/export/export.min.js"></script>
-    <script src="{{URL::to('assets')}}/js/light.js"></script>
+<script src="{{URL::to('assets')}}/js/amcharts.js"></script>
+<script src="{{URL::to('assets')}}/js/serial.js"></script>
+<script src="{{URL::to('assets')}}/js/plugins/export/export.min.js"></script>
+<script src="{{URL::to('assets')}}/js/light.js"></script>
 
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script>
-        $('#logout').click(function() {
-            var url = "{{ URL::to('/updatedb') }}";
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script>
+    $('#logout').click(function() {
+        var url = "{{ URL::to('/updatedb') }}";
 
-            $.get(url, function() {});
-        });
-    </script>
+        $.get(url, function() {});
+    });
+</script>
 
-    <!-- <script src="{{URL::to('assets')}}/js/demo.js"></script>-->
+<!-- <script src="{{URL::to('assets')}}/js/demo.js"></script>-->
 
-    @yield('footer')
+@yield('footer')
 </body>
 
 </html>
