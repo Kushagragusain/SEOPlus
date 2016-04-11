@@ -204,18 +204,10 @@ class KeyAddController extends Controller
 
                 $x = Carbon::now();
 
-                //if old keyword
-                if(sizeof($temp) > 0) {
-                    //var_dump("saving old");
-                    DB::table('storekeyurls')->where('keywordname', $keyword)->update(['urls' => $saveurls, 'latestcheck' => $x]);
-                }
-                else {
-                    //Save keyword data as new
-                    DB::table('storekeyurls')->insert([
-                        ['keywordname' => $keyword, 'urls' => $saveurls, 'latestcheck' => $x]
-                    ]);
-                }
-
+                //Save keyword data as new
+                DB::table('storekeyurls')->insert([
+                    ['keywordname' => $keyword, 'urls' => $saveurls, 'latestcheck' => $x]
+                ]);
             }
 
         }
@@ -223,6 +215,7 @@ class KeyAddController extends Controller
         /*$fetch = Keydata::where('key_id', $id)->get();
         SearchedKeyword::findorFail($id)->update(['latest_rank' => $rank]);
         return view('pages.keyword_data', compact('keyword', 'rank', 'res', 'found', 'domain', 'urlid', 'fetch', 'error', 'ip', 'getres'));*/
+
         return $rank;
     }
 
