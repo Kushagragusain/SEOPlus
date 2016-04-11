@@ -81,7 +81,6 @@ class SEOController extends Controller
         if( ctype_digit($id) ){
             $data = SearchedUrl::find($id);
             $mes = Session::get('mes');
-
             $heading = $data->url;
             $alexa_rank = $data->alexa_rank;
             $google_page_rank = $data->google_page_rank;

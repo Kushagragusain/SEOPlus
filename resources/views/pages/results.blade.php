@@ -1,175 +1,210 @@
 @extends('layouts.app', ['link' => 'Add URL'])
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css">
-@section('content')
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css"> @section('content')
 
-<div style="position: fixed; top: 80px; left: 5px; z-index: 9999;"><a href="{{ URL::to('history') }}"><button class="btn bgm-red btn-float" ><i class="zmdi zmdi-arrow-back"></i></button></a></div>
+<div style="position: fixed; top: 80px; left: 5px; z-index: 9999;">
+    <a href="{{ URL::to('history') }}">
+        <button class="btn bgm-red btn-float"><i class="zmdi zmdi-arrow-back"></i></button>
+    </a>
+</div>
 <div class="container">
-<div class="col-md-10 col-md-offset-1">
+    <div class="col-md-10 col-md-offset-1">
 
 
-            <!-- Result for URL search -->
-            <div class="card">
-                <div class="card-header bgm-blue m-b-20">
-                    <h2>Results for <span class="text-uppercase">{{ $heading }}</span></h2><small> <span class="c-white">all in one place</span></small>
-                    <span class="c-white pull-right" style="padding-right: 10px" >charts</span>
+        <div class="card">
+            <div class="card-header bgm-blue" style="text-overflow: ellipsis;">
+                <h2>Results for <span class="text-uppercase">{{ $heading }}</span><small>All in one place</small></h2>
 
-                    <form action="{{ url('url_rank/history') }}">
-                        <input type="hidden" name="id" value="{{ $id }}" />
-                        <input type="submit" value="See history graph" class="btn bgm-blue btn-float waves-effect"  />
-                        <button class="btn bgm-red btn-float waves-effect" ><i class="zmdi zmdi-chart"></i></button>
-                    </form>
-                </div>
-                <div class="card-body card-padding">
-                    <div class="pmo-contact">
-                        <ul>
-             <li class="ng-binding">
-    <i class="zmdi zmdi-gps-dot"></i> Origin Country<div class="pull-right">{{ $origin_country['country'] }}</div>
-                                <div class="media-body">
-
-                                </div>
-                            </li>
-
-                            <li class="ng-binding"><i class="zmdi zmdi-star-half"></i> Alexa Rank<div class="pull-right">{{ $alexa_rank }}              </div>
-                                <div class="media-body">
-                                    <div class="progress">
-                                        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%"></div>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <li class="ng-binding"><i class="zmdi zmdi-google"></i> Google Page Rank<div class="pull-right">{{ $google_page_rank }}</div>
-                                <div class="media-body">
-                                    <div class="progress">
-                                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: {{ $google_page_rank }}%">
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <li class="ng-binding"><i class="zmdi zmdi-widgets"></i>Total Backlinks<div class="pull-right">{{ $backlinks }}</div>
-                                <div class="media-body">
-                                    <div class="progress">
-                                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100" style="width: 78%">
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-
-
-
-                            <li class="ng-binding"><i class="zmdi zmdi-flash"></i> Origin Country Rank<div class="pull-right">{{ $origin_country['rank'] }}</div>
-                                <div class="media-body">
-                                    <div class="progress">
-                                        <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <li class="ng-binding"><i class="zmdi zmdi-globe"></i> {{ $specified_country }} Rank<div class="pull-right">{{ $country_rank }}</div>
-                                <div class="media-body">
-                                    <div class="progress">
-                                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-
-                        </ul>
-                    </div>
-                </div>
+                <form action="{{ url('url_rank/history') }}">
+                    <input type="hidden" name="id" value="{{ $id }}" />
+                    <input type="submit" value="See history graph" class="btn bgm-blue btn-float waves-effect" />
+                    <button class="btn bgm-red btn-float waves-effect"><i class="zmdi zmdi-chart"></i></button>
+                </form>
             </div>
 
-<!-- add key word -->
+            <div class="card-body">
+                <br>
+                <ul class="tab-nav tn-justified tn-icon" role="tablist">
+                    <li role="presentation" class="active">
+                        <a class="col-sx-4" href="#tab-1" aria-controls="tab-1" role="tab" data-toggle="tab">
+                                           Alexa / Backlinks &nbsp;<i class="zmdi zmdi-cloud-done icon-tab c-blue"></i>
+                                        </a>
+                    </li>
+                    <li role="presentation">
+                        <a class="col-xs-4" href="#tab-2" aria-controls="tab-2" role="tab" data-toggle="tab">
+                                           Keyword Rankings &nbsp; <i class="zmdi zmdi-case-download icon-tab c-blue"></i>
+                                        </a>
+                    </li>
 
-            <div class="card">
+                </ul>
 
-                    <div class="card-header bgm-blue m-b-20">
-                        <h2>Add keyword(s) <span class="pull-right" id="key_mes"></span></h2>
-                    </div>
-                <div class="card-body card-padding">
-                    {{ Form::open(array('url' => 'keyword', 'method' => 'POST', 'class' => 'form-horizontal', 'id' => 'form_data', 'onSubmit' => 'return false')) }}
-                        {!! csrf_field() !!}
-                        <input type="hidden" value="{{ $heading }}" name="url" id="url" />
-                        <div class="row">
-                            <div class="col-md-4 col-sm-10 col-xs-12">
-                                <div class="fg-line">
-                                <input type="text" class="form-control" name="keyword" placeholder="eg.apple" id="keyword">
-                                </div>
-                                <span class="help-block" id="error"></span>
-                            </div>
-                            <div class="col-md-2 col-sm-2 col-xs-12">
-                                <div class="m-b-30"><button  type="submit" value="Add" class="btn btn-primary btn-lg btn-block waves-effect" id="add_keyword" >Add</button></div>
+                <div class="tab-content p-20">
+                    <div role="tabpanel" class="tab-pane animated fadeIn in active" id="tab-1">
+                        <div class="card-body card-padding">
+                            <div class="pmo-contact">
+                                <ul>
+                                    <li class="ng-binding">
+                                        <i class="zmdi zmdi-gps-dot"></i> Origin Country
+                                        <div class="pull-right">{{ $origin_country['country'] }}</div>
+                                        <div class="media-body">
 
-                            </div>
-                              <div class="col-md-6 col-xs-12">
-                                  <div id="keyavg">
-                                      <ul class="list-group">
-                                        <li class="list-group-item">
-                                            <span class="badge" id="total_key">{{ $tot_key }}</span>
-                                            Total keywords
-                                        </li>
-                                        <li class="list-group-item">
-                                            <span class="badge">{{ $avg_rank }}</span>
-                                            Average ranking
-                                        </li>
-                                         </ul>
-                                  </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="ng-binding"><i class="zmdi zmdi-star-half"></i> Alexa Rank
+                                        <div class="pull-right">{{ $alexa_rank }} </div>
+                                        <div class="media-body">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%"></div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="ng-binding"><i class="zmdi zmdi-google"></i> Google Page Rank
+                                        <div class="pull-right">{{ $google_page_rank }}</div>
+                                        <div class="media-body">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: {{ $google_page_rank }}%">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="ng-binding"><i class="zmdi zmdi-widgets"></i>Total Backlinks
+                                        <div class="pull-right">{{ $backlinks }}</div>
+                                        <div class="media-body">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100" style="width: 78%">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+
+
+                                    <li class="ng-binding"><i class="zmdi zmdi-flash"></i> Origin Country Rank
+                                        <div class="pull-right">{{ $origin_country['rank'] }}</div>
+                                        <div class="media-body">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="ng-binding"><i class="zmdi zmdi-globe"></i> {{ $specified_country }} Rank
+                                        <div class="pull-right">{{ $country_rank }}</div>
+                                        <div class="media-body">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                </ul>
                             </div>
                         </div>
-                    {{ Form::close() }}
+                    </div>
 
-                </div>
+                    <div role="tabpanel" class="tab-pane animated fadeIn" id="tab-2">
+                        <div class="card-body card-padding">
+                            {{ Form::open(array('url' => 'keyword', 'method' => 'POST', 'class' => 'form-horizontal', 'id' => 'form_data', 'onSubmit' => 'return false')) }} {!! csrf_field() !!}
+                            <input type="hidden" value="{{ $heading }}" name="url" id="url" />
+                            <div class="row">
+                                <div class="col-md-4 col-sm-10 col-xs-12">
+                                    <div class="fg-line">
+                                        <input type="text" class="form-control" name="keyword" placeholder="eg.apple" id="keyword">
+                                    </div>
+                                    <span class="help-block" id="error"></span>
+                                    <br>
+                                    <span class="pull-right" id="key_mes"></span>
+                                </div>
+                                <div class="col-md-2 col-sm-2 col-xs-12">
+                                    <div class="m-b-30">
+                                        <button type="submit" value="Add" class="btn btn-primary btn-lg btn-block waves-effect" id="add_keyword">Add</button>
+                                    </div>
 
-                </div>
+                                </div>
+                                <div class="col-md-6 col-xs-12">
+                                    <div id="keyavg">
+                                        <ul class="list-group">
+                                            <li class="list-group-item">
+                                                <span class="badge" id="total_key">{{ $tot_key }}</span> Total keywords
+                                            </li>
+                                            <li class="list-group-item">
+                                                <span class="badge">{{ $avg_rank }}</span> Average ranking
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            {{ Form::close() }}
 
-<!-- Key word list -->
-            <div class="card" >
-            <div class="card-header bgm-blue m-b-20">
-                <h2>Keywords List
+                        </div>
+
+
+                        <hr>
+                        <div class="card">
+                            <div class="card-header bgm-blue m-b-20">
+                                <h2>Keywords List
                     <span class="pull-right" id="confirm_delete"></span></h2>
-            </div>
+                            </div>
 
-            <div class="card-body" id="keywords_list" style="display:none;">
-            <div class="table-responsive">
-				<table class="table table-hover">
-                    <thead>
-                        <tr><th>Id</th><th>KeyWord</th><th>Rank</th><th>Action</th></tr>
+                            <div class="card-body" id="keywords_list" style="display:none;">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Id</th>
+                                                <th>KeyWord</th>
+                                                <th>Rank</th>
+                                                <th>Action</th>
+                                            </tr>
 
-                    </thead>
+                                        </thead>
 
-                    <tbody id="tbody">
+                                        <tbody id="tbody">
 
-                    </tbody>
-				</table>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
             </div>
         </div>
-    </div>
+
+
 
     </div>
 </div>
-@endsection
-
-@section('footer')
+<div class="col-sm-2 col-xs-6">
+</div>
+@endsection @section('footer')
 <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
+
+
 <script>
     //$('#example').DataTable();
     var pattern = /[0-9a-zA-Z ]/;
 
     //validate keywords while writing
-    $('#keyword').focusin(function(){
+    $('#keyword').focusin(function() {
         $("#key_mes").text('');
-        if( $(this).val() == '' )
+        if ($(this).val() == '')
             $("#error").text('Enter a keyword !').css('font-weight', 'bold');
-        $(this).keyup(function(){
+        $(this).keyup(function() {
             var value = $(this).val();
-            if( $(this).val() == '' )
+            if ($(this).val() == '')
                 $("#error").text('Enter a keyword !').css('font-weight', 'bold');
-            else{
+            else {
                 $('#error').text('');
-                for( var i = 0 ; i < value.length ; i++ ){
-                    if( ! value.charAt(i).match(pattern) ){
+                for (var i = 0; i < value.length; i++) {
+                    if (!value.charAt(i).match(pattern)) {
                         $("#error").text('Keyword should contain only alphabets').css('font-weight', 'bold');
                         break;
                     }
@@ -182,106 +217,164 @@
 
 
 <script>
-$(document).ready(function() {
-  var count = 1;
-    fetchKey();
-    //fetch keywords on page load
+    $(document).ready(function() {
+        var count = 1;
+        fetchKey();
+        //fetch keywords on page load
 
-    $('#tbody').on('click','.delete-button', function(){
-        var dom = $(this).closest('tr');
-        deleteKey($(this).attr('data-id') , dom);
-    });
+        $('#tbody').on('click', '.delete-button', function() {
+            var dom = $(this).closest('tr');
+            deleteKey($(this).attr('data-id'), dom);
+        });
 
 
-    function fetchKey(){
-        $('#tbody').html('');
-         count = 1;
-        //alert('in');
-        var url = "{{ URL::to('/fetchkey') }}";
-        $.get(url, {domain : $('#url').val()}, function(data){
-           // console.log('ghjghj');
-            var result = $.parseJSON(data);
-            if( result.length > 0 ){
-                $('#keywords_list').show();
-                var content = '';
-                //console.log(pos);
-                for(i = 0; i < result.length; i++){
-                    var pos = '';
-                    if( result[i].position_status == 'inc' )
-                        pos = '<span class="c-green f-15"><i class="zmdi zmdi-long-arrow-up"></i></span>';
-                    else if( result[i].position_status == 'dec' )
-                        pos = '<span class="c-red "><i class="zmdi zmdi-long-arrow-down"></i></span>';
+        function fetchKey() {
+            $('#tbody').html('');
+            count = 1;
+            //alert('in');
+            var url = "{{ URL::to('/fetchkey') }}";
+            $.get(url, {
+                domain: $('#url').val()
+            }, function(data) {
+                // console.log('ghjghj');
+                var result = $.parseJSON(data);
+                if (result.length > 0) {
+                    $('#keywords_list').show();
+                    var content = '';
+                    //console.log(pos);
+                    for (i = 0; i < result.length; i++) {
+                        var pos = '';
+                        if (result[i].position_status == 'inc')
+                            pos = '<span class="c-green f-15"><i class="zmdi zmdi-long-arrow-up"></i></span>';
+                        else if (result[i].position_status == 'dec')
+                            pos = '<span class="c-red "><i class="zmdi zmdi-long-arrow-down"></i></span>';
 
-                    content += '<tr><td>'+count+'</td><td>'+result[i].keyword+'</td><td>'+result[i].latest_rank+'  '+pos+'</td><td><a class="btn bgm-orange waves-effect" d data-method="delete" href=keyword/'+result[i].id+'><i class="zmdi zmdi-search"></i></a>  <a class="btn btn-danger waves-effect delete-button"  data-method="delete" data-id="'+result[i].id+'" ><i class="zmdi zmdi-close"></i></a></td></tr>';
-                    count++;
+                        content += '<tr><td>' + count + '</td><td>' + result[i].keyword + '</td><td>' + result[i].latest_rank + '  ' + pos + '</td><td><a class="btn bgm-orange waves-effect" d data-method="delete" href=keyword/' + result[i].id + '><i class="zmdi zmdi-search"></i></a>  <a class="btn btn-danger waves-effect delete-button"  data-method="delete" data-id="' + result[i].id + '" ><i class="zmdi zmdi-close"></i></a></td></tr>';
+                        count++;
+                    }
+                    $('#tbody').html(content);
+                    //$('#confirm_delete').text('');
+
+                } else {
+                    $('#keywords_list').hide();
                 }
-                $('#tbody').html(content);
-//$('#confirm_delete').text('');
+            });
+        }
+        //add new keywords
 
-            }
-            else{
-               $('#keywords_list').hide();
+        $('#add_keyword').click(function() {
+            var x = $('#keyword').val();
+            $('#confirm_delete').text('');
+            if (x == '') {
+                $("#error").text('Field should not be empty.').css('font-weight', 'bold');
+            } else if (document.getElementById('error').innerHTML == '') {
+
+                //code after keyword gets validated
+                $('#keywords_list').show();
+                var d = $('#form_data').serializeArray();
+                var url = "{{ URL::to('/addkey') }}";
+                //var url = deletekey/+id;
+
+                var tot = parseInt(document.getElementById('total_key').innerHTML) + 1;
+                document.getElementById('total_key').innerHTML = tot;
+                //alert(tot);
+
+                $('#keyword').val('');
+                $.get(url, d, function(data) {
+                    $("#key_mes").fadeIn();
+                    var result = $.parseJSON(data);
+                    //console.log(data);
+                    if (result.id != 'null') {
+                        console.log(result);
+                        $('#tbody').append('<tr><td>' + count + '</td><td>' + result.keyword + '</td><td>' + result.latest_rank + '</td><td><a class="btn bgm-orange waves-effect" data-method="delete" href=keyword/' + result.id + '><i class="zmdi zmdi-search"></i></a>  <a class="btn btn-danger waves-effect delete-button" data-method="delete" data-id="' + result.id + '" ><i class="zmdi zmdi-close"></i></a></td></tr>');
+
+                        $("#key_mes").text('Keyword added successfully !!').fadeOut(2000);
+
+                        count++;
+                    } else
+                        $("#key_mes").text('Keyword already exists !!').fadeOut(2000);
+
+                });
             }
         });
-    }
-    //add new keywords
 
-    $('#add_keyword').click(function(){
-        var x = $('#keyword').val();
-        $('#confirm_delete').text('');
-        if(x == ''){
-            $("#error").text('Field should not be empty.').css('font-weight', 'bold');
-        }
+        function deleteKey(id, dom) {
+            var url = "{{ URL::to('/delete') }}";
 
+            //alert('Keyword deleted successfully.');
+            $.get(url, {
+                id: id
+            }, function(data) {
+                //dom.remove();
 
+                fetchKey();
+                var tot = parseInt(document.getElementById('total_key').innerHTML) - 1;
+                document.getElementById('total_key').innerHTML = tot;
 
-        else if( document.getElementById('error').innerHTML == '' ){
-
-            //code after keyword gets validated
-            $('#keywords_list').show();
-            var d = $('#form_data').serializeArray();
-            var url = "{{ URL::to('/addkey') }}";
-            //var url = deletekey/+id;
-
-            var tot = parseInt(document.getElementById('total_key').innerHTML) + 1;
-            document.getElementById('total_key').innerHTML = tot;
-            //alert(tot);
-
-            $('#keyword').val('');
-            $.get(url, d, function(data){
-                $("#key_mes").fadeIn();
-                var result = $.parseJSON(data);
-                //console.log(data);
-                if( result.id != 'null' ){
-                    console.log(result);
-                    $('#tbody').append('<tr><td>'+count+'</td><td>'+result.keyword+'</td><td>'+result.latest_rank+'</td><td><a class="btn bgm-orange waves-effect" data-method="delete" href=keyword/'+result.id+'><i class="zmdi zmdi-search"></i></a>  <a class="btn btn-danger waves-effect delete-button" data-method="delete" data-id="'+result.id+'" ><i class="zmdi zmdi-close"></i></a></td></tr>');
-
-                    $("#key_mes").text('Keyword added successfully !!').fadeOut(2000);
-
-                    count++;
-                }
-                else
-                    $("#key_mes").text('Keyword already exists !!').fadeOut(2000);
-
+                $('#confirm_delete').fadeIn().text('Keyword deleted successfully.').fadeOut(2000);
             });
         }
     });
+</script>
 
-   function deleteKey(id, dom){
-        var url = "{{ URL::to('/delete') }}";
+<script type="text/javascript">
+    /*
+     * Notifications
+     */
+    function notify(from, align, icon, type, animIn, animOut) {
+        $.growl({
+            icon: icon,
+            title: ' Bootstrap Growl ',
+            message: 'Turning standard Bootstrap alerts into awesome notifications',
+            url: ''
+        }, {
+            element: 'body',
+            type: type,
+            allow_dismiss: true,
+            placement: {
+                from: from,
+                align: align
+            },
+            offset: {
+                x: 20,
+                y: 85
+            },
+            spacing: 10,
+            z_index: 1031,
+            delay: 2500,
+            timer: 1000,
+            url_target: '_blank',
+            mouse_over: false,
+            animate: {
+                enter: animIn,
+                exit: animOut
+            },
+            icon_type: 'class',
+            template: '<div data-growl="container" class="alert" role="alert">' +
+                '<button type="button" class="close" data-growl="dismiss">' +
+                '<span aria-hidden="true">&times;</span>' +
+                '<span class="sr-only">Close</span>' +
+                '</button>' +
+                '<span data-growl="icon"></span>' +
+                '<span data-growl="title"></span>' +
+                '<span data-growl="message"></span>' +
+                '<a href="#" data-growl="url"></a>' +
+                '</div>'
+        });
+    };
 
-       //alert('Keyword deleted successfully.');
-        $.get(url, { id : id }, function(data){
-            //dom.remove();
+    $('#notis').click(function(e) {
+        console.log("hi");
+        e.preventDefault();
+        var nFrom = $(this).attr('data-from');
+        var nAlign = $(this).attr('data-align');
+        var nIcons = $(this).attr('data-icon');
+        var nType = $(this).attr('data-type');
+        var nAnimIn = $(this).attr('data-animation-in');
+        var nAnimOut = $(this).attr('data-animation-out');
 
-            fetchKey();
-            var tot = parseInt(document.getElementById('total_key').innerHTML) - 1;
-            document.getElementById('total_key').innerHTML = tot;
-
-            $('#confirm_delete').fadeIn().text('Keyword deleted successfully.').fadeOut(2000);
-       });
-   }
-} );
+        notify(nFrom, nAlign, nIcons, nType, nAnimIn, nAnimOut);
+    });
 </script>
 
 @endsection
