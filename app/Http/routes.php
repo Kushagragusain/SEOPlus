@@ -63,7 +63,7 @@ Route::group(['middleware' => 'web'], function () {
 
         Route::get('foo/{id}', 'KeywordController@foo');
 
-        Route::post('addkey', 'KeyAddController@addkeyword');
+        Route::get('addkey', 'KeyAddController@addkeyword');
 
         Route::get('fetchkey', 'KeyAddController@fetchkeywords');
 

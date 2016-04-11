@@ -49,7 +49,7 @@ class KeyAddController extends Controller
             $key->searched_at = $t;
             $key->status = 'active';
 
-            $key->latest_rank = $this->find($result['keyword']);
+            $key->latest_rank = $this->find($result['keyword'], $url);
 
             $key->previous_rank = 'N.A.';
             $key->position_status = 'no';
@@ -82,11 +82,11 @@ class KeyAddController extends Controller
         Keydata::where('key_id', $id)->delete();
     }
 
-    public function find() {
+    public function find($keyword, $url) {
 
-        $data = SearchedKeyword::findorFail($id);
-        $keyword = $data->keyword;
-        $domain = $data->url;
+        /*$data = SearchedKeyword::findorFail($id);
+        $keyword = $data->keyword;*/
+        $domain = $url;
 
         $query = str_replace(' ', '%20', $keyword);
         $urlid = SearchedUrl::fetchId($domain)['id'];

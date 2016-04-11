@@ -208,9 +208,9 @@ $(document).ready(function() {
                 for(i = 0; i < result.length; i++){
                     var pos = '';
                     if( result[i].position_status == 'inc' )
-                        pos = 'inc';
+                        pos = '<span class="c-green f-15"><i class="zmdi zmdi-long-arrow-up"></i></span>';
                     else if( result[i].position_status == 'dec' )
-                        pos = 'dec';
+                        pos = '<span class="c-red "><i class="zmdi zmdi-long-arrow-down"></i></span>';
 
                     content += '<tr><td>'+count+'</td><td>'+result[i].keyword+'</td><td>'+result[i].latest_rank+'  '+pos+'</td><td><a class="btn bgm-orange waves-effect" d data-method="delete" href=keyword/'+result[i].id+'><i class="zmdi zmdi-search"></i></a>  <a class="btn btn-danger waves-effect delete-button"  data-method="delete" data-id="'+result[i].id+'" ><i class="zmdi zmdi-close"></i></a></td></tr>';
                     count++;
@@ -248,7 +248,7 @@ $(document).ready(function() {
             //alert(tot);
 
             $('#keyword').val('');
-            $.post(url, d, function(data){
+            $.get(url, d, function(data){
                 $("#key_mes").fadeIn();
                 var result = $.parseJSON(data);
                 //console.log(data);
