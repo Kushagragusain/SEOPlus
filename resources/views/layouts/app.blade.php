@@ -144,7 +144,7 @@
                 <p>Sorry for the inconvenience!</p>
             </div>
         <![endif]-->
-
+ @yield('footer')
 <!-- Javascript Libraries -->
 <script src="{{URL::to('assets')}}/vendors/bower_components/jquery/dist/jquery.min.js"></script>
 <script src="{{URL::to('assets')}}/js/bootstrap.min.js"></script>

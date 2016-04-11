@@ -1,6 +1,6 @@
 @extends('layouts.app', ['link' => 'Add URL']) @section('content')
 
-<div style="position: fixed; top: 100px; left: 30px; z-index: 9999;">
+<div style="position: fixed; top: 80px; left: 5px; z-index: 9999;">
     <a href="{{URL::to('url_rank')}}/{{$urlid}}">
         <button class="btn bgm-red btn-float"><i class="zmdi zmdi-arrow-back"></i></button>
     </a>

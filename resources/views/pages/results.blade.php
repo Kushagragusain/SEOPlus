@@ -2,7 +2,7 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css">
 @section('content')
 
-<div style="position: fixed; top: 100px; left: 30px; z-index: 9999;"><a href="{{ URL::to('history') }}"><button class="btn bgm-red btn-float" ><i class="zmdi zmdi-arrow-back"></i></button></a></div>
+<div style="position: fixed; top: 80px; left: 5px; z-index: 9999;"><a href="{{ URL::to('history') }}"><button class="btn bgm-red btn-float" ><i class="zmdi zmdi-arrow-back"></i></button></a></div>
 <div class="container">
 <div class="col-md-10 col-md-offset-1">
 
