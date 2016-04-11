@@ -332,8 +332,8 @@ class KeywordController extends Controller
                     $store->save();
             }
             $fetch = Keydata::where('key_id', $id)->get();
-            var_dump($res);
-            die();
+            /*var_dump($res);
+            die();*/
             return view('pages.keyword_data', compact('keyword', 'rank', 'res', 'check', 'domain', 'urlid', 'fetch'));
         }
         else
@@ -484,11 +484,29 @@ class KeywordController extends Controller
             }
 
             $fetch = Keydata::where('key_id', $id)->get();
-            SearchedKeyword::findorFail($id)->update(['latest_rank' => $rank]);
+
+            $keyy = SearchedKeyword::findorFail($id);
+
+            $latest = $keyy->latest_rank;
+            $latest_rank = $latest;
+            if( $latest == 'N.A.' )
+                $latest_rank = '0';
+
+            $status = 'no';
+            if( (int)$latest_rank < (int)$rank )
+                $status = 'inc';
+            else if( (int)$latest_rank > (int)$rank )
+                $status = 'dec';
+
+            $new=array('latest_rank' => $rank, 'previous_rank' => $latest, 'position_status' => $status);
+
+            SearchedKeyword::findorFail($id)->update($new);
+
             return view('pages.keyword_data', compact('keyword', 'rank', 'res', 'found', 'domain', 'urlid', 'fetch', 'error', 'ip', 'getres'));
      }
         else
             return view('pages.error');
+
     }
 
     private function _isCurl() {
@@ -525,21 +543,21 @@ class KeywordController extends Controller
     }
 
     public function setProxy($proxy) {
-    $this->proxy = $proxy;
-}
+        $this->proxy = $proxy;
+    }
 
-private function _getProxy() {
-        return '173.234.94.90:54253';
-}
+    private function _getProxy() {
+            return '173.234.94.90:54253';
+    }
 
-public function setUserAgent($agent) {
-    $this->agent = $agent;
-}
+    public function setUserAgent($agent) {
+        $this->agent = $agent;
+    }
 
-private function _getUserAgent() {
-    if (isset($this->agent))
-        return $this->agent;
-    else
-        return false;
-}
+    private function _getUserAgent() {
+        if (isset($this->agent))
+            return $this->agent;
+        else
+            return false;
+    }
 }

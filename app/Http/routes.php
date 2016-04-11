@@ -37,16 +37,16 @@ Route::group(['middleware' => 'web'], function () {
             return view('pages.dashboard');        
         });
         
-        Route::get('demo', function(){
+        /*Route::get('demo', function(){
             return view('pages.dmeo');
-        });
+        });*/
+
+        //Route::get('demo', 'KeyAddController@demo');
 
        //to see all previous searches
         Route::get('history', 'SEOController@history');
         
         Route::get('updatedb', 'SEOController@updateSearchedKeyworddb');
-
-        Route::get('fetchkey', 'SEOController@fetchkeywords');
 
         Route::get('url_rank/history', 'SEOController@graph');
 
@@ -54,15 +54,20 @@ Route::group(['middleware' => 'web'], function () {
 
         Route::get('url_rank/{id}', array('as' => 'showUrlData', 'uses' => 'SEOController@fetchUrlData'));
 
-        Route::get('delete', 'SEOController@deleteKeyword');
-
         Route::get('url_rank/keyword/{id}', 'KeywordController@find');
 
-        Route::get('demo', 'SEOController@demo');
+
+
+
+        //Route::get('demo', 'SEOController@demo');
 
         Route::get('foo/{id}', 'KeywordController@foo');
 
-        Route::post('addkey', 'SEOController@addkeyword');
+        Route::post('addkey', 'KeyAddController@addkeyword');
+
+        Route::get('fetchkey', 'KeyAddController@fetchkeywords');
+
+        Route::get('delete', 'KeyAddController@deleteKeyword');
 
 
 

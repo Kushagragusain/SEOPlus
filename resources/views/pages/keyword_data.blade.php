@@ -27,36 +27,7 @@
         <div class="card-body card-padding">
             <blockquote class="m-b-25">
                 <div class="clearfix"></div>
-<<<<<<< HEAD
-                        @if($error == "multiple")
-                            <h4>Too many attempts. Wait or restart.</h4>
-                            <div class="clearfix"></div>
-                        @elseif(count($res) == 0)
-                            <h4>No result in top 100</h4>
-                            <div class="clearfix"></div>
-                        @else
-                            <h4>Rank of {{ $domain }} for {{ $keyword }} : {{ $rank }}</h4>
-                            <div class="clearfix"></div>
-                            <br>
-                            <h4>Top links</h4>
-                            <div class="clearfix"></div>
-                            <?php $cc = 1; ?>
-                            @foreach($res as $i)
-                                @if( $rank == $cc )
-                                    <h5 style="color:red;">
-                                        {{ $cc }}<a href="http://{{ $i }}"> {{ $i }} </a>
-                                    </h5>
-                                @else
-                                    <h5>
-                                        {{ $cc }}<a href="http://{{ $i }}"> {{ $i }} </a>
-                                    </h5>
-                                @endif
-                                <div class="clearfix"></div>
-                                <?php $cc++; ?>
-                            @endforeach
 
-                    @endif
-=======
                 @if($error == "multiple")
                 <h4>Too many attempts. Wait or restart.</h4>
                 <div class="clearfix"></div>
@@ -76,8 +47,8 @@
                                 </h5>
                     <div class="clearfix"></div>
                     <?php $cc++; ?>
-                        @endforeach @endif
->>>>>>> origin/final
+                        @endforeach
+                @endif
             </blockquote>
             Details over
         </div>

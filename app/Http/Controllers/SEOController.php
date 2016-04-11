@@ -124,61 +124,9 @@ class SEOController extends Controller
         return view('pages.history', compact('urls'));
     }
 
-    //add new keyword to display table
-    public function addkeyword(Request $request){
-
-        $result['keyword'] = $request->keyword;
-        $url = $request->url;
-        $ch = 1;
-
-        $urlId = SearchedUrl::latest('searched_at')->where('user_id', Auth::user()->id)->where('url', $url)->first()['id'];
-
-        $check_keyword = SearchedKeyword::checkKeyword($url, $result['keyword']);
-
-        //new keyword
-        if( $check_keyword->count() == 0 ){
-            $t = Carbon::now();
-            $key = new SearchedKeyword;
-            $key->user_id = Auth::user()->id;
-            $key->url_id = $urlId;
-            $key->url = $url;
-            $key->keyword = $result['keyword'];
-            $key->searched_at = $t;
-            $key->status = 'active';
-            $key->latest_rank = 'N.A.';
-            $key->save();
-            $result['id'] = $key->id;
-            $result['latest_rank'] = $key->latest_rank;
-
-            $ch = 0;
-        }
-        else{
-            $result['id'] = 'null';
-        }
-
-        return json_encode($result);
-    }
-
     //remove keywords from display table on logout
     public function updateSearchedKeyworddb(){
         SearchedKeyword::status();
-    }
-
-    //put all keywords added by currentle logged in user
-    public function fetchkeywords(){
-        $url = $_GET['domain'];
-        $urlid = SearchedUrl::fetchId($url)['id'];
-
-        SearchedKeyword::where('user_id', Auth::user()->id)->where('url', $url)->update(['url_id' => $urlid, 'status' => 'active']);
-
-        $result = SearchedKeyword::activeKeywords($url);
-        return json_encode($result);
-    }
-
-    public function deleteKeyword(){
-        $id = $_GET['id'];
-        SearchedKeyword::find($id)->delete();
-        Keydata::where('key_id', $id)->delete();
     }
 
     public function historydata($id){

@@ -9,6 +9,8 @@ class SearchedKeyword extends Model
 {
     protected $fillable = [
          'latest_rank',
+         'previous_rank',
+         'position_status',
     ];
 
     //to get id

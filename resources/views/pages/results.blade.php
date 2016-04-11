@@ -204,8 +204,15 @@ $(document).ready(function() {
             if( result.length > 0 ){
                 $('#keywords_list').show();
                 var content = '';
+                //console.log(pos);
                 for(i = 0; i < result.length; i++){
-                    content += '<tr><td>'+count+'</td><td>'+result[i].keyword+'</td><td>'+result[i].latest_rank+'</td><td><a class="btn bgm-orange waves-effect" d data-method="delete" href=keyword/'+result[i].id+'><i class="zmdi zmdi-search"></i></a>  <a class="btn btn-danger waves-effect delete-button"  data-method="delete" data-id="'+result[i].id+'" ><i class="zmdi zmdi-close"></i></a></td></tr>';
+                    var pos = '';
+                    if( result[i].position_status == 'inc' )
+                        pos = 'inc';
+                    else if( result[i].position_status == 'dec' )
+                        pos = 'dec';
+
+                    content += '<tr><td>'+count+'</td><td>'+result[i].keyword+'</td><td>'+result[i].latest_rank+'  '+pos+'</td><td><a class="btn bgm-orange waves-effect" d data-method="delete" href=keyword/'+result[i].id+'><i class="zmdi zmdi-search"></i></a>  <a class="btn btn-danger waves-effect delete-button"  data-method="delete" data-id="'+result[i].id+'" ><i class="zmdi zmdi-close"></i></a></td></tr>';
                     count++;
                 }
                 $('#tbody').html(content);
