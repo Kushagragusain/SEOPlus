@@ -12,7 +12,8 @@
 
         <div class="card">
             <div class="card-header bgm-blue" style="text-overflow: ellipsis;">
-                <h2>Results for <span class="text-uppercase">{{ $heading }}</span><small>All in one place</small></h2>
+                <h2 class="hidden-xs">Results for <span class="text-uppercase">{{ $heading }}</span><small>All in one place</small></h2>
+                <h6 class="hidden-sm hidden-md hidden-lg "><small ><span class="text-uppercase  c-white">{{ $heading }}</span><br></small></h6>
 
                 <form action="{{ url('url_rank/history') }}">
                     <input type="hidden" name="id" value="{{ $id }}" />
@@ -26,12 +27,12 @@
                 <ul class="tab-nav tn-justified tn-icon" role="tablist">
                     <li role="presentation" class="active">
                         <a class="col-sx-4" href="#tab-1" aria-controls="tab-1" role="tab" data-toggle="tab">
-                                           Alexa / Backlinks &nbsp;<i class="zmdi zmdi-cloud-done icon-tab c-blue"></i>
+                                           Alexa / Backlinks &nbsp;<i class="zmdi zmdi-cloud-done icon-tab c-blue hidden-xs"></i>
                                         </a>
                     </li>
                     <li role="presentation">
                         <a class="col-xs-4" href="#tab-2" aria-controls="tab-2" role="tab" data-toggle="tab">
-                                           Keyword Rankings &nbsp; <i class="zmdi zmdi-case-download icon-tab c-blue"></i>
+                                           Keyword Rankings &nbsp; <i class="zmdi zmdi-case-download icon-tab c-blue  hidden-xs"></i>
                                         </a>
                     </li>
 
@@ -155,7 +156,7 @@
                                     <table class="table table-hover">
                                         <thead>
                                             <tr>
-                                                <th>Id</th>
+                                                <th class=" hidden-xs">Id</th>
                                                 <th>KeyWord</th>
                                                 <th>Rank</th>
                                                 <th>Action</th>
