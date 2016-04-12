@@ -17,6 +17,11 @@ use Session;
 
 class SEOController extends Controller
 {
+    public function demo(Request $request){
+        $d = explode("\n", $request->asd);
+        return count($d);
+    }
+
     public function domainSave(Request $request){
         try {
             $url = 'http://www.'.$request->url;

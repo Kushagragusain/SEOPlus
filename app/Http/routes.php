@@ -41,8 +41,6 @@ Route::group(['middleware' => 'web'], function () {
             return view('pages.dmeo');
         });*/
 
-        //Route::get('demo', 'KeyAddController@demo');
-
        //to see all previous searches
         Route::get('history', 'SEOController@history');
         
@@ -80,3 +78,5 @@ Route::group(['middleware' => 'web'], function () {
     
     Route::post('keyword', 'SEOController@keywordData');
 });
+
+Route::post('demo', 'SEOController@demo');

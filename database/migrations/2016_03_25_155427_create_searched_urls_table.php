@@ -16,6 +16,7 @@ class CreateSearchedUrlsTable extends Migration
             $table->increments('id');
             $table->integer('user_id');
             $table->string('url');
+            $table->string('url_id');
             $table->string('alexa_rank');
             $table->string('google_page_rank');
             $table->string('backlinks');
