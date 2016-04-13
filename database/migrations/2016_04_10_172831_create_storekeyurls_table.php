@@ -15,7 +15,7 @@ class CreateStorekeyurlsTable extends Migration
         Schema::create('storekeyurls', function (Blueprint $table) {
             $table->increments('id');
             $table->string('keywordname');
-            $table->string('urls');
+            $table->string('urls', 10000);
             $table->string('latestcheck');
         });
     }

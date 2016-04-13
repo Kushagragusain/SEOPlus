@@ -114,7 +114,7 @@
                             <div class="row">
                                 <div class="col-md-4 col-sm-10 col-xs-12">
                                     <div class="fg-line">
-                                        <input type="text" class="form-control" name="keyword" placeholder="eg.apple" id="keyword">
+                                        <textarea class="form-control" name="keyword" placeholder="Enter one keyword in one line" id="keyword" rows="3"></textarea>
                                     </div>
                                     <span class="help-block" id="error"></span>
                                     <br>
@@ -148,7 +148,9 @@
                         <div class="card">
                             <div class="card-header bgm-blue m-b-20">
                                 <h2>Keywords List
-                    <span class="pull-right" id="confirm_delete"></span></h2>
+                                    <input type="button" value="Refresh Ranking" id="refresh">
+                                    <span class="pull-right" id="confirm_delete"></span>
+                                </h2>
                             </div>
 
                             <div class="card-body" id="keywords_list" style="display:none;">
@@ -185,16 +187,12 @@
 <div class="col-sm-2 col-xs-6">
 </div>
 @endsection @section('footer')
-<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
-
-
 <script>
     //$('#example').DataTable();
     var pattern = /[0-9a-zA-Z ]/;
 
     //validate keywords while writing
-    $('#keyword').focusin(function() {
+    /*$('#keyword').focusin(function() {
         $("#key_mes").text('');
         if ($(this).val() == '')
             $("#error").text('Enter a keyword !').css('font-weight', 'bold');
@@ -212,7 +210,7 @@
                 }
             }
         });
-    });
+    });*/
 </script>
 
 
@@ -250,7 +248,7 @@
                         else if (result[i].position_status == 'dec')
                             pos = '<span class="c-red "><i class="zmdi zmdi-long-arrow-down"></i></span>';
 
-                        content += '<tr><td>' + count + '</td><td>' + result[i].keyword + '</td><td>' + result[i].latest_rank + '  ' + pos + '</td><td><a class="btn bgm-orange waves-effect" d data-method="delete" href=keyword/' + result[i].id + '><i class="zmdi zmdi-search"></i></a>  <a class="btn btn-danger waves-effect delete-button"  data-method="delete" data-id="' + result[i].id + '" ><i class="zmdi zmdi-close"></i></a></td></tr>';
+                        content += '<tr><td>' + count + '</td><td>' + result[i].keyword + '</td><td><p class="rank" id="rank'+ result[i].id +'">' + result[i].latest_rank + '  ' + pos + '</p></td><td><a class="btn bgm-orange waves-effect" d data-method="delete" href=keyword/' + result[i].id + '><i class="zmdi zmdi-search"></i></a>  <a class="btn btn-danger waves-effect delete-button"  data-method="delete" data-id="' + result[i].id + '" ><i class="zmdi zmdi-close"></i></a></td></tr>';
                         count++;
                     }
                     $('#tbody').html(content);
@@ -268,7 +266,7 @@
             $('#confirm_delete').text('');
             if (x == '') {
                 $("#error").text('Field should not be empty.').css('font-weight', 'bold');
-            } else if (document.getElementById('error').innerHTML == '') {
+            } else {
 
                 //code after keyword gets validated
                 $('#keywords_list').show();
@@ -281,20 +279,44 @@
                 //alert(tot);
 
                 $('#keyword').val('');
-                $.get(url, d, function(data) {
+                $.post(url, d, function(data) {
                     $("#key_mes").fadeIn();
                     var result = $.parseJSON(data);
                     //console.log(data);
-                    if (result.id != 'null') {
-                        console.log(result);
-                        $('#tbody').append('<tr><td>' + count + '</td><td>' + result.keyword + '</td><td>' + result.latest_rank + '</td><td><a class="btn bgm-orange waves-effect" data-method="delete" href=keyword/' + result.id + '><i class="zmdi zmdi-search"></i></a>  <a class="btn btn-danger waves-effect delete-button" data-method="delete" data-id="' + result.id + '" ><i class="zmdi zmdi-close"></i></a></td></tr>');
+                    var repeat = '';
+                    var xx = 0;
 
-                        $("#key_mes").text('Keyword added successfully !!').fadeOut(2000);
+                    for(i = 0; i < result.length; i++){
+                        if (result[i].id != 'null') {
+                            //console.log(result);
+                            $('#tbody').append('<tr><td>' + count + '</td><td>' + result[i].keyword + '</td><td><p class="rank" id="rank'+ result[i].id +'"> loading...</p></td><td><a class="btn bgm-orange waves-effect" data-method="delete" href=keyword/' + result[i].id + '><i class="zmdi zmdi-search"></i></a>  <a class="btn btn-danger waves-effect delete-button" data-method="delete" data-id="' + result[i].id + '" ><i class="zmdi zmdi-close"></i></a></td></tr>');
 
-                        count++;
-                    } else
-                        $("#key_mes").text('Keyword already exists !!').fadeOut(2000);
+                            $("#key_mes").text('Keyword added successfully !!').fadeOut(2000);
 
+                            count++;
+                        }
+                        else{
+                            if(xx == 0)
+                                repeat = repeat+""+ result[i].keyword +" already exists";
+                            else
+                                repeat = result[i].keyword+ ", " +repeat;
+                            xx = 1;
+                        }
+
+                        if( repeat != '' ){
+                            //repeat = repeat.substring(0, (repeat.length-1));
+                            $("#key_mes").text(repeat).fadeOut(4000);
+                        }
+                    }
+
+                    var rankurl = "{{ URL::to('/getrank') }}";
+                    $.get(rankurl, { 'url' : $('#url').val(), 'data' : result }, function(data){
+                        var rankres = $.parseJSON(data);
+                        for( i = 0; i < rankres.length; i++ ){
+                            $('#rank'+rankres[i]['id']).text(rankres[i]['rank']);
+                            //alert(rankres[$i]['id']);
+                        }
+                    });
                 });
             }
         });
@@ -315,6 +337,21 @@
                 $('#confirm_delete').fadeIn().text('Keyword deleted successfully.').fadeOut(2000);
             });
         }
+
+        $('#refresh').click(function(){
+            //var refresh = $('p[id^=rank]').text();
+            var url = "{{ URL::to('/refresh') }}";
+
+            $('.rank').text('loading...');
+
+            $.get(url, {'data' : $('#url').val()}, function(data){
+                var res = $.parseJSON(data);
+
+                for(i=0; i<res.length; i++){
+                    $('#rank'+res[i]['id']).text(res[i]['rank']);
+                }
+            });
+        });
     });
 </script>
 

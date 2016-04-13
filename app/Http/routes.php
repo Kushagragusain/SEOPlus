@@ -52,20 +52,31 @@ Route::group(['middleware' => 'web'], function () {
 
         Route::get('url_rank/{id}', array('as' => 'showUrlData', 'uses' => 'SEOController@fetchUrlData'));
 
-        Route::get('url_rank/keyword/{id}', 'KeywordController@find');
-
 
 
 
         //Route::get('demo', 'SEOController@demo');
 
-        Route::get('foo/{id}', 'KeywordController@foo');
+        //Route::get('foo/{id}', 'KeywordController@foo');
 
-        Route::get('addkey', 'KeyAddController@addkeyword');
+        //add keyword(s) in db
+        Route::post('addkey', 'KeyAddController@addkeyword');
 
+        //get keyword(s) rank
+        Route::get('getrank', 'KeyAddController@getRank');
+
+        //get stored keyword on page load
         Route::get('fetchkey', 'KeyAddController@fetchkeywords');
 
+        //delete keyword
         Route::get('delete', 'KeyAddController@deleteKeyword');
+
+        //keyword rank page
+        Route::get('url_rank/keyword/{id}', 'KeyAddController@find');
+
+        Route::get('refresh', 'KeyAddController@refresh');
+
+
 
 
 
@@ -79,4 +90,4 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('keyword', 'SEOController@keywordData');
 });
 
-Route::post('demo', 'SEOController@demo');
+Route::get('demo', 'KeyAddController@find');

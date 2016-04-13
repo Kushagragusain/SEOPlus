@@ -1,7 +1,8 @@
-@extends('layouts.app', ['link' => 'Add URL']) @section('content')
+@extends('layouts.app', ['link' => 'Add URL'])
+@section('content')
 
 <div style="position: fixed; top: 80px; left: 5px; z-index: 9999;">
-    <a href="{{URL::to('url_rank')}}/{{$urlid}}">
+    <a href="{{URL::to('url_rank')}}/{{ $keyrank['url_id'] }}">
         <button class="btn bgm-red btn-float"><i class="zmdi zmdi-arrow-back"></i></button>
     </a>
 </div>
@@ -22,33 +23,30 @@
         <div class="card-header bgm-blue">
         </div>
         <div class="card-header  m-b-20">
-            <h2>Serarch Results for <h3><div class="c-blue text-uppercase">{{ $keyword }}</div></h3></h2>
+            <h2>Serarch Results for <h3><div class="c-blue text-uppercase">{{ $keyrank['keyword'] }}</div></h3></h2>
         </div>
         <div class="card-body card-padding">
             <blockquote class="m-b-25">
                 <div class="clearfix"></div>
 
-                @if($error == "multiple")
-                <h4>Too many attempts. Wait or restart.</h4>
-                <div class="clearfix"></div>
-                @elseif(count($res) == 0)
-                <h4>No result in top 100</h4>
-                <div class="clearfix"></div>
-                @else
-                <h4>Rank of {{ $domain }} for {{ $keyword }} : {{ $rank }}</h4>
+
+                <h4>Rank of {{ $keyrank['url'] }} for {{ $keyrank['keyword'] }} : {{ $keyrank['latest_rank'] }}</h4>
                 <div class="clearfix"></div>
                 <br>
                 <h4>Top links</h4>
                 <div class="clearfix"></div>
-                <?php $cc = 1; ?>
-                            @foreach($res as $i)
-                                <h5>
-                                    {{ $cc }}<a href="http://{{ $i }}" @if($rank == $cc) style="color:red;"@endif > {{ $i }} </a>
-                                </h5>
-                    <div class="clearfix"></div>
-                    <?php $cc++; ?>
-                        @endforeach
-                @endif
+
+                    <?php $cc = 1; ?>
+                    @if( !empty($res) )
+                    @for( $i = 0; $i < 100; $i++)
+                        <h5>
+                            {{ $cc }}<a href="http://{{ $res[$i] }}" @if($keyrank['latest_rank'] == $cc) style="color:red;"@endif > {{ $res[$i] }} </a>
+                        </h5>
+                        <div class="clearfix"></div>
+                        <?php $cc++; ?>
+                    @endfor
+                    @endif
+
             </blockquote>
             Details over
         </div>
@@ -62,7 +60,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
 
-        $('#tittle').text("{{ $keyword }}");
+        $('#tittle').text("{{ $keyrank['keyword'] }}");
 
         if ({{count($fetch)}} > 0) {
 

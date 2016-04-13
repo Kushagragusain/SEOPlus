@@ -8,6 +8,7 @@ use Auth;
 class SearchedKeyword extends Model
 {
     protected $fillable = [
+         'keyword',
          'latest_rank',
          'previous_rank',
          'position_status',

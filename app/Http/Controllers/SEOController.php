@@ -14,12 +14,40 @@ use Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Redirect;
 use Session;
+use Guzzle\Http\Client;
 
 class SEOController extends Controller
 {
     public function demo(Request $request){
-        $d = explode("\n", $request->asd);
-        return count($d);
+        $client = new Client('https://online.seranking.com/structure/clientapi/positions/?token=15d8442fbaa1d45af84781649ded204c&method=addTask&query=mango&engine_id=200');
+        $request = $client->get();
+        //echo $request->getUrl();
+
+        $response = $request->send();
+        $data = json_decode($response->getBody(), true);
+
+        return $data['task_id'];
+
+
+
+        /*$client = new \GuzzleHttp\Client();
+        $res = $client->request('GET', 'https://online.seranking.com/structure/clientapi/positions/?', [
+                'form_params' => [
+                'token' => '15d8442fbaa1d45af84781649ded204c',
+                'method' => 'getTaskResults',
+                'task_id' => '3'
+            ]
+        ]);*/
+
+        //$res = $client->request('POST', 'https://online.seranking.com/structure/clientapi/positions/?token=15d8442fbaa1d45af84781649ded204c&method=getTaskResults&task_id=3');
+                                /*'https://url_to_the_api', [
+            'form_params' => [
+                'client_id' => 'test_id',
+                'secret' => 'test_secret',
+            ]
+        ]);*/
+
+        /*$d = 'http://online.seranking.com/structure/clientapi/v2.php?method=stat&siteid=133045&dateStart=2014-01-01&token=833f189bb175d1103c8b5699687b7032';*/
     }
 
     public function domainSave(Request $request){
