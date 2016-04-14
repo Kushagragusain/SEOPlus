@@ -298,7 +298,7 @@
                     for(i = 0; i < result.length; i++){
                         if (result[i].id != 'null') {
                             //console.log(result);
-                            $('#tbody').append('<tr><td>' + count + '</td><td>' + result[i].keyword + '</td><td><p class="rank" keyid="'+ result[i].id +'" id="rank'+ count +'"> loading...</p></td><td><a class="btn bgm-orange waves-effect" data-method="delete" href=keyword/' + count + '><i class="zmdi zmdi-search"></i></a>  <a class="btn btn-danger waves-effect delete-button" data-method="delete" data-id="' + result[i].id + '" ><i class="zmdi zmdi-close"></i></a></td></tr>');
+                            $('#tbody').append('<tr><td>' + count + '</td><td>' + result[i].keyword + '</td><td><p class="rank" keyid="'+ result[i].id +'" id="rank'+ count +'"> loading...</p></td><td><a class="btn bgm-orange waves-effect" data-method="delete" href=keyword/' + result[i].id + '><i class="zmdi zmdi-search"></i></a>  <a class="btn btn-danger waves-effect delete-button" data-method="delete" data-id="' + result[i].id + '" ><i class="zmdi zmdi-close"></i></a></td></tr>');
 
                             $("#key_mes").text('Keyword added successfully !!').fadeOut(2000);
 
