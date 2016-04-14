@@ -40,6 +40,7 @@ class KeyAddController extends Controller
             $k = preg_replace( "/\r|\n/", "", $keyy[$i] ) ;
             $check_keyword = SearchedKeyword::checkKeyword($url, $k );
             $result[$i]['keyword'] = $k;
+            $k = str_replace( ' ', '+', trim( $k ) );
 
             //new keyword
             if( $check_keyword->count() == 0 && $k != '' ){
@@ -263,5 +264,22 @@ class KeyAddController extends Controller
         //if(array_search('64', array_column($data['tasks'], 'id')))
 
         return $complete[$key];
+    }
+
+    public function avgRank(Request $request){
+
+        $urlid = $request->urlid;
+        $data = SearchedKeyword::where('url_id', $urlid)->get();
+        $tot = 0;
+        $avg = 0;
+
+        foreach( $data as $d ){
+            $avg += (int)$d['latest_rank'];
+            $tot++;
+        }
+
+        $avg = $avg / $tot;
+
+        return (int)$avg;
     }
 }
