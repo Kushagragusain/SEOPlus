@@ -9,7 +9,7 @@
 
 <div class="col-md-10 col-md-offset-1">
 
-
+        <div id="tittle"></div>
         <div class="row">
             <br>
                             <div class="col-sm-12 col-md-4">
@@ -66,9 +66,7 @@
         </div>
 
         <div class="card-body card-padding">
-            <blockquote class="m-b-25">
-                <div class="clearfix"></div>
-                <div class="clearfix"></div>
+            <blockquote class="m-b-25 ">
 
                     <?php $cc = 1; ?>
                     @if( !empty($res) )
@@ -94,7 +92,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
 
-        $('#tittle').text("{{ $keyrank['keyword'] }}");
+        //$('#tittle').text("{{count($fetch)}}");
 
         if ({{count($fetch)}} > 0) {
 
