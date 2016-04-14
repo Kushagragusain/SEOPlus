@@ -275,6 +275,7 @@
             if (x == '') {
                 $("#error").text('Field should not be empty.').css('font-weight', 'bold');
             } else {
+                swal("Here's a message!", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lorem erat, tincidunt vitae ipsum et, pellentesque maximus enim. Mauris eleifend ex semper, lobortis purus sed, pharetra felis");
 
                 //code after keyword gets validated
                 $('#keywords_list').show();
