@@ -143,6 +143,7 @@
 
                         </div>
 
+                        <div id="dialog"></div>
 
                         <hr>
                         <div class="card">
@@ -217,8 +218,14 @@
 
 <script>
     $(document).ready(function() {
+
         var count = 1;
         fetchKey();
+
+        $(':button[class="confirm"]').click(function(){
+            alert('jkjhj');
+        });
+
         //fetch keywords on page load
 
         $('#tbody').on('click', '.delete-button', function() {
@@ -248,7 +255,7 @@
                         else if (result[i].position_status == 'dec')
                             pos = '<span class="c-red "><i class="zmdi zmdi-long-arrow-down"></i></span>';
 
-                        content += '<tr><td>' + count + '</td><td>' + result[i].keyword + '</td><td><p class="rank" id="rank'+ result[i].id +'">' + result[i].latest_rank + '  ' + pos + '</p></td><td><a class="btn bgm-orange waves-effect" d data-method="delete" href=keyword/' + result[i].id + '><i class="zmdi zmdi-search"></i></a>  <a class="btn btn-danger waves-effect delete-button"  data-method="delete" data-id="' + result[i].id + '" ><i class="zmdi zmdi-close"></i></a></td></tr>';
+                        content += '<tr><td>' + count + '</td><td>' + result[i].keyword + '</td><td><p class="rank" keyid="'+ result[i].id +'" id="rank'+ count +'">' + result[i].latest_rank + '  ' + pos + '</p></td><td><a class="btn bgm-orange waves-effect" d data-method="delete" href=keyword/' + result[i].id + '><i class="zmdi zmdi-search"></i></a>  <a class="btn btn-danger waves-effect delete-button"  data-method="delete" data-id="' + result[i].id + '" ><i class="zmdi zmdi-close"></i></a></td></tr>';
                         count++;
                     }
                     $('#tbody').html(content);
@@ -262,6 +269,7 @@
         //add new keywords
 
         $('#add_keyword').click(function() {
+            var countt = count;
             var x = $('#keyword').val();
             $('#confirm_delete').text('');
             if (x == '') {
@@ -289,7 +297,7 @@
                     for(i = 0; i < result.length; i++){
                         if (result[i].id != 'null') {
                             //console.log(result);
-                            $('#tbody').append('<tr><td>' + count + '</td><td>' + result[i].keyword + '</td><td><p class="rank" id="rank'+ result[i].id +'"> loading...</p></td><td><a class="btn bgm-orange waves-effect" data-method="delete" href=keyword/' + result[i].id + '><i class="zmdi zmdi-search"></i></a>  <a class="btn btn-danger waves-effect delete-button" data-method="delete" data-id="' + result[i].id + '" ><i class="zmdi zmdi-close"></i></a></td></tr>');
+                            $('#tbody').append('<tr><td>' + count + '</td><td>' + result[i].keyword + '</td><td><p class="rank" keyid="'+ result[i].id +'" id="rank'+ count +'"> loading...</p></td><td><a class="btn bgm-orange waves-effect" data-method="delete" href=keyword/' + count + '><i class="zmdi zmdi-search"></i></a>  <a class="btn btn-danger waves-effect delete-button" data-method="delete" data-id="' + result[i].id + '" ><i class="zmdi zmdi-close"></i></a></td></tr>');
 
                             $("#key_mes").text('Keyword added successfully !!').fadeOut(2000);
 
@@ -309,12 +317,14 @@
                         }
                     }
 
+
+                    //calculate rank of added keyword
                     var rankurl = "{{ URL::to('/getrank') }}";
-                    $.get(rankurl, { 'url' : $('#url').val(), 'data' : result }, function(data){
+                    $.get(rankurl, { 'url' : $('#url').val(), 'data' : result, 'countt' : countt }, function(data){
                         var rankres = $.parseJSON(data);
                         for( i = 0; i < rankres.length; i++ ){
-                            $('#rank'+rankres[i]['id']).text(rankres[i]['rank']);
-                            //alert(rankres[$i]['id']);
+                            $('#rank'+rankres[i]['id']).html(rankres[i]['rank']);
+                            countt++;
                         }
                     });
                 });
@@ -340,17 +350,42 @@
 
         $('#refresh').click(function(){
             //var refresh = $('p[id^=rank]').text();
+            swal("Here's a message!", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lorem erat, tincidunt vitae ipsum et, pellentesque maximus enim. Mauris eleifend ex semper, lobortis purus sed, pharetra felis");
+
             var url = "{{ URL::to('/refresh') }}";
 
             $('.rank').text('loading...');
 
-            $.get(url, {'data' : $('#url').val()}, function(data){
+            for( i = 1; i < count; i++ ){
+                var key_id = $('#rank'+i).attr('keyid');
+                //alert($('#rank'+i).attr('keyid'));
+
+                $.get(url, { 'key_id' : $('#rank'+i).attr('keyid'), 'ii' : i }, function(data){
+                    var res = $.parseJSON(data);
+
+                    var pos = '';
+                    if (res['pos'] == 'inc')
+                        pos = '<span class="c-green f-15"><i class="zmdi zmdi-long-arrow-up"></i></span>';
+                    else if (res['pos'] == 'dec')
+                        pos = '<span class="c-red "><i class="zmdi zmdi-long-arrow-down"></i></span>';
+                    $('#rank'+res['ii']).html(res['rank']+"  "+pos);
+                    //alert($('#rank'+res['ii']).text()+"  "+i);
+                });
+
+            }
+
+            /*$.get(url, {'data' : $('#url').val()}, function(data){
                 var res = $.parseJSON(data);
 
                 for(i=0; i<res.length; i++){
-                    $('#rank'+res[i]['id']).text(res[i]['rank']);
+                    var pos = '';
+                    if (res[i]['pos'] == 'inc')
+                        pos = '<span class="c-green f-15"><i class="zmdi zmdi-long-arrow-up"></i></span>';
+                    else if (res[i]['pos'] == 'dec')
+                        pos = '<span class="c-red "><i class="zmdi zmdi-long-arrow-down"></i></span>';
+                    $('#rank'+(count-1)).html(res[i]['rank']+"  "+pos);
                 }
-            });
+            });*/
         });
     });
 </script>

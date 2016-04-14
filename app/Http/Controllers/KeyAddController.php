@@ -111,6 +111,7 @@ class KeyAddController extends Controller
     public function getRank(Request $request){
         $data = $request->data;
         $url = $request->url;
+        $count = $request->countt;
         $rank = [];
         $i = 0;
         $res = '';
@@ -120,7 +121,7 @@ class KeyAddController extends Controller
                 $taskid = SearchedKeyword::findorFail($d['id'])['task_id'];
 
                 $rank[$i]['rank'] = $this->rank( $d['id'], $d['keyword'], $url, $taskid, 'first' );
-                $rank[$i]['id'] = $d['id'];
+                $rank[$i]['id'] = $count;
 
                 SearchedKeyword::findorFail($d['id'])->update([ 'latest_rank' => $rank[$i]['rank'] ]);
                 $keydata = new Keydata;
@@ -130,6 +131,7 @@ class KeyAddController extends Controller
                 $keydata->save();
 
                 $i = $i + 1;
+                $count = $count + 1;
             }
             //$res = $res."  ".$d['keyword'];
         }
@@ -138,18 +140,22 @@ class KeyAddController extends Controller
         return json_encode($rank);
 
         //return $rank[0]['rank'];
+
     }
 
     public function rank($id, $key, $url, $taskid, $stat){
-        if( $stat === 'first' )
-            sleep(180);
-
-        $client = new Client('https://online.seranking.com/structure/clientapi/positions/?token=54b0b0b40bc9e349b211ba26e29b4578&method=getTaskResults&task_id='.$taskid);
-        $request = $client->get();
+        if( $stat === 'first' &&  $this->demo($taskid) == 0 ){
+            sleep(30);
+            $this->rank($id, $key, $url, $taskid, $stat);
+        }
 
         $count = 1;
         $rank = 0;
         $ch = 0;
+
+        $client = new Client('https://online.seranking.com/structure/clientapi/positions/?token=54b0b0b40bc9e349b211ba26e29b4578&method=getTaskResults&task_id='.$taskid);
+        //var_dump($taskid);
+        $request = $client->get();
 
         $response = $request->send();
         $data = json_decode($response->getBody(), true);
@@ -159,23 +165,28 @@ class KeyAddController extends Controller
         foreach($data as $d){
             foreach($d as $dd){
 
-                $urldata = $urldata."".$dd['url'];
-                if( $count < 100 )
-                    $urldata = $urldata."@";
+                if( $count > 100 ){
+                    if( $rank > 0 ){
+                        $ch = 1;
+                        break;
+                    }
+                }
+                else{
+                    $urldata = $urldata."".$dd['url'];
+                    if( $count < 100 )
+                        $urldata = $urldata."@";
+                }
 
                 if( $rank == 0 && strpos($dd['url'], $url) )
                     $rank = $count;
 
                 $count++;
-                if( $count > 100 ){
-                    $ch = 1;
-                    break;
-                }
+
             }
             if( $ch != 0 )
                 break;
         }
-
+        //$rank = 290;
         if( $stat == 'first' ){
             $store = new Storekeyurl;
             $store->keywordname = $key;
@@ -185,24 +196,72 @@ class KeyAddController extends Controller
         }
         else {
             $keyy = SearchedKeyword::find($id);
-            SearchedKeyword::find($id)->update(['latest_rank' => $rank, 'previous_rank' => $keyy['latest_rank']]);
+            $pos = 'no';
+            if( $rank == 0 ){
+                if( $keyy['latest_rank'] != 'N.A.' )
+                    $pos = 'dec';
+                $rank = 'N.A.';
+            }
+            else{
+                if( $keyy['latest_rank'] == 'N.A.' )
+                    $pos = 'inc';
+                else
+                {   if( $keyy['latest_rank'] < $rank )
+                        $pos = 'dec';
+                    else if( $keyy['latest_rank'] > $rank )
+                        $pos = 'inc';
+                }
+            }
+
+            Storekeyurl::where('keywordname', $key)->update(['urls'=> $urldata]);
+            SearchedKeyword::find($id)->update(['latest_rank' => $rank, 'previous_rank' => $keyy['latest_rank'], 'position_status' => $pos]);
         }
+
+        $keydata = new KeyData;
+        $keydata->key_id = $id;
+        $keydata->keyword_rank = $rank;
+        $keydata->searched_at = Carbon::now();
+        $keydata->save();
 
         return $rank;
                 //return $dd['url'];
     }
 
     public function refresh(Request $request){
-        $url = $request->data;
-        $data = SearchedKeyword::where('user_id', Auth::user()->id)->where('url', $url)->get();
+        $id = $request->key_id;
+        $data = SearchedKeyword::find($id);
+        $rank['rank'] = $this->rank($id, $data['keyword'], $data['url'], $data['task_id'], 100);
+        $rank['pos'] = SearchedKeyword::find($id)['position_status'];
+        $rank['ii'] = $request->ii;
+
+        /*$data = SearchedKeyword::where('user_id', Auth::user()->id)->where('url', $url)->get();
         $rank = [];
         $i = 0;
 
         foreach($data as $d){
             $rank[$i]['id'] = $d['id'];
             $rank[$i]['rank'] = $this->rank($d['id'], $d['keyword'], $url, $d['task_id'], 100);
+            $rank[$i]['pos'] = SearchedKeyword::find($d['id'])['position_status'];
             $i = $i + 1;
-        }
+        }*/
         return json_encode($rank);
+    }
+
+    public function demo($taskid){
+        $client = new Client('https://online.seranking.com/structure/clientapi/positions/?token=54b0b0b40bc9e349b211ba26e29b4578&method=getTasks');
+        $request = $client->get();
+
+        $response = $request->send();
+        $data = json_decode($response->getBody(), true);
+
+        $id = array_column($data['tasks'], 'id');
+        $key = array_search($taskid, $id);
+
+        $complete = array_column($data['tasks'], 'is_completed');
+
+
+        //if(array_search('64', array_column($data['tasks'], 'id')))
+
+        return $complete[$key];
     }
 }

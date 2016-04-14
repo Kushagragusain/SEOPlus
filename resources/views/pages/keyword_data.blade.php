@@ -38,7 +38,7 @@
 
                     <?php $cc = 1; ?>
                     @if( !empty($res) )
-                    @for( $i = 0; $i < 100; $i++)
+                    @for( $i = 0; $i < count($res); $i++)
                         <h5>
                             {{ $cc }}<a href="http://{{ $res[$i] }}" @if($keyrank['latest_rank'] == $cc) style="color:red;"@endif > {{ $res[$i] }} </a>
                         </h5>

@@ -6,12 +6,21 @@
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
                 Home Page
-                <form method="POST" action="demo">
-                    <textarea name="asd"></textarea>
-                    <input type="submit" value="click">
-                </form>
+                <div class="col-sm-3">
+                                    <p class="f-500 c-black m-b-20">A title with a text under</p>
+
+                                    <button class="btn btn-info" id="sa-title">Click me</button>
+                                </div>
             </div>
         </div>
     </div>
 </div>
+@endsection
+@section('footer')
+
+<script type="text/javascript">
+            $('#sa-title').click(function(){
+                swal("Here's a message!", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lorem erat, tincidunt vitae ipsum et, pellentesque maximus enim. Mauris eleifend ex semper, lobortis purus sed, pharetra felis")
+            });
+        </script>
 @endsection
