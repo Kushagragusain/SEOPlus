@@ -190,7 +190,8 @@ class KeyAddController extends Controller
         }
         //$rank = 290;
         if( $stat == 'first' ){
-            $datacheck = Storekeyurl::where('keywordname', $key);
+            $datacheck = Storekeyurl::where('keywordname', $key)->get();
+
             if( count($datacheck) > 0 )
                 Storekeyurl::where('keywordname', $key)->update(['urls'=> $urldata]);
             else{
