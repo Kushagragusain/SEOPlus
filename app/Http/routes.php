@@ -53,10 +53,6 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('url_rank/{id}', array('as' => 'showUrlData', 'uses' => 'SEOController@fetchUrlData'));
 
 
-
-
-        //Route::get('demo', 'SEOController@demo');
-
         //Route::get('foo/{id}', 'KeywordController@foo');
 
         //add keyword(s) in db
@@ -80,9 +76,6 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('avgrank', 'KeyAddController@avgRank');
 
 
-
-
-
          //TEst Controller
          Route::get('fetchkey1/{id}', 'SEOOController@fetchkeywords');
 
@@ -93,7 +86,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('keyword', 'SEOController@keywordData');
 });
 
+
 Route::get('demo', 'KeyAddController@avgRank');
 
 
-Route::get('demo', 'url_countController@url_count_check');
+
