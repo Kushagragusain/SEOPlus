@@ -6,11 +6,6 @@
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
                 Home Page
-                <div class="col-sm-3">
-                                    <p class="f-500 c-black m-b-20">A title with a text under</p>
-
-                                    <button class="btn btn-info" id="sa-title">Click me</button>
-                                </div>
             </div>
         </div>
     </div>
