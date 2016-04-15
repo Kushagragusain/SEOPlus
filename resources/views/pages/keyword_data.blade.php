@@ -9,9 +9,47 @@
 
 <div class="col-md-10 col-md-offset-1">
 
+        <div id="tittle"></div>
+        <div class="row">
+            <br>
+                            <div class="col-sm-12 col-md-4">
+                                <div class="mini-charts-item bgm-teal">
+                                    <div class="clearfix">
+                                        <div class="count text-center">
+                                            <small>URL</small>
+                                            <h2>{{ $keyrank['url'] }}</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 col-md-4">
+                                <div class="mini-charts-item bgm-orange">
+                                    <div class="clearfix">
+                                        <div class="count text-center">
+                                            <small>Keyword</small>
+                                            <h2>{{ $keyrank['keyword'] }}</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 col-md-4">
+                                <div class="mini-charts-item bgm-green">
+                                    <div class="clearfix">
+                                        <div class="count text-center">
+                                            <small>Rank</small>
+                                            <h2>{{ $keyrank['latest_rank'] }}</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
     <div class="card">
         <div class="card-header bgm-blue  m-b-20">
-            <h2>Keyword Rank Chart for<h3><div class="c-white text-uppercase"><div id="tittle"></div></div></h3></h2>
+            <h2>Rank Chart</h2>
         </div>
         <div class="card-body card-padding">
 
@@ -19,22 +57,16 @@
             <div id="chartdiv" style="height: 35em; width: 100%;"></div>
         </div>
     </div>
+
+
+
     <div class="card">
-        <div class="card-header bgm-blue">
+        <div class="card-header bgm-blue c-white">
+            <h2>Top 100 results</h2>
         </div>
-        <div class="card-header  m-b-20">
-            <h2>Serarch Results for <h3><div class="c-blue text-uppercase">{{ $keyrank['keyword'] }}</div></h3></h2>
-        </div>
+
         <div class="card-body card-padding">
-            <blockquote class="m-b-25">
-                <div class="clearfix"></div>
-
-
-                <h4>Rank of {{ $keyrank['url'] }} for {{ $keyrank['keyword'] }} : {{ $keyrank['latest_rank'] }}</h4>
-                <div class="clearfix"></div>
-                <br>
-                <h4>Top links</h4>
-                <div class="clearfix"></div>
+            <blockquote class="m-b-25 ">
 
                     <?php $cc = 1; ?>
                     @if( !empty($res) )
@@ -60,7 +92,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
 
-        $('#tittle').text("{{ $keyrank['keyword'] }}");
+        //$('#tittle').text("{{count($fetch)}}");
 
         if ({{count($fetch)}} > 0) {
 

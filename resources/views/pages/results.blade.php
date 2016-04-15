@@ -133,7 +133,7 @@
                                                 <span class="badge" id="total_key">{{ $tot_key }}</span> Total keywords
                                             </li>
                                             <li class="list-group-item">
-                                                <span class="badge">{{ $avg_rank }}</span> Average ranking
+                                                <span class="badge" id="average">{{ $avg_rank }}</span> Average ranking
                                             </li>
                                         </ul>
                                     </div>
@@ -149,7 +149,7 @@
                         <div class="card">
                             <div class="card-header bgm-blue m-b-20">
                                 <h2>Keywords List
-                                    <input type="button" value="Refresh Ranking" id="refresh">
+                                    <button id="refresh" class="pull-right btn bgm-red btn-icon waves-effect waves-circle waves-float" style="margin-top: -1em;"><i class="zmdi zmdi-refresh"></i></button>
                                     <span class="pull-right" id="confirm_delete"></span>
                                 </h2>
                             </div>
@@ -221,10 +221,6 @@
 
         var count = 1;
         fetchKey();
-
-        $(':button[class="confirm"]').click(function(){
-            alert('jkjhj');
-        });
 
         //fetch keywords on page load
 
@@ -301,7 +297,9 @@
             if (x == '') {
                 $("#error").text('Field should not be empty.').css('font-weight', 'bold');
             } else {
-                swal("Here's a message!", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lorem erat, tincidunt vitae ipsum et, pellentesque maximus enim. Mauris eleifend ex semper, lobortis purus sed, pharetra felis");
+                swal("Keyword Added!", "The keyword has been added. Kindly wait while we work out magic and get your results. Thanx!", "success");
+
+                $('.confirm').attr('disabled', 'disabled');
 
                 //code after keyword gets validated
                 $('#keywords_list').show();
@@ -326,7 +324,6 @@
                             //console.log(result);
                             $('#tbody').append('<tr><td>' + count + '</td><td>' + result[i].keyword + '</td><td><p class="rank" keyid="'+ result[i].id +'" id="rank'+ count +'"> loading...</p></td><td><a class="btn bgm-orange waves-effect" data-method="delete" href=keyword/' + result[i].id + '><i class="zmdi zmdi-search"></i></a>  <a class="btn btn-danger waves-effect delete-button" data-method="delete" data-id="' + result[i].id + '" ><i class="zmdi zmdi-close"></i></a></td></tr>');
 
-                            $("#key_mes").text('Keyword added successfully !!').fadeOut(2000);
 
                             count++;
                         }
@@ -353,9 +350,11 @@
                             $('#rank'+rankres[i]['id']).html(rankres[i]['rank']);
                             countt++;
                         }
+                        $('.confirm').removeAttr('disabled');
                     });
                 });
             }
+            avgRank();
         });
 
         function deleteKey(id, dom) {
@@ -373,15 +372,17 @@
 
                 $('#confirm_delete').fadeIn().text('Keyword deleted successfully.').fadeOut(2000);
             });
+            avgRank();
         }
 
         $('#refresh').click(function(){
             //var refresh = $('p[id^=rank]').text();
             if( count == 1 )
-                swal("No keyword added !!", "There are no keywords to be refreshed. Thanx!!");
+                swal("Nothing to refresh!", "There are no keywords to be refreshed. Thanx!" );
             else
-                swal("Keyword refreshed!", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lorem erat, tincidunt vitae ipsum et, pellentesque maximus enim. Mauris eleifend ex semper, lobortis purus sed, pharetra felis");
+                swal("Refreshing!", "Feels great to be refreshed. Kindly wait while we work out magic and get your results. Thanx!", "success");
 
+            $('.confirm').attr('disabled', 'disabled');
             var url = "{{ URL::to('/refresh') }}";
 
             $('.rank').text('loading...');
@@ -400,10 +401,22 @@
                         pos = '<span class="c-red "><i class="zmdi zmdi-long-arrow-down"></i></span>';
                     $('#rank'+res['ii']).html(res['rank']+"  "+pos);
                     //alert($('#rank'+res['ii']).text()+"  "+i);
+                    if( (parseInt(res['ii']) + 1) == count )
+                        $('.confirm').removeAttr('disabled');
+                    //alert(count+"   "+res['ii']);
                 });
 
             }
+            avgRank();
         });
+
+        function avgRank(){
+            var url = "{{ URL::to('/avgrank') }}";
+
+            $.get(url, { 'urlid' : {{$id}} }, function(data){
+                $('#average').html(data);
+            });
+        }
     });
 </script>
 

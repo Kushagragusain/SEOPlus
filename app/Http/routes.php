@@ -72,6 +72,9 @@ Route::group(['middleware' => 'web'], function () {
 
         Route::get('refresh', 'KeyAddController@refresh');
 
+        //get average ranking
+        Route::get('avgrank', 'KeyAddController@avgRank');
+
 
          //TEst Controller
          Route::get('fetchkey1/{id}', 'SEOOController@fetchkeywords');
@@ -83,4 +86,3 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('keyword', 'SEOController@keywordData');
 });
 
-//Route::get('demo', 'KeyAddController@demo');
