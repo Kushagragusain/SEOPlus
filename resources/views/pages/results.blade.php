@@ -230,7 +230,33 @@
 
         $('#tbody').on('click', '.delete-button', function() {
             var dom = $(this).closest('tr');
-            deleteKey($(this).attr('data-id'), dom);
+            var idd = $(this).attr('data-id');
+
+            swal({
+                title: "Are you sure?",
+                text: "The keyword will be deleted permanently !!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel plx!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            }, function(isConfirm){
+                if (isConfirm) {
+                    deleteKey(idd, dom);
+                    swal({
+                        title: "Deleted!",
+                        text: "The keyword has been deleted successfully !!",
+                        type: "success",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    //swal("Deleted!", "The keyword has been deleted successfully !!", "success");
+                } else {
+                    swal("Cancelled", "Deletion has been cancelled !!", "error");
+                }
+            });
         });
 
 
@@ -351,7 +377,10 @@
 
         $('#refresh').click(function(){
             //var refresh = $('p[id^=rank]').text();
-            swal("Here's a message!", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lorem erat, tincidunt vitae ipsum et, pellentesque maximus enim. Mauris eleifend ex semper, lobortis purus sed, pharetra felis");
+            if( count == 1 )
+                swal("No keyword added !!", "There are no keywords to be refreshed. Thanx!!");
+            else
+                swal("Keyword refreshed!", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lorem erat, tincidunt vitae ipsum et, pellentesque maximus enim. Mauris eleifend ex semper, lobortis purus sed, pharetra felis");
 
             var url = "{{ URL::to('/refresh') }}";
 
@@ -374,19 +403,6 @@
                 });
 
             }
-
-            /*$.get(url, {'data' : $('#url').val()}, function(data){
-                var res = $.parseJSON(data);
-
-                for(i=0; i<res.length; i++){
-                    var pos = '';
-                    if (res[i]['pos'] == 'inc')
-                        pos = '<span class="c-green f-15"><i class="zmdi zmdi-long-arrow-up"></i></span>';
-                    else if (res[i]['pos'] == 'dec')
-                        pos = '<span class="c-red "><i class="zmdi zmdi-long-arrow-down"></i></span>';
-                    $('#rank'+(count-1)).html(res[i]['rank']+"  "+pos);
-                }
-            });*/
         });
     });
 </script>
