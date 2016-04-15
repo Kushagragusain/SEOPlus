@@ -226,7 +226,33 @@
 
         $('#tbody').on('click', '.delete-button', function() {
             var dom = $(this).closest('tr');
-            deleteKey($(this).attr('data-id'), dom);
+            var idd = $(this).attr('data-id');
+
+            swal({
+                title: "Are you sure?",
+                text: "The keyword will be deleted permanently !!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel plx!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            }, function(isConfirm){
+                if (isConfirm) {
+                    deleteKey(idd, dom);
+                    swal({
+                        title: "Deleted!",
+                        text: "The keyword has been deleted successfully !!",
+                        type: "success",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    //swal("Deleted!", "The keyword has been deleted successfully !!", "success");
+                } else {
+                    swal("Cancelled", "Deletion has been cancelled !!", "error");
+                }
+            });
         });
 
 
@@ -351,8 +377,6 @@
 
         $('#refresh').click(function(){
             //var refresh = $('p[id^=rank]').text();
-
-
             if( count == 1 )
                 swal("Nothing to refresh!", "There are no keywords to be refreshed. Thanx!" );
             else
@@ -362,7 +386,7 @@
             var url = "{{ URL::to('/refresh') }}";
 
             $('.rank').text('loading...');
-            var check = 0;
+
             for( i = 1; i < count; i++ ){
                 var key_id = $('#rank'+i).attr('keyid');
                 //alert($('#rank'+i).attr('keyid'));
@@ -376,7 +400,6 @@
                     else if (res['pos'] == 'dec')
                         pos = '<span class="c-red "><i class="zmdi zmdi-long-arrow-down"></i></span>';
                     $('#rank'+res['ii']).html(res['rank']+"  "+pos);
-                    check = 1;
                     //alert($('#rank'+res['ii']).text()+"  "+i);
                     if( (parseInt(res['ii']) + 1) == count )
                         $('.confirm').removeAttr('disabled');
@@ -384,9 +407,6 @@
                 });
 
             }
-            if(check == 1)
-                alert("hey");
-            //
             avgRank();
         });
 
