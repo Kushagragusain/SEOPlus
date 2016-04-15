@@ -100,7 +100,8 @@
         });
     });
     //validate form
-    function validate() {
+    function validate()
+    {
         var x = $('#searched_input').val();
         var check = 0;
         if (x == '') {
@@ -113,8 +114,12 @@
             $("#submit").html('Check');
             return false;
         }
+
+
         $("#submit").html('Checking...');
         $(":submit").attr('disabled', 'disabled');
     }
+
+
 </script>
 @endsection

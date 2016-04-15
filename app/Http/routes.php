@@ -94,3 +94,6 @@ Route::group(['middleware' => 'web'], function () {
 });
 
 Route::get('demo', 'KeyAddController@avgRank');
+
+
+Route::get('demo', 'url_countController@url_count_check');
