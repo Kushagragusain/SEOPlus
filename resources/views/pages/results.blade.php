@@ -350,11 +350,11 @@
                             $('#rank'+rankres[i]['id']).html(rankres[i]['rank']);
                             countt++;
                         }
+                        avgRank();
                         $('.confirm').removeAttr('disabled');
                     });
                 });
             }
-            avgRank();
         });
 
         function deleteKey(id, dom) {
