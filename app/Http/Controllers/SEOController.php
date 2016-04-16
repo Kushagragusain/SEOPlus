@@ -15,21 +15,31 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Redirect;
 use Session;
 use Guzzle\Http\Client;
+use DB;
+use Billable;
+
+use App\User;
 
 class SEOController extends Controller
 {
 
 
-    public function domainSave(Request $request){
-        try {
-            $url = 'http://www.'.$request->url;
+    public function domainSave(Request $request)
+    {
+          DB::table('users')->whereId(Auth::user()->id)->increment('url_count');
+
+
+     try {
+                $url = 'http://www.'.$request->url;
 
             // Create a new SEOstats instance.
-            $seostats = new \SEOstats\SEOstats;
+                $seostats = new \SEOstats\SEOstats;
 
             // Bind the URL to the current SEOstats instance.
             if ($seostats->setUrl($url)) {
+
                 $cntry = Country::first()->where('tld', $request->country)->take(1)->get();
+
                 foreach($cntry as $i)
                     $specified_country = $i['country_name'];
                 $heading = $request->url;
@@ -78,7 +88,11 @@ class SEOController extends Controller
         catch (SEOstatsException $e) {
           die($e->getMessage());  
         }
-    }
+         }
+
+
+
+
     
     public function fetchUrlData($id){
         if( ctype_digit($id) ){
@@ -148,6 +162,21 @@ class SEOController extends Controller
         else
             return view('pages.error');
     }
+
+
+     /*public function check(Request $request)
+    {
+
+        $token = request('stripeToken');
+
+        $user = User::find(Auth::user());
+
+        $user->newSubscription('monthly','monthly')->create($token);
+
+        return view('results');
+
+    }*/
+
 
     /*public function demo(){
         $uid = $_GET['uid'];

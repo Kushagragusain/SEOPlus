@@ -1,4 +1,4 @@
-@extends('layouts.app', ['link' => 'Add URL'])
+@extends('layouts.app', ['link' => 'Add URL', 'history' => 'History'])
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css"> @section('content')
 
 <div style="position: fixed; top: 80px; left: 5px; z-index: 9999;">
