@@ -18,10 +18,6 @@ use Guzzle\Http\Client;
 
 class SEOController extends Controller
 {
-    public function demo(Request $request){
-        return SEOstats\Google::getBacklinksTotal('http://www.google.com');
-    }
-
     public function domainSave(Request $request){
         try {
             $url = 'http://www.'.$request->url;
@@ -70,11 +66,6 @@ class SEOController extends Controller
                 $rurl = 'url_rank/'.$id;
 
                 return Redirect::to($rurl)->with('mes', 'search');
-                //return Redirect::route('showUrlData')->with('id', $id);
-
-                //return redirect($rurl);
-
-                //return view('pages.results', compact( 'heading', 'alexa_rank', 'google_page_rank','backlinks',                    'origin_country', 'country_rank', 'specified_country' ));
             }
         }
         catch (SEOstatsException $e) {
@@ -111,17 +102,6 @@ class SEOController extends Controller
             return view('pages.error');
     }
 
-    /*public function keywordData($id){
-        $data = SearchedKeyword::findorFail($id);
-        $url = $data->url;
-        $keyword = $data->keyword;
-
-        $res = SEOstats\Google::getSerps($keyword, 10, 'http://www.'.$url);
-        $totsearch = SEOstats\Google::getSearchResultsTotal($keyword);
-
-        return view('pages.keyword_data', compact('keyword', 'url', 'res', 'totsearch'));
-    }*/
-    
     public function history(){
         $urls = SearchedUrl::where('user_id', Auth::user()->id)->get();
         //$keywords = SearchedKeyword::latest('searched_at')->where('user_id', Auth::user()->id)->get();
@@ -150,17 +130,4 @@ class SEOController extends Controller
         else
             return view('pages.error');
     }
-
-    /*public function demo(){
-        $uid = $_GET['uid'];
-        $type = $_GET['type'];
-        if( $type == 'url' ){
-            $url = SearchedUrl::find($uid)['url'];
-            $data = SearchedUrl::where('user_id', Auth::user()->id)->where('url', $url)->get();
-        }
-        else{
-            $data = Keydata::where('key_id', $uid)->get();
-        }
-        return json_encode($data);
-    }*/
 }

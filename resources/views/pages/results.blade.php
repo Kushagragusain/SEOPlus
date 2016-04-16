@@ -55,7 +55,7 @@
                                         <div class="pull-right">{{ $alexa_rank }} </div>
                                         <div class="media-body">
                                             <div class="progress">
-                                                <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%"></div>
+                                                <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%" id="ale"></div>
                                             </div>
                                         </div>
                                     </li>
@@ -277,7 +277,7 @@
                         else if (result[i].position_status == 'dec')
                             pos = '<span class="c-red "><i class="zmdi zmdi-long-arrow-down"></i></span>';
 
-                        content += '<tr><td>' + count + '</td><td>' + result[i].keyword + '</td><td><p class="rank" keyid="'+ result[i].id +'" id="rank'+ count +'">' + result[i].latest_rank + '  ' + pos + '</p></td><td><a class="btn bgm-orange waves-effect" d data-method="delete" href=keyword/' + result[i].id + '><i class="zmdi zmdi-search"></i></a>  <a class="btn btn-danger waves-effect delete-button"  data-method="delete" data-id="' + result[i].id + '" ><i class="zmdi zmdi-close"></i></a></td></tr>';
+                        content += '<tr><td class=" hidden-xs">' + count + '</td><td>' + result[i].keyword + '</td><td><p class="rank" keyid="'+ result[i].id +'" id="rank'+ count +'">' + result[i].latest_rank + '  ' + pos + '</p></td><td><a class="btn bgm-orange waves-effect" d data-method="delete" href=keyword/' + result[i].id + '><i class="zmdi zmdi-search"></i></a>  <a class="btn btn-danger waves-effect delete-button"  data-method="delete" data-id="' + result[i].id + '" ><i class="zmdi zmdi-close"></i></a></td></tr>';
                         count++;
                     }
                     $('#tbody').html(content);
@@ -297,7 +297,7 @@
             if (x == '') {
                 $("#error").text('Field should not be empty.').css('font-weight', 'bold');
             } else {
-                swal("Keyword Added!", "The keyword has been added. Kindly wait while we work out magic and get your results. Thanx!", "success");
+                swal("Keyword(s) Added!", "Yes, we got your keyword(s). Kindly wait while we work out magic and get your results. You'll be able to press OK as soon as results come out!", "success");
 
                 $('.confirm').attr('disabled', 'disabled');
 
@@ -322,7 +322,7 @@
                     for(i = 0; i < result.length; i++){
                         if (result[i].id != 'null') {
                             //console.log(result);
-                            $('#tbody').append('<tr><td>' + count + '</td><td>' + result[i].keyword + '</td><td><p class="rank" keyid="'+ result[i].id +'" id="rank'+ count +'"> loading...</p></td><td><a class="btn bgm-orange waves-effect" data-method="delete" href=keyword/' + result[i].id + '><i class="zmdi zmdi-search"></i></a>  <a class="btn btn-danger waves-effect delete-button" data-method="delete" data-id="' + result[i].id + '" ><i class="zmdi zmdi-close"></i></a></td></tr>');
+                            $('#tbody').append('<tr><td class=" hidden-xs">' + count + '</td><td>' + result[i].keyword + '</td><td><p class="rank" keyid="'+ result[i].id +'" id="rank'+ count +'"> loading...</p></td><td><a class="btn bgm-orange waves-effect" data-method="delete" href=keyword/' + result[i].id + '><i class="zmdi zmdi-search"></i></a>  <a class="btn btn-danger waves-effect delete-button" data-method="delete" data-id="' + result[i].id + '" ><i class="zmdi zmdi-close"></i></a></td></tr>');
 
 
                             count++;
@@ -345,7 +345,9 @@
                     //calculate rank of added keyword
                     var rankurl = "{{ URL::to('/getrank') }}";
                     $.get(rankurl, { 'url' : $('#url').val(), 'data' : result, 'countt' : countt }, function(data){
+                        console.log(data);
                         var rankres = $.parseJSON(data);
+                        console.log(rankres);
                         for( i = 0; i < rankres.length; i++ ){
                             $('#rank'+rankres[i]['id']).html(rankres[i]['rank']);
                             countt++;

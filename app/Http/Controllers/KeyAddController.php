@@ -57,7 +57,7 @@ class KeyAddController extends Controller
 
                 $key->url_id = $urlId;
                 $key->url = $url;
-                $key->keyword = $k;
+                $key->keyword = $result[$i]['keyword'];
                 $key->searched_at = $t;
                 $key->status = 'active';
 
@@ -178,7 +178,9 @@ class KeyAddController extends Controller
                 }
 
                 if( $rank == 0 && strpos($dd['url'], $url) )
+                {
                     $rank = $count;
+                }
 
                 $count++;
 
@@ -189,8 +191,10 @@ class KeyAddController extends Controller
         //$rank = 290;
         if( $stat == 'first' ){
             $datacheck = Storekeyurl::where('keywordname', $key)->get();
-            if( count($datacheck) > 0 )
-                Storekeyurl::where('keywordname', $key)->update(['urls' => $urldata]);
+
+            if( count($datacheck) > 0 ) {
+                Storekeyurl::where('keywordname', $key)->update(['urls'=> $urldata]);
+            }
             else{
                 $store = new Storekeyurl;
                 $store->keywordname = $key;
@@ -273,7 +277,7 @@ class KeyAddController extends Controller
             $avg += (int)$d['latest_rank'];
             $tot++;
         }
-
+        if($tot != 0)
         $avg = $avg / $tot;
 
         return (int)$avg;

@@ -6,6 +6,7 @@
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
                 Home Page
+            </div>
         </div>
     </div>
 </div>

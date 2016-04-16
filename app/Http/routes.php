@@ -78,6 +78,25 @@ Route::group(['middleware' => 'web'], function () {
 
          //TEst Controller
          Route::get('fetchkey1/{id}', 'SEOOController@fetchkeywords');
+         Route::get('foo', function() {
+             $key = "furnace calgary";
+             $datacheck = \App\Storekeyurl::where('keywordname', $key)->get();
+           // var_dump($datacheck); die();
+            if( count($datacheck) > 0 ) {
+                 \App\Storekeyurl::where('keywordname', $key)->update(['urls'=> "hey2"]);
+                return "p";
+            }
+              //  \App\Storekeyurl::where('keywordname', $key)->update(['urls'=> $urldata]);
+            else{
+                return "j";
+                $store = new Storekeyurl;
+                $store->keywordname = $key;
+                $store->urls = $urldata;
+                $store->latestcheck = Carbon::now();
+                $store->save();
+            }
+
+         });
 
     });
 
@@ -86,4 +105,4 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('keyword', 'SEOController@keywordData');
 });
 
-Route::get('demo', 'SEOController@demo');
+Route::get('demo', 'SEOController@get_google_pagerank');
