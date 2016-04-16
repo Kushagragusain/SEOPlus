@@ -66,22 +66,30 @@
         </div>
 
         <div class="card-body card-padding">
-            <blockquote class="m-b-25 ">
 
-                    <?php $cc = 1; ?>
-                    @if( !empty($res) )
-                    @for( $i = 0; $i < count($res); $i++)
-                        <h5>
-                            {{ $cc }}<a href="http://{{ $res[$i] }}" @if($keyrank['latest_rank'] == $cc) style="color:red;"@endif > {{ $res[$i] }} </a>
-                        </h5>
-                        <div class="clearfix"></div>
-                        <?php $cc++; ?>
-                    @endfor
-                    @endif
+            <div class="listview lv-bordered lv-lg">
 
-            </blockquote>
+                            <div class="lv-body">
+
+                                <?php $cc = 1; ?>
+                                @if( !empty($res) )
+                                @for( $i = 0; $i < count($res); $i++)
+                                <div class="lv-item media" @if($keyrank['latest_rank'] == $cc) style="background-color:#FFFFDE;"@endif>
+                                    <div class="media-body">
+                                        <div class="lv-title">
+                                        {{ $cc }} - <a href="http://{{ $res[$i] }}" @if($keyrank['latest_rank'] == $cc) style="color:red;"@endif > {{ $res[$i] }} </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php $cc++; ?>
+                                @endfor
+                                @endif
+
+                            </div>
+            </div>
+
             Details over
-        </div>
+
 
     </div>
 

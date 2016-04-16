@@ -192,8 +192,9 @@ class KeyAddController extends Controller
         if( $stat == 'first' ){
             $datacheck = Storekeyurl::where('keywordname', $key)->get();
 
-            if( count($datacheck) > 0 )
+            if( count($datacheck) > 0 ) {
                 Storekeyurl::where('keywordname', $key)->update(['urls'=> $urldata]);
+            }
             else{
                 $store = new Storekeyurl;
                 $store->keywordname = $key;

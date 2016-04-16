@@ -79,10 +79,11 @@ Route::group(['middleware' => 'web'], function () {
          //TEst Controller
          Route::get('fetchkey1/{id}', 'SEOOController@fetchkeywords');
          Route::get('foo', function() {
-             $key = "air conditioning calgary";
+             $key = "furnace calgary";
              $datacheck = \App\Storekeyurl::where('keywordname', $key)->get();
            // var_dump($datacheck); die();
             if( count($datacheck) > 0 ) {
+                 \App\Storekeyurl::where('keywordname', $key)->update(['urls'=> "hey2"]);
                 return "p";
             }
               //  \App\Storekeyurl::where('keywordname', $key)->update(['urls'=> $urldata]);
