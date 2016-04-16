@@ -57,7 +57,7 @@ class KeyAddController extends Controller
 
                 $key->url_id = $urlId;
                 $key->url = $url;
-                $key->keyword = $k;
+                $key->keyword = $result[$i]['keyword'];
                 $key->searched_at = $t;
                 $key->status = 'active';
 
@@ -145,9 +145,8 @@ class KeyAddController extends Controller
     }
 
     public function rank($id, $key, $url, $taskid, $stat){
-        if( $stat === 'first' &&  $this->demo($taskid) == 0 ){
+        while( $stat === 'first' &&  $this->demo($taskid) == 0 ){
             sleep(30);
-            $this->rank($id, $key, $url, $taskid, $stat);
         }
 
         $count = 1;
@@ -179,7 +178,9 @@ class KeyAddController extends Controller
                 }
 
                 if( $rank == 0 && strpos($dd['url'], $url) )
+                {
                     $rank = $count;
+                }
 
                 $count++;
 
@@ -189,11 +190,18 @@ class KeyAddController extends Controller
         }
         //$rank = 290;
         if( $stat == 'first' ){
-            $store = new Storekeyurl;
-            $store->keywordname = $key;
-            $store->urls = $urldata;
-            $store->latestcheck = Carbon::now();
-            $store->save();
+            $datacheck = Storekeyurl::where('keywordname', $key)->get();
+
+            if( count($datacheck) > 0 ) {
+                Storekeyurl::where('keywordname', $key)->update(['urls'=> $urldata]);
+            }
+            else{
+                $store = new Storekeyurl;
+                $store->keywordname = $key;
+                $store->urls = $urldata;
+                $store->latestcheck = Carbon::now();
+                $store->save();
+            }
         }
         else {
             $keyy = SearchedKeyword::find($id);
@@ -216,13 +224,13 @@ class KeyAddController extends Controller
 
             Storekeyurl::where('keywordname', $key)->update(['urls'=> $urldata]);
             SearchedKeyword::find($id)->update(['latest_rank' => $rank, 'previous_rank' => $keyy['latest_rank'], 'position_status' => $pos]);
-        }
 
-        $keydata = new KeyData;
-        $keydata->key_id = $id;
-        $keydata->keyword_rank = $rank;
-        $keydata->searched_at = Carbon::now();
-        $keydata->save();
+            $keydata = new KeyData;
+            $keydata->key_id = $id;
+            $keydata->keyword_rank = $rank;
+            $keydata->searched_at = Carbon::now();
+            $keydata->save();
+        }
 
         return $rank;
                 //return $dd['url'];
@@ -277,7 +285,7 @@ class KeyAddController extends Controller
             $avg += (int)$d['latest_rank'];
             $tot++;
         }
-
+        if($tot != 0)
         $avg = $avg / $tot;
 
         return (int)$avg;

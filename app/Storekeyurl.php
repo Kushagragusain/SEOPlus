@@ -8,4 +8,10 @@ class Storekeyurl extends Model
 {
     //
     public $timestamps = false;
+
+     protected $fillable = [
+         'keywordname',
+         'urls',
+         'latestcheck',
+    ];
 }
