@@ -68,6 +68,7 @@ class AuthController extends Controller
             'user_name'     => $data['user_name'],
             'email'         => $data['email'],
             'password'      => bcrypt($data['password']),
+            'url_count'    => 0,
 
         ]);
     }

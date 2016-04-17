@@ -15,51 +15,27 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Redirect;
 use Session;
 use Guzzle\Http\Client;
+use DB;
+use Billable;
+
+use App\User;
 
 class SEOController extends Controller
 {
-    public function demo(Request $request){
-        $client = new Client('https://online.seranking.com/structure/clientapi/positions/?token=15d8442fbaa1d45af84781649ded204c&method=addTask&query=mango&engine_id=200');
-        $request = $client->get();
-        //echo $request->getUrl();
-
-        $response = $request->send();
-        $data = json_decode($response->getBody(), true);
-
-        return $data['task_id'];
-
-
-
-        /*$client = new \GuzzleHttp\Client();
-        $res = $client->request('GET', 'https://online.seranking.com/structure/clientapi/positions/?', [
-                'form_params' => [
-                'token' => '15d8442fbaa1d45af84781649ded204c',
-                'method' => 'getTaskResults',
-                'task_id' => '3'
-            ]
-        ]);*/
-
-        //$res = $client->request('POST', 'https://online.seranking.com/structure/clientapi/positions/?token=15d8442fbaa1d45af84781649ded204c&method=getTaskResults&task_id=3');
-                                /*'https://url_to_the_api', [
-            'form_params' => [
-                'client_id' => 'test_id',
-                'secret' => 'test_secret',
-            ]
-        ]);*/
-
-        /*$d = 'http://online.seranking.com/structure/clientapi/v2.php?method=stat&siteid=133045&dateStart=2014-01-01&token=833f189bb175d1103c8b5699687b7032';*/
-    }
-
-    public function domainSave(Request $request){
+    public function domainSave(Request $request)
+    {
+        DB::table('users')->whereId(Auth::user()->id)->increment('url_count');
         try {
-            $url = 'http://www.'.$request->url;
+                $url = 'http://www.'.$request->url;
 
-            // Create a new SEOstats instance.
-            $seostats = new \SEOstats\SEOstats;
+                // Create a new SEOstats instance.
+                $seostats = new \SEOstats\SEOstats;
 
-            // Bind the URL to the current SEOstats instance.
-            if ($seostats->setUrl($url)) {
+                // Bind the URL to the current SEOstats instance.
+                if ($seostats->setUrl($url)) {
+
                 $cntry = Country::first()->where('tld', $request->country)->take(1)->get();
+
                 foreach($cntry as $i)
                     $specified_country = $i['country_name'];
                 $heading = $request->url;
@@ -87,7 +63,7 @@ class SEOController extends Controller
                 }
                 else {
                     $store->origin_country_name = 'NA';
-                $store->origin_country_rank = 'NA';
+                    $store->origin_country_rank = 'NA';
                 }
                 $store->specified_country = $specified_country;
                 $store->country_rank = $country_rank_res;
@@ -98,18 +74,13 @@ class SEOController extends Controller
                 $rurl = 'url_rank/'.$id;
 
                 return Redirect::to($rurl)->with('mes', 'search');
-                //return Redirect::route('showUrlData')->with('id', $id);
-
-                //return redirect($rurl);
-
-                //return view('pages.results', compact( 'heading', 'alexa_rank', 'google_page_rank','backlinks',                    'origin_country', 'country_rank', 'specified_country' ));
             }
         }
         catch (SEOstatsException $e) {
           die($e->getMessage());  
         }
     }
-    
+
     public function fetchUrlData($id){
         if( ctype_digit($id) ){
             $data = SearchedUrl::find($id);
@@ -139,17 +110,6 @@ class SEOController extends Controller
             return view('pages.error');
     }
 
-    /*public function keywordData($id){
-        $data = SearchedKeyword::findorFail($id);
-        $url = $data->url;
-        $keyword = $data->keyword;
-
-        $res = SEOstats\Google::getSerps($keyword, 10, 'http://www.'.$url);
-        $totsearch = SEOstats\Google::getSearchResultsTotal($keyword);
-
-        return view('pages.keyword_data', compact('keyword', 'url', 'res', 'totsearch'));
-    }*/
-    
     public function history(){
         $urls = SearchedUrl::where('user_id', Auth::user()->id)->get();
         //$keywords = SearchedKeyword::latest('searched_at')->where('user_id', Auth::user()->id)->get();
@@ -178,17 +138,4 @@ class SEOController extends Controller
         else
             return view('pages.error');
     }
-
-    /*public function demo(){
-        $uid = $_GET['uid'];
-        $type = $_GET['type'];
-        if( $type == 'url' ){
-            $url = SearchedUrl::find($uid)['url'];
-            $data = SearchedUrl::where('user_id', Auth::user()->id)->where('url', $url)->get();
-        }
-        else{
-            $data = Keydata::where('key_id', $uid)->get();
-        }
-        return json_encode($data);
-    }*/
 }

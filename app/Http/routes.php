@@ -31,15 +31,16 @@ Route::group(['middleware' => 'web'], function () {
             return view('pages.index');        
     }]);
     
-    Route::group(['middleware' => 'auth'], function () {
-        //redirect to dashboard to loged in user
-        Route::get('dashboard', function(){
-            return view('pages.dashboard');        
+    Route::get('new', function(){
+            return view('pages.payment');
         });
-        
-        /*Route::get('demo', function(){
-            return view('pages.dmeo');
-        });*/
+
+    Route::group(['middleware' => ['auth','payauthenticate']], function () {
+        //redirect to dashboard to loged in user
+
+        Route::get('dashboard', function(){
+            return view('pages.dashboard');
+        });
 
        //to see all previous searches
         Route::get('history', 'SEOController@history');
@@ -77,31 +78,23 @@ Route::group(['middleware' => 'web'], function () {
 
 
          //TEst Controller
-         Route::get('fetchkey1/{id}', 'SEOOController@fetchkeywords');
-         Route::get('foo', function() {
-             $key = "furnace calgary";
-             $datacheck = \App\Storekeyurl::where('keywordname', $key)->get();
-           // var_dump($datacheck); die();
-            if( count($datacheck) > 0 ) {
-                 \App\Storekeyurl::where('keywordname', $key)->update(['urls'=> "hey2"]);
-                return "p";
-            }
-              //  \App\Storekeyurl::where('keywordname', $key)->update(['urls'=> $urldata]);
-            else{
-                return "j";
-                $store = new Storekeyurl;
-                $store->keywordname = $key;
-                $store->urls = $urldata;
-                $store->latestcheck = Carbon::now();
-                $store->save();
-            }
+        //Route::get('fetchkey1/{id}', 'SEOOController@fetchkeywords');
 
-         });
+        Route::get('checkpay','Paycontroller@checkpay');
 
+        Route::get('editkey','KeyAddController@edit');
+
+        Route::get('editkeyrank','KeyAddController@editrank');
     });
+
+    Route::post('new','Paycontroller@check');
 
     Route::post('search/url', 'SEOController@domainSave');
     
     Route::post('keyword', 'SEOController@keywordData');
+
 });
 
+Route::get('demo', function(){
+            return view('pages.demo');
+        });

@@ -1,4 +1,4 @@
-@extends('layouts.app', ['link' => 'Add URL'])
+@extends('layouts.app', ['link' => 'Add URL', 'history' => 'History'])
 @section('content')
 
 <div style="position: fixed; top: 80px; left: 5px; z-index: 9999;">

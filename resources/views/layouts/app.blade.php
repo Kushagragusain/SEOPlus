@@ -1,7 +1,4 @@
-<html>
-<!--[if IE 9 ]><html class="ie9"><![endif]-->
-
-<head>
+<html><head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,7 +7,7 @@
     <!-- Vendor CSS -->
 
     <link href="{{URL::to('assets')}}/vendors/bower_components/animate.css/animate.min.css" rel="stylesheet">
-    <link href="{{URL::to('assets')}}/vendors/bower_components/bootstrap-sweetalert/lib/sweet-alert.css" rel="stylesheet">
+    <link href="{{URL::to('assets')}}/vendors/bower_components/bootstrap-sweetalert/lib/sweetalert.css" rel="stylesheet">
     <link href="{{URL::to('assets')}}/vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css" rel="stylesheet">
     <link href="{{URL::to('assets')}}/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet">
     <link href="{{URL::to('assets')}}/vendors/bower_components/bootstrap-select/dist/css/bootstrap-select.css" rel="stylesheet">
@@ -20,8 +17,6 @@
     <link type="text/css" href="{{URL::to('assets')}}/js/plugins/export/export.css" rel="stylesheet">
 
     <link href="{{URL::to('assets')}}/css/app.min.2.css" rel="stylesheet">
-
-
 </head>
 
 <body>
@@ -44,26 +39,29 @@
                 <li>
                     <a href="{{ url('/register') }}"><span class="tm-label">Register</span></a>
                 </li>
-                @else @if($link != '')
-                <li>
-                    <a href="{{ url('/dashboard') }}"><span class="tm-label">{{ $link }}</span></a>
-                </li>
-                @endif
-                <li>
-                    <a href="{{ url('/history') }}"><span class="tm-label">History</span></a>
-                </li>
+                @else
+                    @if($link != '')
+                        <li>
+                            <a href="{{ url('/dashboard') }}"><span class="tm-label">{{ $link }}</span></a>
+                        </li>
+                    @endif
 
+                    @if($history != '')
+                        <li>
+                            <a href="{{ url('/history') }}"><span class="tm-label">{{ $history }}</span></a>
+                        </li>
+                    @endif
 
-                <li class="dropdown">
-                    <a data-toggle="dropdown" href="">
-                        <span class="tm-label">{{ Auth::user()->user_name }}<span class="caret"></span> </span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-sm pull-right">
-                        <div class="listview">
-                            <a class="lv-item" href="{{ url('/logout') }}" id="logout"> Logout</a>
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" href="">
+                            <span class="tm-label">{{ Auth::user()->user_name }}<span class="caret"></span> </span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-sm pull-right">
+                            <div class="listview">
+                                <a class="lv-item" href="{{ url('/logout') }}" id="logout"> Logout</a>
+                            </div>
                         </div>
-                    </div>
-                </li>
+                    </li>
 
                 @endif
 
@@ -160,7 +158,7 @@
 
 <script src="{{URL::to('assets')}}/vendors/bower_components/Waves/dist/waves.min.js"></script>
 <script src="{{URL::to('assets')}}/vendors/bootstrap-growl/bootstrap-growl.min.js"></script>
-<script src="{{URL::to('assets')}}/vendors/bower_components/bootstrap-sweetalert/lib/sweet-alert.min.js"></script>
+<script src="{{URL::to('assets')}}/vendors/bower_components/bootstrap-sweetalert/lib/sweetalert.min.js"></script>
 
 
 

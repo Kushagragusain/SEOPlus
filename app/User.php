@@ -4,6 +4,10 @@ namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+use Laravel\Cashier\Billable;
+
+
+
 class User extends Authenticatable
 {
     /**
@@ -11,8 +15,12 @@ class User extends Authenticatable
      *
      * @var array
      */
+   use Billable;
     protected $fillable = [
-        'user_name', 'email', 'password',
+        'user_name',
+        'email',
+        'password',
+        'url_count',
     ];
 
     /**
@@ -23,4 +31,10 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function isSubscribed() {
+            return $this->stripe_id;
+    }
+
+    public $timestamps = false;
 }
