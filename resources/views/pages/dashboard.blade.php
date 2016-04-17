@@ -1,4 +1,4 @@
-@extends('layouts.app', ['link' => '']) @section('content')
+@extends('layouts.app', ['link' => '', 'history' => 'History']) @section('content')
 <div class="container">
 
     <div class="col-md-10 col-md-offset-1">
@@ -12,7 +12,7 @@
             <div class="card-body card-padding ">
 
                 <div class="panel-body">
-                    {{ Form::open(array('url' => 'search/url', 'method' => 'POST', 'class' => 'form-horizontal', 'onSubmit' => 'return validate()')) }}
+                    {{ Form::open(array('url' => 'search/url', 'method' => 'POST', 'class' => 'form-horizontal', 'onSubmit' => 'return validate();')) }}
 
                     <div class="row">
                             <div class="badge col-md-3 col-sm-3 col-xs-12 m-r-15 " style="height:3em;">
@@ -92,6 +92,7 @@
         if( ($('#searched_input').val()).indexOf('www.') == 0 )
             $("#error").text('Invalid URL.').css('font-weight', 'bold');
     });
+
     //validate form
     function validate() {
         $("#submit").html('Checking...');
@@ -101,7 +102,8 @@
         if (x == '') {
             $("#error").html('Field should not be empty.').css('font-weight', 'bold');
             check = 1;
-        } else if (document.getElementById('error').innerHTML != '') {
+        }
+        else if (document.getElementById('error').innerHTML != '') {
             check = 1;
         }
 

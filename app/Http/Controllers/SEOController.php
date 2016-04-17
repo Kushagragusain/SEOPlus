@@ -15,19 +15,27 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Redirect;
 use Session;
 use Guzzle\Http\Client;
+use DB;
+use Billable;
+
+use App\User;
 
 class SEOController extends Controller
 {
-    public function domainSave(Request $request){
+    public function domainSave(Request $request)
+    {
+        DB::table('users')->whereId(Auth::user()->id)->increment('url_count');
         try {
-            $url = 'http://www.'.$request->url;
+                $url = 'http://www.'.$request->url;
 
-            // Create a new SEOstats instance.
-            $seostats = new \SEOstats\SEOstats;
+                // Create a new SEOstats instance.
+                $seostats = new \SEOstats\SEOstats;
 
-            // Bind the URL to the current SEOstats instance.
-            if ($seostats->setUrl($url)) {
+                // Bind the URL to the current SEOstats instance.
+                if ($seostats->setUrl($url)) {
+
                 $cntry = Country::first()->where('tld', $request->country)->take(1)->get();
+
                 foreach($cntry as $i)
                     $specified_country = $i['country_name'];
                 $heading = $request->url;
@@ -55,7 +63,7 @@ class SEOController extends Controller
                 }
                 else {
                     $store->origin_country_name = 'NA';
-                $store->origin_country_rank = 'NA';
+                    $store->origin_country_rank = 'NA';
                 }
                 $store->specified_country = $specified_country;
                 $store->country_rank = $country_rank_res;
@@ -72,7 +80,7 @@ class SEOController extends Controller
           die($e->getMessage());  
         }
     }
-    
+
     public function fetchUrlData($id){
         if( ctype_digit($id) ){
             $data = SearchedUrl::find($id);
