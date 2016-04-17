@@ -24,7 +24,7 @@ class Paycontroller extends Controller
 
         $user = User::find(Auth::user()->id);
 
-        $user->newSubscription('monthly', 'monthly')->trialDays(30)->create($token);
+        $user->newSubscription('monthly', 'monthly')->trialDays(1)->create($token);
 
         return view('pages.dashboard');
 

@@ -26,10 +26,9 @@ class PayAuthenticate
          if( $user->isSubscribed())
 
          {
-
-
             $var = SearchedKeyword::where('user_id',Auth::user()->id)->get();
-            if(Auth::user()->url_count <=2 )
+
+             if(Auth::user()->url_count <=2 && count($var)<=10)
                 return $next($request);
 
         }

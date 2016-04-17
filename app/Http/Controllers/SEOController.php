@@ -17,7 +17,6 @@ use Session;
 use Guzzle\Http\Client;
 use DB;
 use Billable;
-
 use App\User;
 
 class SEOController extends Controller
@@ -39,7 +38,6 @@ class SEOController extends Controller
             if ($seostats->setUrl($url)) {
 
                 $cntry = Country::first()->where('tld', $request->country)->take(1)->get();
-
                 foreach($cntry as $i)
                     $specified_country = $i['country_name'];
                 $heading = $request->url;
