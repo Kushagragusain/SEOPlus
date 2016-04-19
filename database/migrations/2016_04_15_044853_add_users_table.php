@@ -19,7 +19,7 @@ class AddUsersTable extends Migration
            $table->timestamp('trial_ends_at')->nullable();
             $table->integer('verified')->default(0);
            $table->string('email_token')->nullable();
-            $table->string('email_token')->nullable();
+
 });
     }
 

@@ -23,7 +23,8 @@
 */
 
 
-Route::group(['middleware' => 'web'], function () {
+    Route::group(['middleware' => 'web'], function () {
+
     Route::auth();
     
     Route::get('/',[
@@ -31,9 +32,17 @@ Route::group(['middleware' => 'web'], function () {
             return view('pages.index');        
     }]);
     
-    Route::get('new', function(){
+    Route::get('new', ['middleware' => 'auth', function(){
+        //return view('pages.payment');
+        if( Auth::user()->verified  == 1 )
             return view('pages.payment');
-        });
+        else
+            return view('pages.verificationError');
+    }]);
+
+    Route::get('errorVerify', ['middleware' => 'auth', function(){
+        return view('pages.verificationError');
+    }]);
 
     Route::group(['middleware' => ['auth','payauthenticate']], function () {
         //redirect to dashboard to loged in user
@@ -84,44 +93,24 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('avgrank', 'KeyAddController@avgRank');
 
 
-         //TEst Controller
-         Route::get('fetchkey1/{id}', 'SEOOController@fetchkeywords');
-         Route::get('foo', function() {
-             $key = "furnace calgary";
-             $datacheck = \App\Storekeyurl::where('keywordname', $key)->get();
-           // var_dump($datacheck); die();
-            if( count($datacheck) > 0 ) {
-                 \App\Storekeyurl::where('keywordname', $key)->update(['urls'=> "hey2"]);
-                return "p";
-            }
-              //  \App\Storekeyurl::where('keywordname', $key)->update(['urls'=> $urldata]);
-            else{
-                return "j";
-                $store = new Storekeyurl;
-                $store->keywordname = $key;
-                $store->urls = $urldata;
-                $store->latestcheck = Carbon::now();
-                $store->save();
-            }
-
-         });
-
-
 
         Route::get('demo', 'SEOController@domainSave');
 
-        Route::get('checkpay','Paycontroller@checkpay');
+
+
+        //Route::get('checkpay','Paycontroller@check');emails/confirm/
 
     });
 
-     Route::post('new','Paycontroller@check');
+    Route::get('emails/confirm/{email_token}','Paycontroller@confirmEmail');
 
+    Route::post('new','Paycontroller@check');
 
     Route::post('search/url', 'SEOController@domainSave');
     
     Route::post('keyword', 'SEOController@keywordData');
 
-
+    //Route::get('foo','Paycontroller@foo');
 });
 
 

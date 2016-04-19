@@ -13,6 +13,7 @@ class EmailVerify extends TestCase
      */
 
     use DatabaseTransactions;
+
     public function testBasicExample()
     {
 

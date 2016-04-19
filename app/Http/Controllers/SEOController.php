@@ -27,8 +27,7 @@ class SEOController extends Controller
     {
           DB::table('users')->whereId(Auth::user()->id)->increment('url_count');
 
-
-     try {
+        try {
                 $url = 'http://www.'.$request->url;
 
             // Create a new SEOstats instance.

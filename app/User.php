@@ -6,6 +6,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use Laravel\Cashier\Billable;
 
+use App\Mailers\AppMailers;
+
 
 
 class User extends Authenticatable
@@ -35,5 +37,27 @@ class User extends Authenticatable
 
     return $this->stripe_id;
 
+    }
+
+    public static  function boot()
+    {
+        parent::boot();
+
+        static::creating(function($user){
+
+           $user->email_token = str_random(30);
+
+        });
+
+    }
+
+    public function confirmEmail()
+    {
+
+          $this->verified=1;
+
+          $this->email_token=null;
+
+        $this->save();
     }
 }

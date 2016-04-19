@@ -112,42 +112,8 @@
         }
 
 
-        var url="{{url('demo')}}";
-        $.get(url,function(data)
-             {
-            //alert(data);
-            if(data =='pay')
-                {   swal({
-                        title: "Are you sure?",
-                        text: "The keyword will be deleted permanently !!",
-                        type: "warning",
-                        showCancelButton: true,
-                        confirmButtonColor: "#DD6B55",
-                        confirmButtonText: "Yes, delete it!",
-                        cancelButtonText: "No, cancel plx!",
-                        closeOnConfirm: false,
-                        closeOnCancel: false
-                    }, function(isConfirm){
-                        if (isConfirm) {
 
-                            window.location="{{URL::to('pay')}}";
 
-                        }
-
-                       else
-                    {
-                            swal("Cancelled", "Deletion has been cancelled !!", "error");
-                        }
-                    });
-
-                    $("#submit").html('Check');
-                    return false;
-
-                }
-            else
-                return true;
-
-        });
 
         $("#submit").html('Checking...');
         $("#submit").attr('disabled', 'disabled');

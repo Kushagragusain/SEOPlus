@@ -24,11 +24,29 @@ class Paycontroller extends Controller
 
         $user = User::find(Auth::user()->id);
 
-        $user->newSubscription('monthly', 'monthly')->trialDays(1)->create($token);
+        $user->newSubscription('monthly', 'monthly')->trialDays(30)->create($token);
 
         return view('pages.dashboard');
 
     }
 
+    public function cancel(Request $request)
+    {
+        $user = User::find(Auth::user()->id);
+        $user->subscription('monthly')->cancel();
+    }
 
+    public function foo(){
+        return 'kkk';
+    }
+
+    public function confirmEmail($email_token)
+    {
+        $user = User::where('email_token', $email_token)->first();
+        $user->confirmEmail();
+        flash('you are now confirmed');
+
+        return redirect('login');
+
+    }
 }

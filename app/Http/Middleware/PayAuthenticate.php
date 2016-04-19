@@ -22,17 +22,24 @@ class PayAuthenticate
     {
 
         $user= $request->user();
+        if(Auth::user()->verified == 1)
+        {
 
-         if( $user->isSubscribed())
+            if( $user->isSubscribed())
 
-         {
-            $var = SearchedKeyword::where('user_id',Auth::user()->id)->get();
+             {
+                $var = SearchedKeyword::where('user_id',Auth::user()->id)->get();
 
-             if(Auth::user()->url_count <=2 && count($var)<=10)
-                return $next($request);
+                 if(Auth::user()->url_count <=2 && count($var)<=10 )
+                    return $next($request);
+
+            }
+
+            return redirect('new');
 
         }
-
-        return redirect('new');
+        else
+            return redirect('errorVerify');
+            //return view('pages.verificationError');
     }
 }
