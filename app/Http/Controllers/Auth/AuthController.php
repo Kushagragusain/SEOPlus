@@ -77,28 +77,4 @@ class AuthController extends Controller
         ]);
     }
 
-
-   /* public function postRegister(Request $request,AppMailer $mailer)
-    {
-
-
-        $this->validate ($request,[
-
-            'name'=>'required',
-            'email'=>'required|email|unique:users',
-            'password'=>'required'
-
-        ]);
-
-        $user =User::create($request->all());
-
-        $mailer->sendEmailConfirmationTo($user);
-
-        flash('Please confirm your email');
-
-        return redirect()->back();
-
-    }*/
-
-
 }

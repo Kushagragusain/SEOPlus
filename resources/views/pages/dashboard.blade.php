@@ -111,10 +111,6 @@
             return false;
         }
 
-
-
-
-
         $("#submit").html('Checking...');
         $("#submit").attr('disabled', 'disabled');
         //return false;

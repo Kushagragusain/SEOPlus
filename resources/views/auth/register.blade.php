@@ -28,8 +28,6 @@
 
         <div class="lc-block toggled" id="l-login">
 
-
-
             <form class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}">
             {!! csrf_field() !!}
 <!-- User Name -->

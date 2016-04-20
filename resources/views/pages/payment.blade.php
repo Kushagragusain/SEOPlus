@@ -1,11 +1,9 @@
 @extends('layouts.app', ['link' => '', 'history' => ''])
 
 @section('content')
-<div class="col-md-8">
-
-            <div class="card-header bgm-blue">
-                        </div><h1>Please Subscribe to use our services</h1>
-    </div>
+<div class="card-header bgm-blue m-b-20">
+                <h2>Please Subscribe to use our services!!<i class="zmdi zmdi-search zmdi-hc-fw"></i><small>First 30 days FREE TRIAL </small><small>Trial valid upto use of 2 url and 10 keywords</small><small>Pay $14.99 afterwards</small></h2>
+            </div>
 <div class="container">
 
         <div class="col-md-10 col-md-offset-1">

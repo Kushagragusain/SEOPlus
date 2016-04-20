@@ -40,6 +40,6 @@ class PayAuthenticate
         }
         else
             return redirect('errorVerify');
-            //return view('pages.verificationError');
+
     }
 }

@@ -45,7 +45,7 @@ class User extends Authenticatable
 
         static::creating(function($user){
 
-           $user->email_token = str_random(30);
+        $user->email_token = str_random(30);
 
         });
 
@@ -58,6 +58,6 @@ class User extends Authenticatable
 
           $this->email_token=null;
 
-        $this->save();
+          $this->save();
     }
 }

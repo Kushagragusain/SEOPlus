@@ -9,13 +9,14 @@ use Illuminate\Contracts\Mail\Mailer;
 class Mailers
 {
     protected $mailer;
+
     protected $from  ='admin@example.com';
 
-       protected $to;
+    protected $to;
 
-       protected $view;
+    protected $view;
 
-      protected $data= [];
+    protected $data= [];
 
 
     public function __construct(Mailer $mailer)

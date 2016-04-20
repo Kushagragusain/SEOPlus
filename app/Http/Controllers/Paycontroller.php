@@ -11,6 +11,7 @@ use Billable;
 use App\User;
 
 use Auth;
+
 use App\SearchedKeyword;
 
 use DB;
@@ -29,16 +30,13 @@ class Paycontroller extends Controller
         return view('pages.dashboard');
 
     }
-
+//we need a cancel button above logout ..
     public function cancel(Request $request)
     {
         $user = User::find(Auth::user()->id);
         $user->subscription('monthly')->cancel();
     }
 
-    public function foo(){
-        return 'kkk';
-    }
 
     public function confirmEmail($email_token)
     {

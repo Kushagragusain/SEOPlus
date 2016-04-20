@@ -25,10 +25,7 @@
 
     Route::group(['middleware' => 'web'], function () {
 
-    Route::auth();
-    
-    Route::get('/',[
-        'middleware' => 'guest', function(){
+    Route::get('/',['middleware' => 'guest', function(){
             return view('pages.index');        
     }]);
     
@@ -50,10 +47,6 @@
             Route::get('dashboard', function(){
                 return view('pages.dashboard');
             });
-
-
-
-        
         /*Route::get('demo', function(){
             return view('pages.dmeo');
         });*/
@@ -102,9 +95,11 @@
 
     });
 
-    Route::get('emails/confirm/{email_token}','Paycontroller@confirmEmail');
+    //Route::get('emails/confirm/{email_token}','Paycontroller@confirmEmail');
 
     Route::post('new','Paycontroller@check');
+
+    // Route::post('cancel','Paycontroller@cancel');
 
     Route::post('search/url', 'SEOController@domainSave');
     
