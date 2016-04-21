@@ -23,25 +23,27 @@
 */
 
 
-    Route::group(['middleware' => 'web'], function () {
+        Route::group(['middleware' => 'web'], function () {
 
-    Route::get('/',['middleware' => 'guest', function(){
-            return view('pages.index');        
-    }]);
-    
-    Route::get('new', ['middleware' => 'auth', function(){
-        //return view('pages.payment');
-        if( Auth::user()->verified  == 1 )
-            return view('pages.payment');
-        else
+        Route::get('/',['middleware' => 'guest', function(){
+                return view('pages.index');
+        }]);
+
+        Route::get('new', ['middleware' => 'auth', function(){
+            //return view('pages.payment');
+            if( Auth::user()->verified  == 1 )
+                return view('pages.payment');
+            else
+                return view('pages.verificationError');
+        }]);
+
+        Route::get('errorVerify', ['middleware' => 'auth', function(){
             return view('pages.verificationError');
-    }]);
+        }]);
 
-    Route::get('errorVerify', ['middleware' => 'auth', function(){
-        return view('pages.verificationError');
-    }]);
 
-    Route::group(['middleware' => ['auth','payauthenticate']], function () {
+
+        Route::group(['middleware' => ['auth','payauthenticate']], function () {
         //redirect to dashboard to loged in user
 
             Route::get('dashboard', function(){
@@ -85,9 +87,9 @@
         //get average ranking
         Route::get('avgrank', 'KeyAddController@avgRank');
 
-
-
         Route::get('demo', 'SEOController@domainSave');
+
+          Route::get('cancel','Paycontroller@cancel');
 
 
 
@@ -95,15 +97,13 @@
 
     });
 
-    //Route::get('emails/confirm/{email_token}','Paycontroller@confirmEmail');
+        Route::get('emails/confirm/{email_token}','Paycontroller@confirmEmail');
 
-    Route::post('new','Paycontroller@check');
+        Route::post('new','Paycontroller@check');
 
-    // Route::post('cancel','Paycontroller@cancel');
-
-    Route::post('search/url', 'SEOController@domainSave');
+        Route::post('search/url', 'SEOController@domainSave');
     
-    Route::post('keyword', 'SEOController@keywordData');
+        Route::post('keyword', 'SEOController@keywordData');
 
     //Route::get('foo','Paycontroller@foo');
 });

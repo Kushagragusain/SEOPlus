@@ -8,6 +8,7 @@
 
       <body>
 
+
     <h1>Thanks for signing up
           </h1>
           <p>
