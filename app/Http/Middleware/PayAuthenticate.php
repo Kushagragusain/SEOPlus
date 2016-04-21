@@ -8,6 +8,7 @@ use Billable;
 use DB;
 use Auth;
 use App\SearchedKeyword;
+use Session;
 
 class PayAuthenticate
 {
@@ -30,12 +31,13 @@ class PayAuthenticate
              {
                 $var = SearchedKeyword::where('user_id',Auth::user()->id)->get();
 
-                 if(Auth::user()->url_count <=2 && count($var)<=10 )
+                 if(Auth::user()->url_count <=2 && count($var)<=10)
                     return $next($request);
-
+                else
+              return redirect('payerror');
             }
 
-            return redirect('new');
+             return redirect('new');
 
         }
         else

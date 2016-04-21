@@ -22,9 +22,9 @@ class EmailController extends Controller
     {
             $user = User::findOrFail($id);
 
-            Mail::send('emails.reminder', ['user' => $user], function ($m) use ($user) {
+            Mail::send('emails.confirm', ['user' => $user], function ($m) use ($user) {
 
-            $m->from('seoplus.prashushi.com', 'Application');
+            $m->from('gothicprakhar@gmail.com', 'Application');
 
             $m->to($user->email, $user->name)->subject('verify mail');
 

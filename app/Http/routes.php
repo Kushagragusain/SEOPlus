@@ -25,12 +25,19 @@
 
         Route::group(['middleware' => 'web'], function () {
 
+            Route::auth();
+
+
+
+
         Route::get('/',['middleware' => 'guest', function(){
                 return view('pages.index');
         }]);
 
         Route::get('new', ['middleware' => 'auth', function(){
-            //return view('pages.payment');
+
+
+
             if( Auth::user()->verified  == 1 )
                 return view('pages.payment');
             else
@@ -40,6 +47,10 @@
         Route::get('errorVerify', ['middleware' => 'auth', function(){
             return view('pages.verificationError');
         }]);
+
+                     Route::get('payerror', function(){
+            return view('pages.paymentError');
+        });
 
 
 
@@ -89,8 +100,10 @@
 
         Route::get('demo', 'SEOController@domainSave');
 
-          Route::get('cancel','Paycontroller@cancel');
+        Route::get('errorVerify', 'EmailController@sendEmailReminder');
 
+
+    Route::get('cancel','Paycontroller@cancel');
 
 
         //Route::get('checkpay','Paycontroller@check');emails/confirm/
@@ -100,6 +113,8 @@
         Route::get('emails/confirm/{email_token}','Paycontroller@confirmEmail');
 
         Route::post('new','Paycontroller@check');
+
+
 
         Route::post('search/url', 'SEOController@domainSave');
     

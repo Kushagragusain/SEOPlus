@@ -30,19 +30,23 @@ class Paycontroller extends Controller
         return view('pages.dashboard');
 
     }
-//we need a cancel button above logout ..
+
     public function cancel(Request $request)
     {
+
         $user = User::find(Auth::user()->id);
         $user->subscription('monthly')->cancel();
+
+        return redirect('dashboard');
     }
 
 
     public function confirmEmail($email_token)
     {
+
         $user = User::where('email_token', $email_token)->first();
+
         $user->confirmEmail();
-        flash('you are now confirmed');
 
         return redirect('login');
 

@@ -10,7 +10,7 @@ class Mailers
 {
     protected $mailer;
 
-    protected $from  ='admin@example.com';
+    protected $from  ='gothicprakhar@gmail.com';
 
     protected $to;
 
