@@ -27,19 +27,20 @@ class Mailers
     public function sendEmailConfirmationTo(User $user)
     {
 
-        $this->to =$user->email;
+         $this->to =$user->email;
 
-        $this->view = 'auth.emails.confirm';
+         $this->view = 'auth.emails.confirm';
 
          $this->data =compact('user');
-        $this->deliver();
+
+         $this->deliver();
 
     }
 
     public function deliver()
          {
 
-          $this->mailer->send($this->view,$this->data,function($message){
+              $this->mailer->send($this->view,$this->data,function($message){
 
               $message->from($this->from,'Administrator')->to($this->to);
 
