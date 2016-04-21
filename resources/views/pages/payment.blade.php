@@ -6,7 +6,7 @@
 
                     <div class="text-center">
                         <h2 class="f-400">PAYMENT MADE SIMPLE</h2>
-                        <p class="c-gray m-t-20 m-b-20">Cras pretium elementum lacus ac auctor. Sed id mi nec ex placerat iaculis. Suspendisse volutpat purus ac metus venenatis rutrum. Morbi sit amet dui in nisi lacinia varius. Aliquam vehicula molestie sagittis. Cras a lectus nulla. Nulla accumsan volutpat nibh at tristique. Aenean varius massa a euismod posuere. Sed at ante imperdiet, fermentum purus at, aliquam nulla. Mauris blandit elit ac ipsum fermentum, vitae consequat velit vestibulum. Vivamus convallis fermentum nunc et varius.</p>
+                        <p class="c-gray m-t-20 m-b-20">SEO-PLUS </p>
                     </div>
 
                     <div class="clearfix"></div>
@@ -15,26 +15,21 @@
                         <div class="col-sm-4">
                             <div class="card pt-inner">
                                 <div class="pti-header bgm-amber">
-                                    <h2>$25 <small>| mo</small></h2>
-                                    <div class="ptih-title">Banana Pack</div>
+                                    <h2>$14.99 <small>| mo</small></h2>
+                                    <div class="ptih-title">Monthly Pack</div>
                                 </div>
 
                                 <div class="pti-body">
                                     <div class="ptib-item">
-                                        Pellentesque habitant morbi tristique senectus et netusmalesuada fames ac turpis egestas. Suspendisse maximus imperdiet tristique.
+                                        Start your subscripton with one month free trial pack!!
                                     </div>
                                     <div class="ptib-item">
-                                        In dapibus ipsum sit amet leo
+                                        just submit your details and click pay $14.99 but you will not be charged for the trial month
                                     </div>
                                     <div class="ptib-item">
-                                        Vestibulum ut mauris tellus. Donec
+                                        Only 2 urls and 10 keywords are allowed in monthly subscription!!
                                     </div>
-                                    <div class="ptib-item">
-                                        Purna lectus venenatis felis, nonsemper
-                                    </div>
-                                    <div class="ptib-item">
-                                        Aliquam erat volutpat hasellus ultri
-                                    </div>
+
                                 </div>
 
                                 <div class="pti-footer">
