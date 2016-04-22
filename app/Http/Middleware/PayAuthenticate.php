@@ -8,6 +8,7 @@ use Billable;
 use DB;
 use Auth;
 use App\SearchedKeyword;
+use Session;
 
 class PayAuthenticate
 {
@@ -22,18 +23,25 @@ class PayAuthenticate
     {
 
         $user= $request->user();
+        if(Auth::user()->verified == 1)
+        {
 
-         if( $user->isSubscribed())
+            if( $user->isSubscribed())
 
-         {
+             {
+                $var = SearchedKeyword::where('user_id',Auth::user()->id)->get();
 
+                 if(Auth::user()->url_count <=2 && count($var)<=10)
+                    return $next($request);
+                else
+              return redirect('payerror');
+            }
 
-            $var = SearchedKeyword::where('user_id',Auth::user()->id)->get();
-            if(Auth::user()->url_count <=2 )
-                return $next($request);
+             return redirect('new');
 
         }
+        else
+            return redirect('errorVerify');
 
-        return redirect('new');
     }
 }

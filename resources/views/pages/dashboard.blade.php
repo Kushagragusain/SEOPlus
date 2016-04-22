@@ -112,7 +112,10 @@
             return false;
         }
 
-        $(":submit").attr('disabled', 'disabled');
+        $("#submit").html('Checking...');
+        $("#submit").attr('disabled', 'disabled');
+        //return false;
+
     }
 </script>
 @endsection

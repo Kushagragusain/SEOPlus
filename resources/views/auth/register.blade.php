@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html>
     <!--[if IE 9 ]><html class="ie9"><![endif]-->
     <head>
@@ -22,11 +22,11 @@
 
 
 
+
+
         <!-- Register -->
 
         <div class="lc-block toggled" id="l-login">
-
-
 
             <form class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}">
             {!! csrf_field() !!}

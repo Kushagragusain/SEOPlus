@@ -11,6 +11,7 @@ use Billable;
 use App\User;
 
 use Auth;
+
 use App\SearchedKeyword;
 
 use DB;
@@ -30,5 +31,24 @@ class Paycontroller extends Controller
 
     }
 
+    public function cancel(Request $request)
+    {
 
+        $user = User::find(Auth::user()->id);
+        $user->subscription('monthly')->cancel();
+
+        return redirect('dashboard');
+    }
+
+
+    public function confirmEmail($email_token)
+    {
+
+        $user = User::where('email_token', $email_token)->first();
+
+        $user->confirmEmail();
+
+        return redirect('login');
+
+    }
 }

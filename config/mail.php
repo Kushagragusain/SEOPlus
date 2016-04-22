@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'driver' => env('MAIL_DRIVER', 'smtp'),
+    'driver' => env('mailgun', 'smtp'),
 
     /*
     |--------------------------------------------------------------------------
@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'from' => ['address' => 'abhiarya149@gmail.com', 'name' => 'sunny'],
+    'from' => ['address' => 'gothicprakhar@gmail.com', 'name' => 'SeoPlus'],
 
     /*
     |--------------------------------------------------------------------------

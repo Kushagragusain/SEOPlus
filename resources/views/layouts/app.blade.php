@@ -46,6 +46,7 @@
                         </li>
                     @endif
 
+
                     @if($history != '')
                         <li>
                             <a href="{{ url('/history') }}"><span class="tm-label">{{ $history }}</span></a>
@@ -56,11 +57,13 @@
                         <a data-toggle="dropdown" href="">
                             <span class="tm-label">{{ Auth::user()->user_name }}<span class="caret"></span> </span>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-sm pull-right">
-                            <div class="listview">
-                                <a class="lv-item" href="{{ url('/logout') }}" id="logout"> Logout</a>
-                            </div>
+
+                    <div class="dropdown-menu dropdown-menu-sm pull-right">
+                        <div class="listview">
+                              <a class="lv-item" href="{{ url('/cancel') }}" id="cancel">cancel subscription </a>
+                            <a class="lv-item" href="{{ url('/logout') }}" id="logout" > Logout</a>
                         </div>
+                    </div>
                     </li>
 
                 @endif
@@ -189,6 +192,8 @@
 
         $.get(url, function() {});
     });
+
+
 </script>
 
 <!-- <script src="{{URL::to('assets')}}/js/demo.js"></script>-->
