@@ -3,17 +3,7 @@
 @section('content')
  <section id="content">
                 <div class="container c-alt">
-                    <form action="new" method="POST">
-            {{ csrf_field() }}
-  <script
-    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-    data-key="pk_test_B7RvhOHa9kVakcik9jrD66be"
-    data-amount="1499"
-    data-name="MONTHLY SUBSCRIPTION"
-    data-description="start your 30 days trial and pay afterwards"
-    data-locale="auto">
-  </script>
-</form>
+
 
                     <div class="text-center">
                         <h2 class="f-400">PAYMENT MADE SIMPLE</h2>
@@ -63,7 +53,17 @@
         <div class="col-md-10 col-md-offset-1">
 
 
-
+                    <form action="new" method="POST">
+            {{ csrf_field() }}
+  <script
+    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    data-key="pk_test_B7RvhOHa9kVakcik9jrD66be"
+    data-amount="1499"
+    data-name="MONTHLY SUBSCRIPTION"
+    data-description="start your 30 days trial and pay afterwards"
+    data-locale="auto">
+  </script>
+</form>
 
 </div>
 @endsection

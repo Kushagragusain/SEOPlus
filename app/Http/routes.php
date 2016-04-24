@@ -34,15 +34,15 @@
                 return view('pages.index');
         }]);
 
-
-
-
-
-        Route::get('payerror', function(){
+           /* Route::get('payerror', function(){
             return view('pages.paymentError');
+        });*/
+             Route::get('new',function(){
+                return view('pages.payment');
         });
-
-
+               Route::get('payerror',function(){
+                return view('pages.paymentError');
+        });
 
         Route::group(['middleware' => ['auth','payauthenticate']], function () {
         //redirect to dashboard to loged in user
@@ -50,6 +50,9 @@
             Route::get('dashboard', function(){
                 return view('pages.dashboard');
             });
+
+
+
         /*Route::get('demo', function(){
             return view('pages.dmeo');
         });*/
@@ -88,23 +91,17 @@
         //get average ranking
         Route::get('avgrank', 'KeyAddController@avgRank');
 
-        Route::get('demo', 'SEOController@domainSave');
+       // Route::get('demo', 'SEOController@domainSave');
 
         //Route::get('errorVerify', 'EmailController@sendEmailReminder');
 
 
-    Route::get('cancel','Paycontroller@cancel');
+        Route::get('cancel','Paycontroller@cancel');
 
-
-        //Route::get('checkpay','Paycontroller@check');emails/confirm/
 
     });
 
-        //Route::get('emails/confirm/{email_token}','Paycontroller@confirmEmail');
-
         Route::post('new','Paycontroller@check');
-
-
 
         Route::post('search/url', 'SEOController@domainSave');
     
