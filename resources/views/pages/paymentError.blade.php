@@ -9,8 +9,8 @@
             <small>you can only use 2 urls and 10 keywords per month</small>
 
             <footer>
-                <a href="{{URL::to('/history')}}"><i class="zmdi zmdi-arrow-back m-t-10"></i></a>
-                <a href="{{URL::to('/new')}}"><i class="zmdi zmdi-home m-t-10"></i></a>
+                <a href="{{URL::to('/dashboard')}}"><i class="zmdi zmdi-arrow-back m-t-10"></i></a>
+                <a href="{{URL::to('/dashboard')}}"><i class="zmdi zmdi-home m-t-10"></i></a>
             </footer>
         </div>
     </body>

@@ -18,6 +18,7 @@ use DB;
 
 class Paycontroller extends Controller
 {
+
     public function check(Request $request)
     {
 
@@ -30,6 +31,7 @@ class Paycontroller extends Controller
         return view('pages.dashboard');
 
     }
+
 
     public function cancel(Request $request)
     {
