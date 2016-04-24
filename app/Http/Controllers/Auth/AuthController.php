@@ -72,7 +72,7 @@ class AuthController extends Controller
             'email'         => $data['email'],
             'password'      => bcrypt($data['password']),
             'url_count'    => 0,
-            'email_token' => 'NULL'
+
 
         ]);
     }

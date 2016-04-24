@@ -34,21 +34,11 @@
                 return view('pages.index');
         }]);
 
-        Route::get('new', ['middleware' => 'auth', function(){
 
 
 
-            if( Auth::user()->verified  == 1 )
-                return view('pages.payment');
-            else
-                return view('pages.verificationError');
-        }]);
 
-        Route::get('errorVerify', ['middleware' => 'auth', function(){
-            return view('pages.verificationError');
-        }]);
-
-                     Route::get('payerror', function(){
+        Route::get('payerror', function(){
             return view('pages.paymentError');
         });
 
@@ -100,7 +90,7 @@
 
         Route::get('demo', 'SEOController@domainSave');
 
-        Route::get('errorVerify', 'EmailController@sendEmailReminder');
+        //Route::get('errorVerify', 'EmailController@sendEmailReminder');
 
 
     Route::get('cancel','Paycontroller@cancel');
@@ -110,7 +100,7 @@
 
     });
 
-        Route::get('emails/confirm/{email_token}','Paycontroller@confirmEmail');
+        //Route::get('emails/confirm/{email_token}','Paycontroller@confirmEmail');
 
         Route::post('new','Paycontroller@check');
 

@@ -41,7 +41,7 @@ class Paycontroller extends Controller
     }
 
 
-    public function confirmEmail($email_token)
+   /* public function confirmEmail($email_token)
     {
 
         $user = User::where('email_token', $email_token)->first();
@@ -50,5 +50,5 @@ class Paycontroller extends Controller
 
         return redirect('login');
 
-    }
+    }*/
 }

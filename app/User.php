@@ -39,7 +39,7 @@ class User extends Authenticatable
 
     }
 
-    public static  function boot()
+    /*public static  function boot()
     {
         parent::boot();
 
@@ -59,5 +59,5 @@ class User extends Authenticatable
           $this->email_token=null;
 
           $this->save();
-    }
+    }*/
 }
