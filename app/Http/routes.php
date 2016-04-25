@@ -38,15 +38,14 @@
 
 
 
-            if( Auth::user()->verified  == 1 )
+
                 return view('pages.payment');
-            else
-                return view('pages.verificationError');
+
         }]);
 
-        Route::get('errorVerify', ['middleware' => 'auth', function(){
+        /*Route::get('errorVerify', ['middleware' => 'auth', function(){
             return view('pages.verificationError');
-        }]);
+        }]);*/
 
                      Route::get('payerror', function(){
             return view('pages.paymentError');
@@ -104,7 +103,7 @@
          //TEst Controller
         //Route::get('fetchkey1/{id}', 'SEOOController@fetchkeywords');
 
-        Route::get('errorVerify', 'EmailController@sendEmailReminder');
+      // Route::get('errorVerify', 'EmailController@sendEmailReminder');
 
 
     Route::get('cancel','Paycontroller@cancel');
@@ -119,9 +118,9 @@
         Route::get('editkeyrank','KeyAddController@editrank');
     });
 
-        Route::get('emails/confirm/{email_token}','Paycontroller@confirmEmail');
+       // Route::get('emails/confirm/{email_token}','Paycontroller@confirmEmail');
 
-        Route::post('new','Paycontroller@check');
+
 
 
     Route::post('new','Paycontroller@check');

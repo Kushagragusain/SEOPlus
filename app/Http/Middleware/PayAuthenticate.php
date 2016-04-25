@@ -23,8 +23,6 @@ class PayAuthenticate
     {
 
         $user= $request->user();
-        if(Auth::user()->verified == 1)
-        {
 
             if( $user->isSubscribed())
 
@@ -39,9 +37,7 @@ class PayAuthenticate
 
              return redirect('new');
 
-        }
-        else
-            return redirect('errorVerify');
+
 
     }
 }
