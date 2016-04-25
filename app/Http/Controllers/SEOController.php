@@ -71,6 +71,18 @@ class SEOController extends Controller
                 $store->specified_country = $specified_country;
                 $store->country_rank = $country_rank_res;
                 $store->searched_at = Carbon::now();
+
+                //Check if this url is present with the same user
+                $unique = SearchedUrl::where('user_id', Auth::user()->id)
+                            ->where('url', $request->url)->first();
+
+                if (count($unique) > 0) {
+                    $store->url_id = $unique->url_id;
+                }
+                else {
+                    $store->url_id = Auth::user()->id."".$request->url;
+                }
+
                 $store->save();
 
                 $id = $store->id;

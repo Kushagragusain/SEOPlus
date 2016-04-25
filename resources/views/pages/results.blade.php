@@ -8,8 +8,6 @@
 </div>
 <div class="container">
     <div class="col-md-10 col-md-offset-1">
-
-
         <div class="card">
             <div class="card-header bgm-blue" style="text-overflow: ellipsis;">
                 <h2 class="hidden-xs">Results for <span class="text-uppercase">{{ $heading }}</span><small>All in one place</small></h2>
@@ -218,6 +216,9 @@
 
 <script>
     $(document).ready(function() {
+        $('#tbody').on('click', '#asd', function(){
+            alert('jghj');
+        });
 
         var count = 1;
         fetchKey();
@@ -245,7 +246,7 @@
                         title: "Deleted!",
                         text: "The keyword has been deleted successfully !!",
                         type: "success",
-                        timer: 2000,
+                        timer: 1500,
                         showConfirmButton: false
                     });
                     //swal("Deleted!", "The keyword has been deleted successfully !!", "success");
@@ -255,6 +256,67 @@
             });
         });
 
+        $('#tbody').on('click', '.editkey', function() {
+            var number = $(this).attr('id');
+            var id = $(this).attr('keyid');
+            editKey(number, id);
+        });
+
+        function editKey(num, id){
+            swal(   {  title: "Edit Keyword",
+                    //text: "Enter the keyword :",
+                    type: "input",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    animation: "slide-from-top",
+                    inputValue: $('#key'+id).text(),
+                },
+                function(inputValue){
+                    if (inputValue === false)
+                        return false;
+                    else if (inputValue === "") {
+                        swal.showInputError("You need to write something!");
+                        return false
+                    }
+                    else if(inputValue === $('#key'+id).text())
+                        swal("No change in keyword !!");
+                    else{
+                        //update keyword in db
+                        var url = '{{ url("editkey") }}';
+                        $.get(url, { 'id' : id, 'key' : inputValue }, function(){
+                            swal("Keyword Edited!", "Yes, we got your edited keyword. Kindly wait while we work out magic and get your results. You'll be able to press OK as soon as results come out!", "success");
+
+                            $('.confirm').attr('disabled', 'disabled');
+
+                            $('#key'+id).html(inputValue);
+                            $('#rank'+num).html('loading...');
+
+                            var rankurl = '{{ url("editkeyrank") }}';
+                            $.get(rankurl, { 'id' : id }, function(data){
+                                $('#rank'+num).html(data);
+                                $('.confirm').removeAttr('disabled');
+                            });
+                        });
+                    }
+                }
+            );
+            //alert();
+        }
+
+        function rankIncreaseCount(latest, previous){
+            if( previous == 'N.A.' )
+                return latest;
+            else
+                return parseInt(previous) - parseInt(latest);
+        }
+
+        function rankDecreaseCount(latest, previous){
+            if( latest == 'N.A.' )
+                    return previous;
+            else
+                return parseInt(latest) - parseInt(previous);
+            return '';
+        }
 
         function fetchKey() {
             $('#tbody').html('');
@@ -272,12 +334,17 @@
                     //console.log(pos);
                     for (i = 0; i < result.length; i++) {
                         var pos = '';
-                        if (result[i].position_status == 'inc')
+                        var rankcnt = '';
+                        if (result[i].position_status == 'inc'){
                             pos = '<span class="c-green f-15"><i class="zmdi zmdi-long-arrow-up"></i></span>';
-                        else if (result[i].position_status == 'dec')
+                            rankcnt = '<span class = "badge pull-top" style="background-color:green">'+rankIncreaseCount(result[i].latest_rank, result[i].previous_rank)+'</span>';
+                        }
+                        else if (result[i].position_status == 'dec'){
                             pos = '<span class="c-red "><i class="zmdi zmdi-long-arrow-down"></i></span>';
+                            rankcnt = '<span class = "badge pull-top" style="background-color:red">'+rankDecreaseCount(result[i].latest_rank, result[i].previous_rank)+'</span>';
+                        }
 
-                        content += '<tr><td class=" hidden-xs">' + count + '</td><td>' + result[i].keyword + '</td><td><p class="rank" keyid="'+ result[i].id +'" id="rank'+ count +'">' + result[i].latest_rank + '  ' + pos + '</p></td><td><a class="btn bgm-orange waves-effect" d data-method="delete" href=keyword/' + result[i].id + '><i class="zmdi zmdi-search"></i></a>  <a class="btn btn-danger waves-effect delete-button"  data-method="delete" data-id="' + result[i].id + '" ><i class="zmdi zmdi-close"></i></a></td></tr>';
+                        content += '<tr><td class=" hidden-xs">' + count + '</td><td id="key'+ result[i].id +'"><a href=keyword/' + result[i].id + '>' + result[i].keyword + '</a></td><td><p class="rank" keyid="'+ result[i].id +'" id="rank'+ count +'">' + result[i].latest_rank + '  ' + pos + ' '+ rankcnt +'        </p>    </td><td>   <a class="btn bgm-yellow waves-effect editkey"  keyid="'+ result[i].id +'" id="'+ count +'"><i class="zmdi zmdi-edit"></i></a>  <a class="btn btn-danger waves-effect delete-button"  data-method="delete" data-id="' + result[i].id + '" ><i class="zmdi zmdi-close"></i></a></td></tr>';
                         count++;
                     }
                     $('#tbody').html(content);
@@ -296,7 +363,8 @@
             $('#confirm_delete').text('');
             if (x == '') {
                 $("#error").text('Field should not be empty.').css('font-weight', 'bold');
-            } else {
+            }
+            else {
                 swal("Keyword(s) Added!", "Yes, we got your keyword(s). Kindly wait while we work out magic and get your results. You'll be able to press OK as soon as results come out!", "success");
 
                 $('.confirm').attr('disabled', 'disabled');
@@ -314,16 +382,19 @@
                 $('#keyword').val('');
                 $.post(url, d, function(data) {
                     $("#key_mes").fadeIn();
+                    if(data.length > 8200) {
+                        window.location.assign( "{{URL::to('payerror') }}" );
+                    }
+                    else {
                     var result = $.parseJSON(data);
                     //console.log(data);
                     var repeat = '';
                     var xx = 0;
-
+                    var content = '';
                     for(i = 0; i < result.length; i++){
                         if (result[i].id != 'null') {
-                            //console.log(result);
-                            $('#tbody').append('<tr><td class=" hidden-xs">' + count + '</td><td>' + result[i].keyword + '</td><td><p class="rank" keyid="'+ result[i].id +'" id="rank'+ count +'"> loading...</p></td><td><a class="btn bgm-orange waves-effect" data-method="delete" href=keyword/' + result[i].id + '><i class="zmdi zmdi-search"></i></a>  <a class="btn btn-danger waves-effect delete-button" data-method="delete" data-id="' + result[i].id + '" ><i class="zmdi zmdi-close"></i></a></td></tr>');
 
+                            content += '<tr><td class=" hidden-xs">' + count + '</td><td id="key'+ result[i].id +'"><a href=keyword/' + result[i].id + '>' + result[i].keyword + '</a></td><td><p class="rank" keyid="'+ result[i].id +'" id="rank'+ count +'">loading...</p></td><td>   <a class="btn bgm-yellow waves-effect editkey"  keyid="'+ result[i].id +'" id="'+ count +'"><i class="zmdi zmdi-edit"></i></a>  <a class="btn btn-danger waves-effect delete-button"  data-method="delete" data-id="' + result[i].id + '" ><i class="zmdi zmdi-close"></i></a></td></tr>';
 
                             count++;
                         }
@@ -340,6 +411,7 @@
                             $("#key_mes").text(repeat).fadeOut(4000);
                         }
                     }
+                    $('#tbody').append(content);
 
 
                     //calculate rank of added keyword
@@ -352,11 +424,12 @@
                             $('#rank'+rankres[i]['id']).html(rankres[i]['rank']);
                             countt++;
                         }
+                        avgRank();
                         $('.confirm').removeAttr('disabled');
                     });
+                }
                 });
             }
-            avgRank();
         });
 
         function deleteKey(id, dom) {
@@ -397,11 +470,16 @@
                     var res = $.parseJSON(data);
 
                     var pos = '';
-                    if (res['pos'] == 'inc')
+                    var rankcnt = '';
+                    if (res['pos'] == 'inc'){
                         pos = '<span class="c-green f-15"><i class="zmdi zmdi-long-arrow-up"></i></span>';
-                    else if (res['pos'] == 'dec')
+                        rankcnt = '<span class = "badge pull-top" style="background-color:green">'+rankIncreaseCount(res['latest'], res['previous'])+'</span>';
+                    }
+                    else if (res['pos'] == 'dec'){
                         pos = '<span class="c-red "><i class="zmdi zmdi-long-arrow-down"></i></span>';
-                    $('#rank'+res['ii']).html(res['rank']+"  "+pos);
+                        rankcnt = '<span class = "badge pull-top" style="background-color:red">'+rankDecreaseCount(res['latest'], res['previous'])+'</span>';
+                    }
+                    $('#rank'+res['ii']).html(res['rank']+"  "+pos+" "+rankcnt);
                     //alert($('#rank'+res['ii']).text()+"  "+i);
                     if( (parseInt(res['ii']) + 1) == count )
                         $('.confirm').removeAttr('disabled');

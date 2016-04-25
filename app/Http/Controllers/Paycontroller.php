@@ -28,7 +28,7 @@ class Paycontroller extends Controller
 
         $user->newSubscription('monthly', 'monthly')->trialDays(30)->create($token);
 
-        return view('pages.dashboard');
+        return redirect('dashboard');
 
     }
 

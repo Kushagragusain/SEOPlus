@@ -47,19 +47,26 @@
                 return view('pages.paymentError');
         });
 
-        Route::group(['middleware' => ['auth']], function () {
+        Route::group(['middleware' => 'auth'], function () {
 
-            Route::group(['middleware' => ['auth']], function () {
+            //redirect to dashboard to loged in user
+           Route::get('dashboard', function(){
+                return view('pages.dashboard');
+            });
 
-                 //redirect to dashboard to loged in user
-                Route::get('dashboard', function(){
-                    return view('pages.dashboard');
-                });
+            Route::group(['middleware' => 'payauthenticate'], function () {
+
+
+                Route::post('search/url', 'SEOController@domainSave');
+
+                   //add keyword(s) in db
+                Route::post('addkey', 'KeyAddController@addkeyword');
+
+    });
 
                 //add keyword(s) in db
                 Route::post('addkey', 'KeyAddController@addkeyword');
 
-            });
 
        //to see all previous searches
         Route::get('history', 'SEOController@history');
@@ -110,7 +117,7 @@
 
         Route::post('new','Paycontroller@check');
 
-        Route::post('search/url', 'SEOController@domainSave');
+
     
         Route::post('keyword', 'SEOController@keywordData');
 

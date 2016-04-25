@@ -33,17 +33,34 @@ class PayAuthenticate
 
                 $nok = SearchedKeyword::where('user_id',Auth::user()->id)->get();
 
-                $nou = SearchedUrl::where('user_id',Auth::user()->id)->get();
+                $nou = SearchedUrl::where('user_id',Auth::user()->id)->groupBy('url_id')->get();
+
+                $subcount = DB::table('subscriptions')->where('user_id',Auth::user()->id)->count();
 
 
-              if( count($nou) < $urlallowed && count($nok) < $keywordallowed)
-
+                if( count($nou) < $urlallowed && count($nok) < $keywordallowed)
                     return $next($request);
                 else
                     return redirect('payerror');
+
+                $ok = 1;
+
+                if(count($nou) == $urlallowed * $subcount) {
+                //If the latest entry is old
+                    $check = SearchedUrl::where('user_id',Auth::user()->id)
+                        ->where('url', $request->url)->get();
+                    if(count($check) === 0)
+                        $ok = 0;
+                }
+
+
+              if( count($nou) <= $urlallowed * $subcount && count($nok) < $keywordallowed * $subcount && $ok == 1)
+                    return $next($request);
+              else
+                  return redirect('payerror');
+
             }
 
              return redirect('new');
-
     }
 }

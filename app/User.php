@@ -17,7 +17,9 @@ class User extends Authenticatable
      *
      * @var array
      */
-   use Billable;
+
+    use Billable;
+
     protected $fillable = [
         'user_name', 'email', 'password',
         'url_count',
