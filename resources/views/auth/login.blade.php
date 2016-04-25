@@ -18,11 +18,13 @@
 
     <body class="login-content">
 
+        <div class="row">
 
-
+            </div>
         <!-- Login -->
         <div class="lc-block toggled" id="l-login">
-
+            <h2 style="">User Login</h2>
+            <br><br>
             @if (count($errors) > 0)
             <p>
                 <strong class="c-red">The email/password combination doesn't exists !!</strong>
@@ -33,38 +35,30 @@
             {!! csrf_field() !!}
 
             <div class="input-group m-b-20 ">
-                <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
-                <div class="fg-line {{ $errors->has('email') ? ' has-error' : '' }}">
+                <span class="input-group-addon f-20"><i class="zmdi zmdi-account"></i></span>
+                <div class="fg-line f-20 {{ $errors->has('email') ? ' has-error' : '' }}">
                     <input type="text" class="form-control" placeholder="Email address" name="email" value="{{ old('email') }}">
                 </div>
             </div>
 
-            <div class="input-group m-b-20 ">
-                <span class="input-group-addon"><i class="zmdi zmdi-lock"></i></span>
-                <div class="fg-line {{ $errors->has('password') ? ' has-error' : '' }}">
+            <div class="input-group m-b-20">
+                <span class="input-group-addon f-20"><i class="zmdi zmdi-lock"></i></span>
+                <div class="fg-line f-20 {{ $errors->has('password') ? ' has-error' : '' }}">
                     <input type="password" class="form-control" placeholder="Password" name="password">
                 </div>
             </div>
-
-            <div class="clearfix"></div>
-
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" value="" name="remember">
-                    <i class="input-helper"></i>
-                    Keep me signed in
-                </label>
-            </div>
-
+            <br><br>
             <div class="form-group">
-            <button href="" class="btn btn-login btn-danger btn-float" type="submit"><i class="zmdi zmdi-arrow-forward"></i></button>
+            <button href="" class="btn btn-warning btn-lg btn-block bgm-aqua waves-effect" style="border-radius: 30px;" type="submit">Login</button>
             </div>
 
             </form>
 
             <ul class="login-navigation">
-                <li class="bgm-red"><a href="{{ url('/register') }}" class="c-white">Register</a></li>
-                <li class="bgm-orange"><a href="{{ url('/password/reset') }}" class="c-white">Forgot Password?</a></li>
+                <a href="{{ url('/password/reset') }}" class="c-black">Forgot Password?</a>
+                <br><br><br>
+                <span class="f-15">Don't have an account, yet?<a href="{{ url('/register') }}" class="c-red" style="font-weight: bold;"> Sign Up</a></span>
+
             </ul>
         </div>
 <!-- Older IE warning message -->

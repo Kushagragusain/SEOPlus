@@ -93,7 +93,7 @@
             </form>
 
           <ul class="login-navigation">
-                <li class="bgm-orange"><a href="{{ url('/login') }}" class="c-white">Login</a></li>
+               Already have an account?<a href="{{ url('/login') }}" class="c-red"> Sign In</a>
             </ul>
         </div>
 <!-- Older IE warning message -->
