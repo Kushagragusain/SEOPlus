@@ -47,13 +47,14 @@
 
         Route::group(['middleware' => 'auth'], function () {
 
-
-            Route::group(['middleware' => 'payauthenticate'], function () {
-
-                //redirect to dashboard to loged in user
+            //redirect to dashboard to loged in user
                  Route::get('dashboard', function(){
                 return view('pages.dashboard');
             });
+
+            Route::group(['middleware' => 'payauthenticate'], function () {
+
+                Route::post('search/url', 'SEOController@domainSave');
 
                    //add keyword(s) in db
         Route::post('addkey', 'KeyAddController@addkeyword');
@@ -114,7 +115,7 @@
 
         Route::post('new','Paycontroller@check');
 
-        Route::post('search/url', 'SEOController@domainSave');
+
     
         Route::post('keyword', 'SEOController@keywordData');
 
