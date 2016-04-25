@@ -38,9 +38,8 @@ class User extends Authenticatable
             return $this->stripe_id;
     }
 
-    public $timestamps = false;
-
-    public static  function boot()
+    /*public static  function boot()
+>>>>>>> origin/final
     {
         parent::boot();
 
@@ -60,6 +59,9 @@ class User extends Authenticatable
           $this->email_token=null;
 
           $this->save();
+<<<<<<< HEAD
     }
 
+=======
+    }*/
 }

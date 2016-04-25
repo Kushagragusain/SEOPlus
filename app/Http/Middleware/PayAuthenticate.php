@@ -37,7 +37,5 @@ class PayAuthenticate
 
              return redirect('new');
 
-
-
     }
 }

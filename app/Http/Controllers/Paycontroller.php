@@ -18,6 +18,7 @@ use DB;
 
 class Paycontroller extends Controller
 {
+
     public function check(Request $request)
     {
 
@@ -31,6 +32,7 @@ class Paycontroller extends Controller
 
     }
 
+
     public function cancel(Request $request)
     {
 
@@ -41,7 +43,11 @@ class Paycontroller extends Controller
     }
 
 
+<<<<<<< HEAD
     /*public function confirmEmail($email_token)
+=======
+   /* public function confirmEmail($email_token)
+>>>>>>> origin/final
     {
 
         $user = User::where('email_token', $email_token)->first();

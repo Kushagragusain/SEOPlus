@@ -27,31 +27,25 @@
 
             Route::auth();
 
-
-
-
         Route::get('/',['middleware' => 'guest', function(){
                 return view('pages.index');
-        }]);
-
-        Route::get('new', ['middleware' => 'auth', function(){
-
-
-
-
-                return view('pages.payment');
-
         }]);
 
         /*Route::get('errorVerify', ['middleware' => 'auth', function(){
             return view('pages.verificationError');
         }]);*/
 
-                     Route::get('payerror', function(){
+           /* Route::get('payerror', function(){
             return view('pages.paymentError');
+        });*/
+
+             Route::get('new',function(){
+                return view('pages.payment');
         });
 
-
+               Route::get('payerror',function(){
+                return view('pages.paymentError');
+        });
 
         Route::group(['middleware' => ['auth','payauthenticate']], function () {
         //redirect to dashboard to loged in user
@@ -59,6 +53,9 @@
             Route::get('dashboard', function(){
                 return view('pages.dashboard');
             });
+
+
+
         /*Route::get('demo', function(){
             return view('pages.dmeo');
         });*/
@@ -97,18 +94,18 @@
         //get average ranking
         Route::get('avgrank', 'KeyAddController@avgRank');
 
-        Route::get('demo', 'SEOController@domainSave');
-
-
          //TEst Controller
         //Route::get('fetchkey1/{id}', 'SEOOController@fetchkeywords');
 
       // Route::get('errorVerify', 'EmailController@sendEmailReminder');
 
+       // Route::get('demo', 'SEOController@domainSave');
 
-    Route::get('cancel','Paycontroller@cancel');
+
+        //Route::get('errorVerify', 'EmailController@sendEmailReminder');
 
 
+        Route::get('cancel','Paycontroller@cancel');
 
         //Route::get('checkpay','Paycontroller@check');emails/confirm/
 
@@ -118,13 +115,10 @@
         Route::get('editkeyrank','KeyAddController@editrank');
     });
 
+
        // Route::get('emails/confirm/{email_token}','Paycontroller@confirmEmail');
 
-
-
-
-    Route::post('new','Paycontroller@check');
-
+        Route::post('new','Paycontroller@check');
 
         Route::post('search/url', 'SEOController@domainSave');
     

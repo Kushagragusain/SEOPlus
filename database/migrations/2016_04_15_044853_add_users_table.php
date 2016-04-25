@@ -17,8 +17,6 @@ class AddUsersTable extends Migration
            $table->string('card_brand')->nullable();
            $table->string('card_last_four')->nullable();
            $table->timestamp('trial_ends_at')->nullable();
-            $table->integer('verified')->default(0);
-           $table->string('email_token')->nullable();
 
 });
     }
