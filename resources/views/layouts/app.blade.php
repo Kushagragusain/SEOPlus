@@ -60,7 +60,7 @@
 
                     <div class="dropdown-menu dropdown-menu-sm pull-right">
                         <div class="listview">
-                              <a class="lv-item" href="{{ url('/cancel') }}" id="cancel">cancel subscription </a>
+                              <a class="lv-item" href="{{ url('/cancel') }}" id="cancel">Cancel Subscription </a>
                             <a class="lv-item" href="{{ url('/logout') }}" id="logout" > Logout</a>
                         </div>
                     </div>

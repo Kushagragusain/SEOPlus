@@ -47,18 +47,20 @@
                 return view('pages.paymentError');
         });
 
-        Route::group(['middleware' => ['auth','payauthenticate']], function () {
-        //redirect to dashboard to loged in user
+        Route::group(['middleware' => ['auth']], function () {
 
-            Route::get('dashboard', function(){
-                return view('pages.dashboard');
+            Route::group(['middleware' => ['auth']], function () {
+
+                 //redirect to dashboard to loged in user
+                Route::get('dashboard', function(){
+                    return view('pages.dashboard');
+                });
+
+                //add keyword(s) in db
+                Route::post('addkey', 'KeyAddController@addkeyword');
+
             });
 
-
-
-        /*Route::get('demo', function(){
-            return view('pages.dmeo');
-        });*/
 
        //to see all previous searches
         Route::get('history', 'SEOController@history');
@@ -74,8 +76,6 @@
 
         //Route::get('foo/{id}', 'KeywordController@foo');
 
-        //add keyword(s) in db
-        Route::post('addkey', 'KeyAddController@addkeyword');
 
         //get keyword(s) rank
         Route::get('getrank', 'KeyAddController@getRank');

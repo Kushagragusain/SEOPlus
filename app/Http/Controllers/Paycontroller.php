@@ -42,8 +42,6 @@ class Paycontroller extends Controller
         return redirect('dashboard');
     }
 
-
-<<<<<<< HEAD
     /*public function confirmEmail($email_token)
 =======
    /* public function confirmEmail($email_token)
