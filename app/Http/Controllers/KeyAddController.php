@@ -223,7 +223,7 @@ class KeyAddController extends Controller
             }
 
             Storekeyurl::where('keywordname', $key)->update(['urls'=> $urldata]);
-            SearchedKeyword::find($id)->update(['latest_rank' => $rank, 'previous_rank' => $keyy['latest_rank'], 'position_status' => $pos]);
+            SearchedKeyword::find($id)->update(['task_id' => $taskid, 'latest_rank' => $rank, 'previous_rank' => $keyy['latest_rank'], 'position_status' => $pos]);
         }
         $keydata = new KeyData;
         $keydata->key_id = $id;
@@ -238,6 +238,7 @@ class KeyAddController extends Controller
     public function refresh(Request $request){
         $id = $request->key_id;
         $data = SearchedKeyword::find($id);
+        //$taskid = $this->getTaskId($data['keyword']);
         $rank['rank'] = $this->rank($id, $data['keyword'], $data['url'], $data['task_id'], 100);
 
         $keydata = SearchedKeyword::find($id);

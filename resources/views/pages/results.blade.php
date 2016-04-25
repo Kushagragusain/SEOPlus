@@ -216,6 +216,9 @@
 
 <script>
     $(document).ready(function() {
+        $('#tbody').on('click', '#asd', function(){
+            alert('jghj');
+        });
 
         var count = 1;
         fetchKey();
@@ -341,7 +344,7 @@
                             rankcnt = '<span class = "badge pull-top" style="background-color:red">'+rankDecreaseCount(result[i].latest_rank, result[i].previous_rank)+'</span>';
                         }
 
-                        content += '<tr><td class=" hidden-xs">' + count + '</td><td id="key'+ result[i].id +'">' + result[i].keyword + '</td><td><p class="rank" keyid="'+ result[i].id +'" id="rank'+ count +'">' + result[i].latest_rank + '  ' + pos + ' '+ rankcnt +'        </p>    </td><td><a class="btn bgm-orange waves-effect" d data-method="delete" href=keyword/' + result[i].id + '><i class="zmdi zmdi-search"></i></a>   <a class="btn bgm-yellow waves-effect editkey"  keyid="'+ result[i].id +'" id="'+ count +'"><i class="zmdi zmdi-edit"></i></a>  <a class="btn btn-danger waves-effect delete-button"  data-method="delete" data-id="' + result[i].id + '" ><i class="zmdi zmdi-close"></i></a></td></tr>';
+                        content += '<tr><td class=" hidden-xs">' + count + '</td><td id="key'+ result[i].id +'"><a href=keyword/' + result[i].id + '>' + result[i].keyword + '</a></td><td><p class="rank" keyid="'+ result[i].id +'" id="rank'+ count +'">' + result[i].latest_rank + '  ' + pos + ' '+ rankcnt +'        </p>    </td><td>   <a class="btn bgm-yellow waves-effect editkey"  keyid="'+ result[i].id +'" id="'+ count +'"><i class="zmdi zmdi-edit"></i></a>  <a class="btn btn-danger waves-effect delete-button"  data-method="delete" data-id="' + result[i].id + '" ><i class="zmdi zmdi-close"></i></a></td></tr>';
                         count++;
                     }
                     $('#tbody').html(content);
@@ -386,7 +389,7 @@
                     for(i = 0; i < result.length; i++){
                         if (result[i].id != 'null') {
 
-                            content += '<tr><td class=" hidden-xs">' + count + '</td><td id="key'+ result[i].id +'">' + result[i].keyword + '</td><td><p class="rank" keyid="'+ result[i].id +'" id="rank'+ count +'">loading...</p></td><td><a class="btn bgm-orange waves-effect" d data-method="delete" href=keyword/' + result[i].id + '><i class="zmdi zmdi-search"></i></a>   <a class="btn bgm-yellow waves-effect editkey"  keyid="'+ result[i].id +'" id="'+ count +'"><i class="zmdi zmdi-edit"></i></a>  <a class="btn btn-danger waves-effect delete-button"  data-method="delete" data-id="' + result[i].id + '" ><i class="zmdi zmdi-close"></i></a></td></tr>';
+                            content += '<tr><td class=" hidden-xs">' + count + '</td><td id="key'+ result[i].id +'"><a href=keyword/' + result[i].id + '>' + result[i].keyword + '</a></td><td><p class="rank" keyid="'+ result[i].id +'" id="rank'+ count +'">loading...</p></td><td>   <a class="btn bgm-yellow waves-effect editkey"  keyid="'+ result[i].id +'" id="'+ count +'"><i class="zmdi zmdi-edit"></i></a>  <a class="btn btn-danger waves-effect delete-button"  data-method="delete" data-id="' + result[i].id + '" ><i class="zmdi zmdi-close"></i></a></td></tr>';
 
                             count++;
                         }

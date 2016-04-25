@@ -35,17 +35,18 @@ class SEOController extends Controller
                 // Bind the URL to the current SEOstats instance.
                 if ($seostats->setUrl($url)) {
 
-                $cntry = Country::first()->where('tld', $request->country)->take(1)->get();
-                foreach($cntry as $i)
-                    $specified_country = $i['country_name'];
+                $cntry = Country::where('tld', $request->country)->first();
+
+                $specified_country = $cntry['country_name'];
+
                 $heading = $request->url;
                 $alexa_rank = SEOstats\Alexa::getGlobalRank();
                 $google_page_rank = SEOstats\Google::getPageRank();
                 $backlinks = SEOstats\Google::getBacklinksTotal();
                 $origin_country = SEOstats\Alexa::getCountryRank();
                 $country_rank = SEOstats\SemRush::getDomainRank($url, $request->country);
-                if( $country_rank=='n.a.' )
-                    $country_rank_res = 'NA';
+                if( $country_rank=='N.A.' )
+                    $country_rank_res = 'N.A.';
                 else
                     $country_rank_res = $country_rank['Rk'];
 
@@ -57,13 +58,13 @@ class SEOController extends Controller
                 $store->alexa_rank = $alexa_rank;
                 $store->google_page_rank = $google_page_rank;
                 $store->backlinks = $backlinks;
-                if($origin_country != 'n.a.') {
-                $store->origin_country_name = $origin_country['country'];
-                $store->origin_country_rank = $origin_country['rank'];
+                if($origin_country != 'N.A.') {
+                    $store->origin_country_name = $origin_country['country'];
+                    $store->origin_country_rank = $origin_country['rank'];
                 }
                 else {
-                    $store->origin_country_name = 'NA';
-                    $store->origin_country_rank = 'NA';
+                    $store->origin_country_name = 'N.A.';
+                    $store->origin_country_rank = 'N.A.';
                 }
                 $store->specified_country = $specified_country;
                 $store->country_rank = $country_rank_res;
