@@ -114,6 +114,10 @@
         $("#submit").html('Checking...');
         $("#submit").attr('disabled', 'disabled');
         //return false;
+<<<<<<< HEAD
+
+=======
+>>>>>>> origin/final
     }
 
 

@@ -25,10 +25,10 @@ class PayAuthenticate
 
         $user= $request->user();
 
-
             if( $user->isSubscribed())
+             {
 
-             {  $keywordallowed= 10;
+                $keywordallowed= 10;
                 $urlallowed= 2;
 
                 $nok = SearchedKeyword::where('user_id',Auth::user()->id)->get();
@@ -37,14 +37,13 @@ class PayAuthenticate
 
 
               if( count($nou) < $urlallowed && count($nok) < $keywordallowed)
+
                     return $next($request);
                 else
-              return redirect('payerror');
-
-
+                    return redirect('payerror');
             }
-             return redirect('new');
 
+             return redirect('new');
 
     }
 }

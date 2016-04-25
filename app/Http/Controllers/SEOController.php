@@ -25,6 +25,7 @@ class SEOController extends Controller
 
     public function domainSave(Request $request)
     {
+
           DB::table('users')->whereId(Auth::user()->id)->increment('url_count');
 
         try {
@@ -33,12 +34,13 @@ class SEOController extends Controller
             // Create a new SEOstats instance.
                 $seostats = new \SEOstats\SEOstats;
 
-            // Bind the URL to the current SEOstats instance.
-            if ($seostats->setUrl($url)) {
+                // Bind the URL to the current SEOstats instance.
+                if ($seostats->setUrl($url)) {
 
-                $cntry = Country::first()->where('tld', $request->country)->take(1)->get();
-                foreach($cntry as $i)
-                    $specified_country = $i['country_name'];
+                $cntry = Country::where('tld', $request->country)->first();
+
+                $specified_country = $cntry['country_name'];
+
                 $heading = $request->url;
                 $alexa_rank = SEOstats\Alexa::getGlobalRank();
                 $google_page_rank = SEOstats\Google::getPageRank();
@@ -90,7 +92,7 @@ class SEOController extends Controller
 
 
 
-    
+
     public function fetchUrlData($id){
         if( ctype_digit($id) ){
             $data = SearchedUrl::find($id);
@@ -130,7 +132,7 @@ class SEOController extends Controller
 
         return view('pages.keyword_data', compact('keyword', 'url', 'res', 'totsearch'));
     }*/
-    
+
     public function history(){
         $urls = SearchedUrl::where('user_id', Auth::user()->id)->get();
         //$keywords = SearchedKeyword::latest('searched_at')->where('user_id', Auth::user()->id)->get();

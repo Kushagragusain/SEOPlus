@@ -150,7 +150,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Laravel\Cashier\CashierServiceProvider::class,
-        
+
         /*
          * Application Service Providers...
          */

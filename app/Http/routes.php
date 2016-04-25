@@ -27,47 +27,39 @@
 
             Route::auth();
 
-
-
-
         Route::get('/',['middleware' => 'guest', function(){
                 return view('pages.index');
         }]);
 
+        /*Route::get('errorVerify', ['middleware' => 'auth', function(){
+            return view('pages.verificationError');
+        }]);*/
+
            /* Route::get('payerror', function(){
             return view('pages.paymentError');
         });*/
+
              Route::get('new',function(){
                 return view('pages.payment');
         });
 
-      Route::get('payerror',function(){
+               Route::get('payerror',function(){
                 return view('pages.paymentError');
         });
 
-        Route::group(['middleware' => 'auth'], function () {
+        Route::group(['middleware' => ['auth']], function () {
 
+            Route::group(['middleware' => ['auth']], function () {
 
-            Route::group(['middleware' => 'payauthenticate'], function () {
+                 //redirect to dashboard to loged in user
+                Route::get('dashboard', function(){
+                    return view('pages.dashboard');
+                });
 
-                //redirect to dashboard to loged in user
-                 Route::get('dashboard', function(){
-                return view('pages.dashboard');
+                //add keyword(s) in db
+                Route::post('addkey', 'KeyAddController@addkeyword');
+
             });
-
-                   //add keyword(s) in db
-        Route::post('addkey', 'KeyAddController@addkeyword');
-
-    });
-
-
-
-
-
-
-        /*Route::get('demo', function(){
-            return view('pages.dmeo');
-        });*/
 
        //to see all previous searches
         Route::get('history', 'SEOController@history');
@@ -82,8 +74,6 @@
 
 
         //Route::get('foo/{id}', 'KeywordController@foo');
-
-
 
         //get keyword(s) rank
         Route::get('getrank', 'KeyAddController@getRank');
@@ -109,6 +99,12 @@
 
         Route::get('cancel','Paycontroller@cancel');
 
+        //Route::get('checkpay','Paycontroller@check');emails/confirm/
+
+        Route::get('editkey','KeyAddController@edit');
+
+
+        Route::get('editkeyrank','KeyAddController@editrank');
 
     });
 

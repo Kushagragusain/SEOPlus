@@ -51,17 +51,36 @@
                 </li>
 
 
+<<<<<<< HEAD
+
+                    @if($history != '')
+                        <li>
+                            <a href="{{ url('/history') }}"><span class="tm-label">{{ $history }}</span></a>
+                        </li>
+                    @endif
+
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" href="">
+                            <span class="tm-label">{{ Auth::user()->user_name }}<span class="caret"></span> </span>
+                        </a>
+
+=======
                 <li class="dropdown">
                     <a data-toggle="dropdown" href="">
                         <span class="tm-label">{{ Auth::user()->user_name }}<span class="caret"></span> </span>
                     </a>
+>>>>>>> origin/final
                     <div class="dropdown-menu dropdown-menu-sm pull-right">
                         <div class="listview">
-                              <a class="lv-item" href="{{ url('/cancel') }}" id="cancel">cancel subscription </a>
+                              <a class="lv-item" href="{{ url('/cancel') }}" id="cancel">Cancel Subscription </a>
                             <a class="lv-item" href="{{ url('/logout') }}" id="logout" > Logout</a>
                         </div>
                     </div>
+<<<<<<< HEAD
+                    </li>
+=======
                 </li>
+>>>>>>> origin/final
 
                 @endif
 

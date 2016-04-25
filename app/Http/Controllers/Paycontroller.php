@@ -42,8 +42,10 @@ class Paycontroller extends Controller
         return redirect('dashboard');
     }
 
-
+    /*public function confirmEmail($email_token)
+=======
    /* public function confirmEmail($email_token)
+>>>>>>> origin/final
     {
 
         $user = User::where('email_token', $email_token)->first();
