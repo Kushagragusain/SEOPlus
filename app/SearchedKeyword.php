@@ -8,10 +8,11 @@ use Auth;
 class SearchedKeyword extends Model
 {
     protected $fillable = [
-         'keyword',
-         'latest_rank',
-         'previous_rank',
-         'position_status',
+        'task_id',
+        'keyword',
+        'latest_rank',
+        'previous_rank',
+        'position_status',
     ];
 
     //to get id

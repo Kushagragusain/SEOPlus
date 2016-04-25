@@ -48,16 +48,17 @@
         Route::group(['middleware' => 'auth'], function () {
 
             //redirect to dashboard to loged in user
-                 Route::get('dashboard', function(){
+           Route::get('dashboard', function(){
                 return view('pages.dashboard');
             });
 
             Route::group(['middleware' => 'payauthenticate'], function () {
 
+
                 Route::post('search/url', 'SEOController@domainSave');
 
                    //add keyword(s) in db
-        Route::post('addkey', 'KeyAddController@addkeyword');
+                Route::post('addkey', 'KeyAddController@addkeyword');
 
     });
 

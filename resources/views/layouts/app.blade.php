@@ -7,7 +7,9 @@
     <!-- Vendor CSS -->
 
     <link href="{{URL::to('assets')}}/vendors/bower_components/animate.css/animate.min.css" rel="stylesheet">
-    <link href="{{URL::to('assets')}}/vendors/bower_components/bootstrap-sweetalert/lib/sweet-alert.css" rel="stylesheet">
+
+    <link href="{{URL::to('assets')}}/vendors/bower_components/bootstrap-sweetalert/lib/sweetalert.css" rel="stylesheet">
+
     <link href="{{URL::to('assets')}}/vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css" rel="stylesheet">
     <link href="{{URL::to('assets')}}/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet">
     <link href="{{URL::to('assets')}}/vendors/bower_components/bootstrap-select/dist/css/bootstrap-select.css" rel="stylesheet">
@@ -158,7 +160,10 @@
 
 <script src="{{URL::to('assets')}}/vendors/bower_components/Waves/dist/waves.min.js"></script>
 <script src="{{URL::to('assets')}}/vendors/bootstrap-growl/bootstrap-growl.min.js"></script>
-<script src="{{URL::to('assets')}}/vendors/bower_components/bootstrap-sweetalert/lib/sweet-alert.min.js"></script>
+
+
+
+<script src="{{URL::to('assets')}}/vendors/bower_components/bootstrap-sweetalert/lib/sweetalert.min.js"></script>
 
 
 

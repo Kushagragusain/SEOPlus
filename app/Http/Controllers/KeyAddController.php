@@ -26,7 +26,16 @@ use App\Keydata;
 use App\Storekeyurl;
 
 class KeyAddController extends Controller
-{
+{   public function getTaskId($k){
+        $client = new Client('https://online.seranking.com/structure/clientapi/positions/?token=54b0b0b40bc9e349b211ba26e29b4578&method=addTask&query='.$k.'&engine_id=200');
+        $request = $client->get();
+
+        $response = $request->send();
+        $ddata = json_decode($response->getBody(), true);
+
+        return $ddata['task_id'];
+    }
+
     //add new keyword to display table
     public function addkeyword(Request $request){
 
@@ -44,16 +53,10 @@ class KeyAddController extends Controller
 
             //new keyword
             if( $check_keyword->count() == 0 && $k != '' ){
-                $client = new Client('https://online.seranking.com/structure/clientapi/positions/?token=54b0b0b40bc9e349b211ba26e29b4578&method=addTask&query='.$k.'&engine_id=200');
-                $request = $client->get();
-
-                $response = $request->send();
-                $ddata = json_decode($response->getBody(), true);
-
                 $t = Carbon::now();
                 $key = new SearchedKeyword;
                 $key->user_id = Auth::user()->id;
-                $key->task_id = $ddata['task_id'];
+                $key->task_id = $this->getTaskId($k);
 
                 $key->url_id = $urlId;
                 $key->url = $url;
@@ -125,27 +128,22 @@ class KeyAddController extends Controller
                 $rank[$i]['id'] = $count;
 
                 SearchedKeyword::findorFail($d['id'])->update([ 'latest_rank' => $rank[$i]['rank'] ]);
-                $keydata = new Keydata;
+                /*$keydata = new Keydata;
                 $keydata->key_id = $d['id'];
                 $keydata->keyword_rank = $rank[$i]['rank'];
                 $keydata->searched_at = Carbon::now();
-                $keydata->save();
+                $keydata->save();*/
 
                 $i = $i + 1;
                 $count = $count + 1;
             }
-            //$res = $res."  ".$d['keyword'];
         }
 
-        //return $data[1]['keyword'];
         return json_encode($rank);
-
-        //return $rank[0]['rank'];
-
     }
 
     public function rank($id, $key, $url, $taskid, $stat){
-        while( $stat === 'first' &&  $this->demo($taskid) == 0 ){
+        while( ($stat === 'first' || $stat === 'refresh') &&  $this->demo($taskid) == 0 ){
             sleep(30);
         }
 
@@ -202,6 +200,8 @@ class KeyAddController extends Controller
                 $store->latestcheck = Carbon::now();
                 $store->save();
             }
+            if( $rank == 0 )
+                $rank = 'N.A.';
         }
         else {
             $keyy = SearchedKeyword::find($id);
@@ -221,16 +221,14 @@ class KeyAddController extends Controller
                         $pos = 'inc';
                 }
             }
-
             Storekeyurl::where('keywordname', $key)->update(['urls'=> $urldata]);
-            SearchedKeyword::find($id)->update(['latest_rank' => $rank, 'previous_rank' => $keyy['latest_rank'], 'position_status' => $pos]);
-
-            $keydata = new KeyData;
-            $keydata->key_id = $id;
-            $keydata->keyword_rank = $rank;
-            $keydata->searched_at = Carbon::now();
-            $keydata->save();
+            SearchedKeyword::find($id)->update(['task_id' => $taskid, 'latest_rank' => $rank, 'previous_rank' => $keyy['latest_rank'], 'position_status' => $pos]);
         }
+        $keydata = new KeyData;
+        $keydata->key_id = $id;
+        $keydata->keyword_rank = $rank;
+        $keydata->searched_at = Carbon::now();
+        $keydata->save();
 
         return $rank;
                 //return $dd['url'];
@@ -239,20 +237,15 @@ class KeyAddController extends Controller
     public function refresh(Request $request){
         $id = $request->key_id;
         $data = SearchedKeyword::find($id);
-        $rank['rank'] = $this->rank($id, $data['keyword'], $data['url'], $data['task_id'], 100);
-        $rank['pos'] = SearchedKeyword::find($id)['position_status'];
+        $taskid = $this->getTaskId($data['keyword']);
+        $rank['rank'] = $this->rank($id, $data['keyword'], $data['url'], $taskid, 'refresh');
+
+        $keydata = SearchedKeyword::find($id);
+        $rank['pos'] = $keydata['position_status'];
         $rank['ii'] = $request->ii;
+        $rank['latest'] = $keydata['latest_rank'];
+        $rank['previous'] = $keydata['previous_rank'];
 
-        /*$data = SearchedKeyword::where('user_id', Auth::user()->id)->where('url', $url)->get();
-        $rank = [];
-        $i = 0;
-
-        foreach($data as $d){
-            $rank[$i]['id'] = $d['id'];
-            $rank[$i]['rank'] = $this->rank($d['id'], $d['keyword'], $url, $d['task_id'], 100);
-            $rank[$i]['pos'] = SearchedKeyword::find($d['id'])['position_status'];
-            $i = $i + 1;
-        }*/
         return json_encode($rank);
     }
 
@@ -289,5 +282,25 @@ class KeyAddController extends Controller
         $avg = $avg / $tot;
 
         return (int)$avg;
+    }
+
+    public function edit(Request $request){
+        $newkey = $request->key;
+        $id = $request->id;
+
+        Keydata::where('key_id', $id)->delete();
+
+        $task_id = $this->getTaskId($newkey);
+
+        SearchedKeyword::find($id)->update(['task_id' => $task_id, 'keyword' => $newkey, 'searched_at' => Carbon::now(), 'latest_rank' => 'N.A.', 'position_status' => 'no']);
+    }
+
+    public function editrank(Request $request){
+        $id = $request->id;
+        $data = SearchedKeyword::find($id);
+        $rank = $this->rank( $id, $data['keyword'], $data['url'], $data['task_id'], 'first' );;
+        SearchedKeyword::find($id)->update(['latest_rank' => $rank]);
+
+        return $rank;
     }
 }

@@ -36,9 +36,9 @@ class SEOController extends Controller
             // Bind the URL to the current SEOstats instance.
             if ($seostats->setUrl($url)) {
 
-                $cntry = Country::first()->where('tld', $request->country)->take(1)->get();
-                foreach($cntry as $i)
-                    $specified_country = $i['country_name'];
+                $cntry = Country::first()->where('tld', $request->country)->first();
+
+                $specified_country = $cntry['country_name'];
                 $heading = $request->url;
                 $alexa_rank = SEOstats\Alexa::getGlobalRank();
                 $google_page_rank = SEOstats\Google::getPageRank();
