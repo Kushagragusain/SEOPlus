@@ -43,17 +43,14 @@
                 <li>
                     <a href="{{ url('/register') }}"><span class="tm-label">Register</span></a>
                 </li>
-                @else @if($link != '')
-                <li>
-                    <a href="{{ url('/dashboard') }}"><span class="tm-label">{{ $link }}</span></a>
-                </li>
-                @endif
-                <li>
-                    <a href="{{ url('/history') }}"><span class="tm-label">{{ $history }}</span></a>
-                </li>
+                @else
 
+                    @if($link != '')
+                    <li>
+                        <a href="{{ url('/dashboard') }}"><span class="tm-label">{{ $link }}</span></a>
+                    </li>
+                    @endif
 
-<<<<<<< HEAD
 
                     @if($history != '')
                         <li>
@@ -61,28 +58,19 @@
                         </li>
                     @endif
 
-                    <li class="dropdown">
-                        <a data-toggle="dropdown" href="">
-                            <span class="tm-label">{{ Auth::user()->user_name }}<span class="caret"></span> </span>
-                        </a>
 
-=======
-                <li class="dropdown">
+                    <li class="dropdown">
                     <a data-toggle="dropdown" href="">
                         <span class="tm-label">{{ Auth::user()->user_name }}<span class="caret"></span> </span>
                     </a>
->>>>>>> origin/final
                     <div class="dropdown-menu dropdown-menu-sm pull-right">
                         <div class="listview">
                               <a class="lv-item" href="{{ url('/cancel') }}" id="cancel">Cancel Subscription </a>
                             <a class="lv-item" href="{{ url('/logout') }}" id="logout" > Logout</a>
                         </div>
                     </div>
-<<<<<<< HEAD
                     </li>
-=======
-                </li>
->>>>>>> origin/final
+
 
                 @endif
 
@@ -163,7 +151,7 @@
                 <p>Sorry for the inconvenience!</p>
             </div>
         <![endif]-->
- @yield('footer')
+
 <!-- Javascript Libraries -->
 <script src="{{URL::to('assets')}}/vendors/bower_components/jquery/dist/jquery.min.js"></script>
 <script src="{{URL::to('assets')}}/js/bootstrap.min.js"></script>
