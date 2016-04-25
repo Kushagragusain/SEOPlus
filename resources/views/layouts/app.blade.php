@@ -1,78 +1,201 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<html><head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SEOPlus</title>
 
-    <title>SEO Plus</title>
+    <!-- Vendor CSS -->
 
-    <!-- Fonts -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
-    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel='stylesheet' type='text/css'>
+    <link href="{{URL::to('assets')}}/vendors/bower_components/animate.css/animate.min.css" rel="stylesheet">
+    <link href="{{URL::to('assets')}}/vendors/bower_components/bootstrap-sweetalert/lib/sweet-alert.css" rel="stylesheet">
+    <link href="{{URL::to('assets')}}/vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css" rel="stylesheet">
+    <link href="{{URL::to('assets')}}/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet">
+    <link href="{{URL::to('assets')}}/vendors/bower_components/bootstrap-select/dist/css/bootstrap-select.css" rel="stylesheet">
 
-    <!-- Styles -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
-    {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
+    <!-- CSS -->
+    <link href="{{URL::to('assets')}}/css/app.min.1.css" rel="stylesheet">
+    <link type="text/css" href="{{URL::to('assets')}}/js/plugins/export/export.css" rel="stylesheet">
 
-    <style>
-        body {
-            font-family: 'Lato';
-        }
+    <link href="{{URL::to('assets')}}/css/app.min.2.css" rel="stylesheet">
 
-        .fa-btn {
-            margin-right: 6px;
-        }
-    </style>
+
 </head>
-<body id="app-layout">
-    <nav class="navbar navbar-default">
-        <div class="container">
-            <div class="navbar-header">
 
-                <!-- Collapsed Hamburger -->
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
-                    <span class="sr-only">Toggle Navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
+<body>
+    <header id="header" class="clearfix" data-current-skin="blue">
+<div class="row">
+    <ul class="header-inner">
+        <li class="logo">
+            <a href="{{URL::to('/dashboard')}}">Seo-Plus</a>
+        </li>
 
-                <!-- Branding Image -->
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    SEO Plus
-                </a>
-            </div>
 
-            <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                <!-- Right Side Of Navbar -->
-                <ul class="nav navbar-nav navbar-right">
-                    <!-- Authentication Links -->
-                    @if (Auth::guest())
-                        <li><a href="{{ url('/login') }}">Login</a></li>
-                        <li><a href="{{ url('/register') }}">Register</a></li>
-                    @else
-                        <li><a href="history">History</a></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                {{ Auth::user()->user_name }} <span class="caret"></span>
+        <li class="pull-right">
+
+            <ul class="top-menu">
+
+                @if (Auth::guest())
+                <li>
+                    <a href="{{ url('/login') }}"><span class="tm-label">Login</span></a>
+                </li>
+                <li>
+                    <a href="{{ url('/register') }}"><span class="tm-label">Register</span></a>
+                </li>
+                @else @if($link != '')
+                <li>
+                    <a href="{{ url('/dashboard') }}"><span class="tm-label">{{ $link }}</span></a>
+                </li>
+                @endif
+                <li>
+                    <a href="{{ url('/history') }}"><span class="tm-label">{{ $history }}</span></a>
+                </li>
+
+
+                <li class="dropdown">
+                    <a data-toggle="dropdown" href="">
+                        <span class="tm-label">{{ Auth::user()->user_name }}<span class="caret"></span> </span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-sm pull-right">
+                        <div class="listview">
+                              <a class="lv-item" href="{{ url('/cancel') }}" id="cancel">cancel subscription </a>
+                            <a class="lv-item" href="{{ url('/logout') }}" id="logout" > Logout</a>
+                        </div>
+                    </div>
+                </li>
+
+                @endif
+
+
+            </ul>
+        </li>
+
+
+    </ul>
+
+</div>
+
+        <!-- Top Search Content -->
+
+    </header>
+
+    <section id="main" data-layout="layout-1">
+
+
+
+
+        @yield('content')
+
+    </section>
+
+
+
+    <!-- Page Loader -->
+<div class="page-loader">
+    <div class="preloader pls-blue">
+        <svg class="pl-circular" viewBox="25 25 50 50">
+            <circle class="plc-path" cx="50" cy="50" r="20" />
+        </svg>
+
+        <p>Please wait...</p>
+    </div>
+</div>
+
+    <!-- Older IE warning message -->
+    <!--[if lt IE 9]>
+            <div class="ie-warning">
+                <h1 class="c-white">Warning!!</h1>
+                <p>You are using an outdated version of Internet Explorer, please upgrade <br/>to any of the following web browsers to access this website.</p>
+                <div class="iew-container">
+                    <ul class="iew-download">
+                        <li>
+                            <a href="http://www.google.com/chrome/">
+                                <img src="img/browsers/chrome.png" alt="">
+                                <div>Chrome</div>
                             </a>
-
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
-                            </ul>
                         </li>
-                    @endif
-                </ul>
+                        <li>
+                            <a href="https://www.mozilla.org/en-US/firefox/new/">
+                                <img src="img/browsers/firefox.png" alt="">
+                                <div>Firefox</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://www.opera.com">
+                                <img src="img/browsers/opera.png" alt="">
+                                <div>Opera</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.apple.com/safari/">
+                                <img src="img/browsers/safari.png" alt="">
+                                <div>Safari</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">
+                                <img src="img/browsers/ie.png" alt="">
+                                <div>IE (New)</div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <p>Sorry for the inconvenience!</p>
             </div>
-        </div>
-    </nav>
+        <![endif]-->
+ @yield('footer')
+<!-- Javascript Libraries -->
+<script src="{{URL::to('assets')}}/vendors/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="{{URL::to('assets')}}/js/bootstrap.min.js"></script>
+<script src="{{URL::to('assets')}}/js/jquery.min.js"></script>
 
-    @yield('content')
 
-    <!-- JavaScripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
+<script src="{{URL::to('assets')}}/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="{{URL::to('assets')}}/vendors/bower_components/bootstrap-select/dist/js/bootstrap-select.js"></script>
+<script src="{{URL::to('assets')}}/vendors/bower_components/Waves/dist/waves.min.js"></script>
+
+
+<script src="{{URL::to('assets')}}/vendors/bower_components/moment/min/moment.min.js"></script>
+
+<script src="{{URL::to('assets')}}/vendors/bower_components/Waves/dist/waves.min.js"></script>
+<script src="{{URL::to('assets')}}/vendors/bootstrap-growl/bootstrap-growl.min.js"></script>
+<script src="{{URL::to('assets')}}/vendors/bower_components/bootstrap-sweetalert/lib/sweet-alert.min.js"></script>
+
+
+
+<!-- Placeholder for IE9 -->
+<!--[if IE 9 ]>
+            <script src="vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js"></script>
+        <![endif]-->
+
+
+
+<script src="{{URL::to('assets')}}/js/functions.js"></script>
+
+<script src="{{URL::to('assets')}}/js/sorttable.js"></script>
+<!-- <script src="{{URL::to('assets')}}/js/amcharts.js"></script>
+        <script src="{{URL::to('assets')}}/js/serial.js"></script>
+        <script src="{{URL::to('assets')}}/js/light.js"></script>-->
+
+
+<script src="{{URL::to('assets')}}/js/amcharts.js"></script>
+<script src="{{URL::to('assets')}}/js/serial.js"></script>
+<script src="{{URL::to('assets')}}/js/plugins/export/export.min.js"></script>
+<script src="{{URL::to('assets')}}/js/light.js"></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script>
+    $('#logout').click(function() {
+        var url = "{{ URL::to('/updatedb') }}";
+
+        $.get(url, function() {});
+    });
+
+
+</script>
+
+<!-- <script src="{{URL::to('assets')}}/js/demo.js"></script>-->
+
+@yield('footer')
 </body>
+
 </html>

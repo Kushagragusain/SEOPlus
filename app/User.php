@@ -4,6 +4,12 @@ namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+use Laravel\Cashier\Billable;
+
+use App\Mailers\AppMailers;
+
+
+
 class User extends Authenticatable
 {
     /**
@@ -11,8 +17,10 @@ class User extends Authenticatable
      *
      * @var array
      */
+   use Billable;
     protected $fillable = [
-        'user_name', 'email', 'password', 'gender', 'date_of_birth',
+        'user_name', 'email', 'password',
+        'url_count',
     ];
 
     /**
@@ -23,4 +31,33 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function isSubscribed()
+    {
+
+    return $this->stripe_id;
+
+    }
+
+    /*public static  function boot()
+    {
+        parent::boot();
+
+        static::creating(function($user){
+
+        $user->email_token = str_random(30);
+
+        });
+
+    }
+
+    public function confirmEmail()
+    {
+
+          $this->verified=1;
+
+          $this->email_token=null;
+
+          $this->save();
+    }*/
 }

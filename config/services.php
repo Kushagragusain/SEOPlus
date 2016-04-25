@@ -15,9 +15,9 @@ return [
     */
 
     'mailgun' => [
-        'domain' => env('MAILGUN_DOMAIN'),
-        'secret' => env('MAILGUN_SECRET'),
-    ],
+    'domain' => 'seoplus.prashushi.com',
+    'secret' => 'key-56116c3ef6aec0754ce7edc8e1504e35',
+],
 
     'mandrill' => [
         'secret' => env('MANDRILL_SECRET'),
@@ -30,9 +30,8 @@ return [
     ],
 
     'stripe' => [
-        'model'  => App\User::class,
-        'key'    => env('STRIPE_KEY'),
-        'secret' => env('STRIPE_SECRET'),
-    ],
+    'model'  => App\User::class,
+    'secret' => env('STRIPE_SECRET'),
+],
 
 ];

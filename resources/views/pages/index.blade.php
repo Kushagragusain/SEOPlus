@@ -11,3 +11,5 @@
     </div>
 </div>
 @endsection
+@section('footer')
+@endsection

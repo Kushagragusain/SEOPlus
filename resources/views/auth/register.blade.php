@@ -1,197 +1,156 @@
-@extends('layouts.app')
+ <!DOCTYPE html>
+<html>
+    <!--[if IE 9 ]><html class="ie9"><![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Register</title>
 
-@section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Register</div>
-                <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}">
-                        {!! csrf_field() !!}
 
-                        <div class="form-group{{ $errors->has('user_name') ? ' has-error' : '' }}">
-                            <label class="col-md-4 control-label">User Name</label>
 
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" name="user_name" value="{{ old('user_name') }}">
+        <!-- Vendor CSS -->
+        <link href="{{URL::to('assets')}}/vendors/bower_components/animate.css/animate.min.css" rel="stylesheet">
+        <link href="{{URL::to('assets')}}/vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css" rel="stylesheet">
 
-                                @if ($errors->has('user_name'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('user_name') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
+        <!-- CSS -->
+        <link href="{{URL::to('assets')}}/css/app.min.1.css" rel="stylesheet">
+        <link href="{{URL::to('assets')}}/css/app.min.2.css" rel="stylesheet">
+    </head>
 
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label class="col-md-4 control-label">E-Mail Address</label>
+    <body class="login-content">
 
-                            <div class="col-md-6">
-                                <input type="email" class="form-control" name="email" value="{{ old('email') }}">
 
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
 
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label class="col-md-4 control-label">Password</label>
 
-                            <div class="col-md-6">
-                                <input type="password" class="form-control" name="password">
 
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
+        <!-- Register -->
 
-                        <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
-                            <label class="col-md-4 control-label">Confirm Password</label>
+        <div class="lc-block toggled" id="l-login">
 
-                            <div class="col-md-6">
-                                <input type="password" class="form-control" name="password_confirmation">
+            <form class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}">
+            {!! csrf_field() !!}
+<!-- User Name -->
 
-                                @if ($errors->has('password_confirmation'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password_confirmation') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-                        
-                        <div class="form-group{{ $errors->has('gender') ? ' has-error' : '' }}">
-                            <label class="col-md-4 control-label">Gender</label>
-
-                            <div class="col-md-6">
-                                <select class="form-control" name="gender">
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group{{ ($errors->has('day') || $errors->has('month') || $errors->has('year')) ? ' has-error' : '' }}">
-                            <label class="col-md-4 control-label">Confirm Password</label>
-
-                            <div class="col-md">
-                                <div class="col-md-2">
-                                    <select class="form-control" name="day">
-                                        <option value="default">Day</option>
-                                        <option value="01">1</option>
-                                        <option value="02">2</option>
-                                        <option value="03">3</option>
-                                        <option value="04">4</option>
-                                        <option value="05">5</option>
-                                        <option value="06">6</option>
-                                        <option value="07">7</option>
-                                        <option value="08">8</option>
-                                        <option value="09">9</option>
-                                        <option value="10">10</option>
-                                        <option value="11">11</option>
-                                        <option value="12">12</option>
-                                        <option value="13">13</option>
-                                        <option value="14">14</option>
-                                        <option value="15">15</option>
-                                        <option value="16">16</option>
-                                        <option value="17">17</option>
-                                        <option value="18">18</option>
-                                        <option value="19">19</option>
-                                        <option value="20">20</option>
-                                        <option value="21">21</option>
-                                        <option value="22">22</option>
-                                        <option value="23">23</option>
-                                        <option value="24">24</option>
-                                        <option value="25">25</option>
-                                        <option value="26">26</option>
-                                        <option value="27">27</option>
-                                        <option value="28">28</option>
-                                        <option value="29">29</option>
-                                        <option value="30">30</option>
-                                        <option value="31">31</option>
-                                    </select>
-                                 </div>
-
-                                 <div class="col-md-2">
-                                    <select class="form-control" name="month">
-                                        <option value="default">Month</option>
-                                        <option value="01">January</option>
-                                        <option value="02">February</option>
-                                        <option value="03">March</option>
-                                        <option value="04">April</option>
-                                        <option value="05">May</option>
-                                        <option value="06">June</option>
-                                        <option value="07">July</option>
-                                        <option value="08">August</option>
-                                        <option value="09">September</option>
-                                        <option value="10">October</option>
-                                        <option value="11">November</option>
-                                        <option value="12">December</option>
-                                    </select>
-                                 </div>
-
-                                 <div class="col-md-2">
-                                    <select class="form-control" name="year">
-                                        <option value="default">Year</option>
-                                        <option value="2016">2016</option>
-                                        <option value="2015">2015</option>
-                                        <option value="2014">2014</option>
-                                        <option value="2013">2013</option>
-                                        <option value="2012">2012</option>
-                                        <option value="2011">2011</option>
-                                        <option value="2010">2010</option>
-                                        <option value="2009">2009</option>
-                                        <option value="2008">2008</option>
-                                        <option value="2007">2007</option>
-                                        <option value="2006">2006</option>
-                                        <option value="2005">2005</option>
-                                        <option value="2004">2004</option>
-                                        <option value="2003">2003</option>
-                                        <option value="2002">2002</option>
-                                        <option value="2001">2001</option>
-                                        <option value="2000">2000</option>
-                                        <option value="1999">1999</option>
-                                        <option value="1998">1998</option>
-                                        <option value="1997">1997</option>
-                                        <option value="1996">1996</option>
-                                        <option value="1995">1995</option>
-                                        <option value="1994">1994</option>
-                                        <option value="1993">1993</option>
-                                        <option value="1992">1992</option>
-                                        <option value="1991">1991</option>
-                                        <option value="1990">1990</option>
-                                        <option value="1989">1989</option>
-                                        <option value="1988">1988</option>
-                                        <option value="1987">1987</option>
-                                        <option value="1986">1986</option>
-                                    </select>
-                                 </div>
-                            
-                                @if ($errors->has('day') || $errors->has('month') || $errors->has('year'))
-                                    <span class="help-block">
-                                        <strong>Invalid Date of Birth</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fa fa-btn fa-user"></i>Register
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+            <div class="input-group m-b-20 ">
+                <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
+                <div class="fg-line {{ $errors->has('user_name') ? ' has-error' : '' }}">
+                   <input type="text" class="form-control" placeholder="Full Name" name="user_name" value="{{ old('user_name') }}">
                 </div>
+                 @if (count($errors) > 0)
+            <p>
+                <strong class="c-red">{{ $errors->first('user_name') }}!!</strong>
+            </p>
+            @endif
             </div>
+<!-- Email -->
+           <div class="input-group m-b-20 ">
+                <span class="input-group-addon"><i class="zmdi zmdi-email"></i></span>
+                <div class="fg-line {{ $errors->has('email') ? ' has-error' : '' }}">
+                    <input type="email" class="form-control" placeholder="E-Mail Address" name="email" value="{{ old('email') }}">
+                   </div>
+                 @if (count($errors) > 0)
+            <p>
+                <strong class="c-red">{{ $errors->first('email') }}!!</strong>
+            </p>
+            @endif
+            </div>
+
+    <!-- password -->
+           <div class="input-group m-b-20 ">
+                <span class="input-group-addon"><i class="zmdi zmdi-lock"></i></span>
+                <div class="fg-line {{ $errors->has('password') ? ' has-error' : '' }}">
+
+                     <input type="password" class="form-control" placeholder="Password" name="password">
+                   </div>
+                 @if (count($errors) > 0)
+            <p>
+                <strong class="c-red">{{ $errors->first('password') }}!!</strong>
+            </p>
+            @endif
+            </div>
+
+                  <!-- Confirm password -->
+           <div class="input-group m-b-20 ">
+                <span class="input-group-addon"><i class="zmdi zmdi-lock"></i></span>
+                <div class="fg-line {{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
+
+                     <input type="password" class="form-control" placeholder="Confirm Password" name="password_confirmation">
+                   </div>
+                 @if (count($errors) > 0)
+            <p>
+                <strong class="c-red">{{ $errors->first('password_confirmation') }}!!</strong>
+            </p>
+            @endif
+            </div>
+        <div class="clearfix"></div>
+
+
+            <div class="form-group">
+            <button href="" class="btn btn-login btn-danger btn-float" type="submit"><i class="zmdi zmdi-arrow-forward"></i></button>
+            </div>
+
+            </form>
+
+          <ul class="login-navigation">
+                <li class="bgm-orange"><a href="{{ url('/login') }}" class="c-white">Login</a></li>
+            </ul>
         </div>
-    </div>
-</div>
-@endsection
+<!-- Older IE warning message -->
+        <!--[if lt IE 9]>
+            <div class="ie-warning">
+                <h1 class="c-white">Warning!!</h1>
+                <p>You are using an outdated version of Internet Explorer, please upgrade <br/>to any of the following web browsers to access this website.</p>
+                <div class="iew-container">
+                    <ul class="iew-download">
+                        <li>
+                            <a href="http://www.google.com/chrome/">
+                                <img src="img/browsers/chrome.png" alt="">
+                                <div>Chrome</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.mozilla.org/en-US/firefox/new/">
+                                <img src="img/browsers/firefox.png" alt="">
+                                <div>Firefox</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://www.opera.com">
+                                <img src="img/browsers/opera.png" alt="">
+                                <div>Opera</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.apple.com/safari/">
+                                <img src="img/browsers/safari.png" alt="">
+                                <div>Safari</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">
+                                <img src="img/browsers/ie.png" alt="">
+                                <div>IE (New)</div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <p>Sorry for the inconvenience!</p>
+            </div>
+        <![endif]-->
+
+        <!-- Javascript Libraries -->
+        <script src="{{URL::to('assets')}}/vendors/bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="{{URL::to('assets')}}/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+        <script src="{{URL::to('assets')}}/vendors/bower_components/Waves/dist/waves.min.js"></script>
+
+        <!-- Placeholder for IE9 -->
+        <!--[if IE 9 ]>
+            <script src="vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js"></script>
+        <![endif]-->
+
+        <script src="{{URL::to('assets')}}/js/functions.js"></script>
+
+    </body>
+</html>

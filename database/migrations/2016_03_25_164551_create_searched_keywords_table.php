@@ -15,8 +15,15 @@ class CreateSearchedKeywordsTable extends Migration
         Schema::create('searched_keywords', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
+            $table->integer('task_id');
+            $table->integer('url_id');
+            $table->string('url');
             $table->string('keyword');
             $table->string('searched_at');
+            $table->string('status');
+            $table->string('latest_rank')->default('N.A.');
+            $table->string('previous_rank')->default('N.A.');
+            $table->string('position_status');
             $table->timestamps();
         });
     }

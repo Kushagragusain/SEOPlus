@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\User;
 use Validator;
 use App\Http\Controllers\Controller;
+
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
@@ -48,14 +49,14 @@ class AuthController extends Controller
      */
     protected function validator(array $data)
     {
+
         return Validator::make($data, [
             'user_name' => 'required|max:255',
             'email'     => 'required|email|max:255|unique:users',
             'password'  => 'required|confirmed|min:6',
-            'day'       => 'required|not_in:default',
-            'month'     => 'required|not_in:default',
-            'year'      => 'required|not_in:default',
+
         ]);
+
     }
 
     /**
@@ -70,8 +71,10 @@ class AuthController extends Controller
             'user_name'     => $data['user_name'],
             'email'         => $data['email'],
             'password'      => bcrypt($data['password']),
-            'gender'        => $data['gender'],
-            'date_of_birth' => $data['year'].'-'.$data['month'].'-'.$data['day'],
+            'url_count'    => 0,
+
+
         ]);
     }
+
 }
