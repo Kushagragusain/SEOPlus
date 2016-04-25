@@ -14,7 +14,5 @@ class SearchedUrl extends Model
 
     public function scopeFetchId($query, $url){
          return $query->latest('searched_at')->where('user_id', Auth::user()->id)->where('url', $url)->first();
-    }
-
-    public $timestamps = false;
+     }
 }

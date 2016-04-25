@@ -21,15 +21,17 @@ use App\User;
 
 class SEOController extends Controller
 {
+
+
     public function domainSave(Request $request)
     {
 
-        DB::table('users')->whereId(Auth::user()->id)->increment('url_count');
+          DB::table('users')->whereId(Auth::user()->id)->increment('url_count');
 
         try {
                 $url = 'http://www.'.$request->url;
 
-                // Create a new SEOstats instance.
+            // Create a new SEOstats instance.
                 $seostats = new \SEOstats\SEOstats;
 
                 // Bind the URL to the current SEOstats instance.
@@ -45,8 +47,8 @@ class SEOController extends Controller
                 $backlinks = SEOstats\Google::getBacklinksTotal();
                 $origin_country = SEOstats\Alexa::getCountryRank();
                 $country_rank = SEOstats\SemRush::getDomainRank($url, $request->country);
-                if( $country_rank=='N.A.' )
-                    $country_rank_res = 'N.A.';
+                if( $country_rank=='n.a.' )
+                    $country_rank_res = 'NA';
                 else
                     $country_rank_res = $country_rank['Rk'];
 
@@ -58,13 +60,13 @@ class SEOController extends Controller
                 $store->alexa_rank = $alexa_rank;
                 $store->google_page_rank = $google_page_rank;
                 $store->backlinks = $backlinks;
-                if($origin_country != 'N.A.') {
-                    $store->origin_country_name = $origin_country['country'];
-                    $store->origin_country_rank = $origin_country['rank'];
+                if($origin_country != 'n.a.') {
+                $store->origin_country_name = $origin_country['country'];
+                $store->origin_country_rank = $origin_country['rank'];
                 }
                 else {
-                    $store->origin_country_name = 'N.A.';
-                    $store->origin_country_rank = 'N.A.';
+                    $store->origin_country_name = 'NA';
+                $store->origin_country_rank = 'NA';
                 }
                 $store->specified_country = $specified_country;
                 $store->country_rank = $country_rank_res;
@@ -75,12 +77,21 @@ class SEOController extends Controller
                 $rurl = 'url_rank/'.$id;
 
                 return Redirect::to($rurl)->with('mes', 'search');
+                //return Redirect::route('showUrlData')->with('id', $id);
+
+                //return redirect($rurl);
+
+                //return view('pages.results', compact( 'heading', 'alexa_rank', 'google_page_rank','backlinks',                    'origin_country', 'country_rank', 'specified_country' ));
             }
         }
         catch (SEOstatsException $e) {
           die($e->getMessage());  
         }
-    }
+         }
+
+
+
+
 
     public function fetchUrlData($id){
         if( ctype_digit($id) ){
@@ -111,6 +122,17 @@ class SEOController extends Controller
             return view('pages.error');
     }
 
+    /*public function keywordData($id){
+        $data = SearchedKeyword::findorFail($id);
+        $url = $data->url;
+        $keyword = $data->keyword;
+
+        $res = SEOstats\Google::getSerps($keyword, 10, 'http://www.'.$url);
+        $totsearch = SEOstats\Google::getSearchResultsTotal($keyword);
+
+        return view('pages.keyword_data', compact('keyword', 'url', 'res', 'totsearch'));
+    }*/
+
     public function history(){
         $urls = SearchedUrl::where('user_id', Auth::user()->id)->get();
         //$keywords = SearchedKeyword::latest('searched_at')->where('user_id', Auth::user()->id)->get();
@@ -139,4 +161,32 @@ class SEOController extends Controller
         else
             return view('pages.error');
     }
+
+
+     /*public function check(Request $request)
+    {
+
+        $token = request('stripeToken');
+
+        $user = User::find(Auth::user());
+
+        $user->newSubscription('monthly','monthly')->create($token);
+
+        return view('results');
+
+    }*/
+
+
+    /*public function demo(){
+        $uid = $_GET['uid'];
+        $type = $_GET['type'];
+        if( $type == 'url' ){
+            $url = SearchedUrl::find($uid)['url'];
+            $data = SearchedUrl::where('user_id', Auth::user()->id)->where('url', $url)->get();
+        }
+        else{
+            $data = Keydata::where('key_id', $uid)->get();
+        }
+        return json_encode($data);
+    }*/
 }

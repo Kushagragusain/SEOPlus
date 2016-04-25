@@ -61,7 +61,6 @@
 
             });
 
-
        //to see all previous searches
         Route::get('history', 'SEOController@history');
         
@@ -75,7 +74,6 @@
 
 
         //Route::get('foo/{id}', 'KeywordController@foo');
-
 
         //get keyword(s) rank
         Route::get('getrank', 'KeyAddController@getRank');
@@ -94,13 +92,7 @@
         //get average ranking
         Route::get('avgrank', 'KeyAddController@avgRank');
 
-         //TEst Controller
-        //Route::get('fetchkey1/{id}', 'SEOOController@fetchkeywords');
-
-      // Route::get('errorVerify', 'EmailController@sendEmailReminder');
-
        // Route::get('demo', 'SEOController@domainSave');
-
 
         //Route::get('errorVerify', 'EmailController@sendEmailReminder');
 
@@ -113,10 +105,8 @@
 
 
         Route::get('editkeyrank','KeyAddController@editrank');
+
     });
-
-
-       // Route::get('emails/confirm/{email_token}','Paycontroller@confirmEmail');
 
         Route::post('new','Paycontroller@check');
 
@@ -125,9 +115,10 @@
         Route::post('keyword', 'SEOController@keywordData');
 
     //Route::get('foo','Paycontroller@foo');
-
 });
 
-Route::get('demo', function(){
-            return view('pages.demo');
-        });
+
+
+
+
+

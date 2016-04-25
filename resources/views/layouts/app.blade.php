@@ -7,7 +7,7 @@
     <!-- Vendor CSS -->
 
     <link href="{{URL::to('assets')}}/vendors/bower_components/animate.css/animate.min.css" rel="stylesheet">
-    <link href="{{URL::to('assets')}}/vendors/bower_components/bootstrap-sweetalert/lib/sweetalert.css" rel="stylesheet">
+    <link href="{{URL::to('assets')}}/vendors/bower_components/bootstrap-sweetalert/lib/sweet-alert.css" rel="stylesheet">
     <link href="{{URL::to('assets')}}/vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css" rel="stylesheet">
     <link href="{{URL::to('assets')}}/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet">
     <link href="{{URL::to('assets')}}/vendors/bower_components/bootstrap-select/dist/css/bootstrap-select.css" rel="stylesheet">
@@ -17,6 +17,8 @@
     <link type="text/css" href="{{URL::to('assets')}}/js/plugins/export/export.css" rel="stylesheet">
 
     <link href="{{URL::to('assets')}}/css/app.min.2.css" rel="stylesheet">
+
+
 </head>
 
 <body>
@@ -39,13 +41,17 @@
                 <li>
                     <a href="{{ url('/register') }}"><span class="tm-label">Register</span></a>
                 </li>
-                @else
-                    @if($link != '')
-                        <li>
-                            <a href="{{ url('/dashboard') }}"><span class="tm-label">{{ $link }}</span></a>
-                        </li>
-                    @endif
+                @else @if($link != '')
+                <li>
+                    <a href="{{ url('/dashboard') }}"><span class="tm-label">{{ $link }}</span></a>
+                </li>
+                @endif
+                <li>
+                    <a href="{{ url('/history') }}"><span class="tm-label">{{ $history }}</span></a>
+                </li>
 
+
+<<<<<<< HEAD
 
                     @if($history != '')
                         <li>
@@ -58,13 +64,23 @@
                             <span class="tm-label">{{ Auth::user()->user_name }}<span class="caret"></span> </span>
                         </a>
 
+=======
+                <li class="dropdown">
+                    <a data-toggle="dropdown" href="">
+                        <span class="tm-label">{{ Auth::user()->user_name }}<span class="caret"></span> </span>
+                    </a>
+>>>>>>> origin/final
                     <div class="dropdown-menu dropdown-menu-sm pull-right">
                         <div class="listview">
                               <a class="lv-item" href="{{ url('/cancel') }}" id="cancel">Cancel Subscription </a>
                             <a class="lv-item" href="{{ url('/logout') }}" id="logout" > Logout</a>
                         </div>
                     </div>
+<<<<<<< HEAD
                     </li>
+=======
+                </li>
+>>>>>>> origin/final
 
                 @endif
 
@@ -161,7 +177,7 @@
 
 <script src="{{URL::to('assets')}}/vendors/bower_components/Waves/dist/waves.min.js"></script>
 <script src="{{URL::to('assets')}}/vendors/bootstrap-growl/bootstrap-growl.min.js"></script>
-<script src="{{URL::to('assets')}}/vendors/bower_components/bootstrap-sweetalert/lib/sweetalert.min.js"></script>
+<script src="{{URL::to('assets')}}/vendors/bower_components/bootstrap-sweetalert/lib/sweet-alert.min.js"></script>
 
 
 

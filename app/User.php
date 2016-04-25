@@ -19,9 +19,7 @@ class User extends Authenticatable
      */
    use Billable;
     protected $fillable = [
-        'user_name',
-        'email',
-        'password',
+        'user_name', 'email', 'password',
         'url_count',
     ];
 
@@ -34,8 +32,11 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function isSubscribed() {
-            return $this->stripe_id;
+    public function isSubscribed()
+    {
+
+    return $this->stripe_id;
+
     }
 
     /*public static  function boot()

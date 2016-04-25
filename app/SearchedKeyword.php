@@ -8,15 +8,11 @@ use Auth;
 class SearchedKeyword extends Model
 {
     protected $fillable = [
-        'keyword',
-        'latest_rank',
-        'previous_rank',
-        'position_status',
-        'task_id',
-        'searched_at'
+         'keyword',
+         'latest_rank',
+         'previous_rank',
+         'position_status',
     ];
-
-    public $timestamps = false;
 
     //to get id
      public function scopeId($query, $url, $keyword){

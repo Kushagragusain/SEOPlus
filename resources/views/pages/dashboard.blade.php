@@ -50,7 +50,7 @@
                         <div class="col-md-4 col-md-offset-4">
                             <br>
                             <br>
-                            <button type="submit" value="check" class="btn btn-primary btn-block btn-lg waves-effect submit" id="submit">check</button>
+                            <button type="submit" value="check" class="btn btn-primary btn-block btn-lg waves-effect" id="submit">check</button>
 
 
                         </div>
@@ -75,9 +75,15 @@
 @section('footer')
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script>
-
+    //to change submit button text on click
+    $('#submit').click(function() {
+        $("#submit").html('Checking...');
+    });
+    /*$("#submit").click(function(){
+        $("#submit").attr('value', 'Checking...');
+    });*/
     //validate URL field while writing
-    $('#searched_input').focusin(function() {
+    $(':input').focusin(function() {
         $(this).keyup(function() {
             var value = $(this).val();
             if (value == '') {
@@ -88,25 +94,18 @@
                 $("#error").text('');
         });
     });
-    $('#searched_input').focusout(function(){
-        if( ($('#searched_input').val()).indexOf('www.') == 0 )
-            $("#error").text('Invalid URL.').css('font-weight', 'bold');
-    });
-
     //validate form
-    function validate() {
-        $("#submit").html('Checking...');
+    function validate()
+    {
         var x = $('#searched_input').val();
-
         var check = 0;
         if (x == '') {
-            $("#error").html('Field should not be empty.').css('font-weight', 'bold');
+            $("#error").text('Field should not be empty.').css('font-weight', 'bold');
             check = 1;
         }
         else if (document.getElementById('error').innerHTML != '') {
             check = 1;
         }
-
         if (check == 1) {
             $("#submit").html('Check');
             return false;
@@ -115,7 +114,13 @@
         $("#submit").html('Checking...');
         $("#submit").attr('disabled', 'disabled');
         //return false;
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/final
     }
+
+
+
 </script>
 @endsection
