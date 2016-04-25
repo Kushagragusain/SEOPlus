@@ -40,16 +40,28 @@
              Route::get('new',function(){
                 return view('pages.payment');
         });
-               Route::get('payerror',function(){
+
+      Route::get('payerror',function(){
                 return view('pages.paymentError');
         });
 
-        Route::group(['middleware' => ['auth','payauthenticate']], function () {
-        //redirect to dashboard to loged in user
+        Route::group(['middleware' => 'auth'], function () {
 
-            Route::get('dashboard', function(){
+
+            Route::group(['middleware' => 'payauthenticate'], function () {
+
+                //redirect to dashboard to loged in user
+                 Route::get('dashboard', function(){
                 return view('pages.dashboard');
             });
+
+                   //add keyword(s) in db
+        Route::post('addkey', 'KeyAddController@addkeyword');
+
+    });
+
+
+
 
 
 
@@ -71,8 +83,7 @@
 
         //Route::get('foo/{id}', 'KeywordController@foo');
 
-        //add keyword(s) in db
-        Route::post('addkey', 'KeyAddController@addkeyword');
+
 
         //get keyword(s) rank
         Route::get('getrank', 'KeyAddController@getRank');

@@ -27,15 +27,24 @@ class PayAuthenticate
 
             if( $user->isSubscribed())
 
-             {
+             {  $sq =10;
+
                 $var = SearchedKeyword::where('user_id',Auth::user()->id)->get();
 
-                 if(Auth::user()->url_count <=2 && count($var)<=10)
+                if( DB::table('subscriptions')->where('user_id',Auth::user()->id)->count() > 1)
+
+{           $sq = $sq +10;
+           DB::table('users') ->where('id', Auth::user()->id)->update(array('url_count' => 0));
+
+}
+
+              if(Auth::user()->url_count <=2 && count($var)<=$sq)
                     return $next($request);
                 else
               return redirect('payerror');
-            }
 
+
+            }
              return redirect('new');
 
 
