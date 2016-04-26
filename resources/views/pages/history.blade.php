@@ -17,18 +17,19 @@
                             <th>Id</th>
                             <th>Website</th>
                             <th>Rank</th>
+                            <th>Action</th>
 
                         </tr>
                     </thead>
 
-                    <tbody>
+                    <tbody id="tbody">
                         @foreach($urls as $i)
 
                         <tr>
                             <td>{{ $i->id }}</td>
                             <td><a href="history/{{ $i->id }}">{{ $i->url }}</a></td>
                             <td>{{ $i['alexa_rank'] }} </td>
-
+                            <td><a class="btn btn-danger waves-effect delete-button" key='{{ $i->url }}'><i class="zmdi zmdi-close"></i></a></td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -45,6 +46,28 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script>
     $(document).ready(function() {
+        $('#tbody').on('click', '.delete-button', function(){
+            var key = $(this).attr('key');
+
+            swal({
+                title: "Are you sure?",
+                text: "The keyword will be deleted permanently !!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel plx!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            }, function(isConfirm){
+                if (isConfirm) {
+                    window.location.href = '{{ URL::to("deleteurl") }}/'+key;
+                } else {
+                    swal("Cancelled", "Deletion has been cancelled !!", "error");
+                }
+            });
+        });
+
         //load url history on page load
         $('#contents').load('history #url_data', function() {
             $('#url_data').css('display', 'block');
