@@ -21,7 +21,7 @@ use App\User;
 
 class SEOController extends Controller
 {   public function deleteurl($url){
-        SearchedUrl::where('url', $url)->delete();
+        SearchedUrl::where('url', $url)->where('user_id', Auth::user()->id)->delete();
 
         return Redirect::to('history');
     }

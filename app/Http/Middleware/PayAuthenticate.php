@@ -37,12 +37,6 @@ class PayAuthenticate
 
                 $subcount = DB::table('subscriptions')->where('user_id',Auth::user()->id)->count();
 
-
-                if( count($nou) < $urlallowed && count($nok) < $keywordallowed)
-                    return $next($request);
-                else
-                    return redirect('payerror');
-
                 $ok = 1;
 
                 if(count($nou) == $urlallowed * $subcount) {
