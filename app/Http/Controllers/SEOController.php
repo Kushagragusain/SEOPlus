@@ -20,7 +20,11 @@ use Billable;
 use App\User;
 
 class SEOController extends Controller
-{
+{   public function deleteurl($url){
+        SearchedUrl::where('url', $url)->delete();
+
+        return Redirect::to('history');
+    }
 
 
     public function domainSave(Request $request)
@@ -146,7 +150,7 @@ class SEOController extends Controller
     }*/
 
     public function history(){
-        $urls = SearchedUrl::where('user_id', Auth::user()->id)->get();
+        $urls = SearchedUrl::where('user_id', Auth::user()->id)->latest('id')->get();
         //$keywords = SearchedKeyword::latest('searched_at')->where('user_id', Auth::user()->id)->get();
         return view('pages.history', compact('urls'));
     }

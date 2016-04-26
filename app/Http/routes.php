@@ -113,6 +113,8 @@
 
         Route::get('editkeyrank','KeyAddController@editrank');
 
+        Route::get('deleteurl/{url}', 'SEOController@deleteurl');
+
     });
 
         Route::post('new','Paycontroller@check');
@@ -123,9 +125,3 @@
 
     //Route::get('foo','Paycontroller@foo');
 });
-
-
-
-
-
-
