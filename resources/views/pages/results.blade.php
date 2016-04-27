@@ -288,7 +288,7 @@
 
                             $('.confirm').attr('disabled', 'disabled');
 
-                            $('#key'+id).html(inputValue);
+                            $('#key'+id).html("<a href=\"keyword/"+id+"\">"+inputValue+"</a>");
                             $('#rank'+num).html('loading...');
 
                             var rankurl = '{{ url("editkeyrank") }}';
