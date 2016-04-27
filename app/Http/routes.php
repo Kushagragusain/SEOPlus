@@ -96,6 +96,8 @@
 
         Route::get('refresh', 'KeyAddController@refresh');
 
+        Route::get('newtaskid', 'KeyAddController@newtaskid');
+
         //get average ranking
         Route::get('avgrank', 'KeyAddController@avgRank');
 

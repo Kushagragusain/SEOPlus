@@ -458,35 +458,41 @@
                 swal("Refreshing!", "Feels great to be refreshed. Kindly wait while we work out magic and get your results. Thanx!", "success");
 
             $('.confirm').attr('disabled', 'disabled');
-            var url = "{{ URL::to('/refresh') }}";
+            var refreshurl = "{{ URL::to('/refresh') }}";
+            var taskidurl = '{{ url("newtaskid") }}';
 
             $('.rank').text('loading...');
 
-            for( i = 1; i < count; i++ ){
-                var key_id = $('#rank'+i).attr('keyid');
-                //alert($('#rank'+i).attr('keyid'));
+            var domain = '{{ $heading }}';
 
-                $.get(url, { 'key_id' : $('#rank'+i).attr('keyid'), 'ii' : i }, function(data){
-                    var res = $.parseJSON(data);
+            $.get(taskidurl, {'url' : domain}, function(){
+                for( i = 1; i < count; i++ ){
+                    var key_id = $('#rank'+i).attr('keyid');
+                    //alert($('#rank'+i).attr('keyid'));
 
-                    var pos = '';
-                    var rankcnt = '';
-                    if (res['pos'] == 'inc'){
-                        pos = '<span class="c-green f-15"><i class="zmdi zmdi-long-arrow-up"></i></span>';
-                        rankcnt = '<span class = "badge pull-top" style="background-color:green">'+rankIncreaseCount(res['latest'], res['previous'])+'</span>';
-                    }
-                    else if (res['pos'] == 'dec'){
-                        pos = '<span class="c-red "><i class="zmdi zmdi-long-arrow-down"></i></span>';
-                        rankcnt = '<span class = "badge pull-top" style="background-color:red">'+rankDecreaseCount(res['latest'], res['previous'])+'</span>';
-                    }
-                    $('#rank'+res['ii']).html(res['rank']+"  "+pos+" "+rankcnt);
-                    //alert($('#rank'+res['ii']).text()+"  "+i);
-                    if( (parseInt(res['ii']) + 1) == count )
-                        $('.confirm').removeAttr('disabled');
-                    //alert(count+"   "+res['ii']);
-                });
+                    $.get(refreshurl, { 'key_id' : $('#rank'+i).attr('keyid'), 'ii' : i }, function(data){
+                        var res = $.parseJSON(data);
 
-            }
+                        var pos = '';
+                        var rankcnt = '';
+                        if (res['pos'] == 'inc'){
+                            pos = '<span class="c-green f-15"><i class="zmdi zmdi-long-arrow-up"></i></span>';
+                            rankcnt = '<span class = "badge pull-top" style="background-color:green">'+rankIncreaseCount(res['latest'], res['previous'])+'</span>';
+                        }
+                        else if (res['pos'] == 'dec'){
+                            pos = '<span class="c-red "><i class="zmdi zmdi-long-arrow-down"></i></span>';
+                            rankcnt = '<span class = "badge pull-top" style="background-color:red">'+rankDecreaseCount(res['latest'], res['previous'])+'</span>';
+                        }
+                        $('#rank'+res['ii']).html(res['rank']+"  "+pos+" "+rankcnt);
+                        //alert($('#rank'+res['ii']).text()+"  "+i);
+                        if( (parseInt(res['ii']) + 1) == count )
+                            $('.confirm').removeAttr('disabled');
+                        //alert(count+"   "+res['ii']);
+                    });
+
+                }
+            });
+
             avgRank();
         });
 
