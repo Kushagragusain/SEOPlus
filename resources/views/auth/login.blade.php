@@ -49,7 +49,7 @@
             </div>
             <br><br>
             <div class="form-group">
-            <button href="" class="btn btn-warning btn-lg btn-block bgm-aqua waves-effect" style="border-radius: 30px;" type="submit">Login</button>
+            <button href="" class="btn btn-warning btn-lg btn-block bgm-blue waves-effect" style="border-radius: 30px;" type="submit">Login</button>
             </div>
 
             </form>
