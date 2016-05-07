@@ -83,22 +83,24 @@
 
 </div>
 
-        <!-- Top Search Content -->
-
-    </header>
+<!-- Top Search Content -->
+</header>
 
     <section id="main" data-layout="layout-1">
 
 
-
+        @if( !Auth::guest() )
+            <div  style="text-align: center;cursor: pointer;" id="questions">
+                <h4><a id="feedback" data-id="buy">How much would you pay to buy this product ??</a></h4>
+                <h4><a id="feedback" data-id="subscribe">How much would you pay for monthly subscription ??</a></h4>
+            </div>
+        @endif
 
         @yield('content')
 
     </section>
 
-
-
-    <!-- Page Loader -->
+<!-- Page Loader -->
 <div class="page-loader">
     <div class="preloader pls-blue">
         <svg class="pl-circular" viewBox="25 25 50 50">
@@ -108,49 +110,6 @@
         <p>Please wait...</p>
     </div>
 </div>
-
-    <!-- Older IE warning message -->
-    <!--[if lt IE 9]>
-            <div class="ie-warning">
-                <h1 class="c-white">Warning!!</h1>
-                <p>You are using an outdated version of Internet Explorer, please upgrade <br/>to any of the following web browsers to access this website.</p>
-                <div class="iew-container">
-                    <ul class="iew-download">
-                        <li>
-                            <a href="http://www.google.com/chrome/">
-                                <img src="img/browsers/chrome.png" alt="">
-                                <div>Chrome</div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://www.mozilla.org/en-US/firefox/new/">
-                                <img src="img/browsers/firefox.png" alt="">
-                                <div>Firefox</div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="http://www.opera.com">
-                                <img src="img/browsers/opera.png" alt="">
-                                <div>Opera</div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://www.apple.com/safari/">
-                                <img src="img/browsers/safari.png" alt="">
-                                <div>Safari</div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">
-                                <img src="img/browsers/ie.png" alt="">
-                                <div>IE (New)</div>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <p>Sorry for the inconvenience!</p>
-            </div>
-        <![endif]-->
 
 <!-- Javascript Libraries -->
 <script src="{{URL::to('assets')}}/vendors/bower_components/jquery/dist/jquery.min.js"></script>
@@ -202,7 +161,55 @@
         $.get(url, function() {});
     });
 
+    $('#questions').on('click', '#feedback', function(){
+        var id = $(this).attr('data-id');
 
+        swal({  title: "Enter your bid in dollars",
+                type: "input",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                animation: "slide-from-top",
+            },
+            function(inputValue){
+                if (inputValue === false)
+                    return false;
+                else if (inputValue === "") {
+                    swal.showInputError("You need to write something!");
+                    return false
+                }
+                else{
+                    var num = /[0-9]/;
+                    var ch = 0;
+
+                    for( i = 0; i < inputValue.length; i++)
+                        if( ! inputValue[i].match(num) )
+                        {   ch = 1;
+                            break;
+                        }
+                    if( ch == 1 ){
+                        swal.showInputError("Only digits are allowed!");
+                        return false
+                    }
+                    else
+                        saveFeedback(id, inputValue);
+                }
+            }
+        );
+    });
+
+    function saveFeedback(id, bid){
+        var url = '{{ url("saveFeedback") }}';
+
+        $.get(url, {'id': id, 'bid': bid}, function(){
+            swal({
+                title: "Thank you!!!",
+                text: "Thank you for giving your opinion. We will contact you in future.",
+                type: "success",
+                timer: 1500,
+                showConfirmButton: false
+            });
+        });
+    }
 </script>
 
 <!-- <script src="{{URL::to('assets')}}/js/demo.js"></script>-->
