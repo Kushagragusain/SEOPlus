@@ -1,16 +1,4 @@
 <?php
-
-/*
-|--------------------------------------------------------------------------
-| Routes File
-|--------------------------------------------------------------------------
-|
-| Here is where you will register all of the routes in an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the controller to call when that URI is requested.
-|
-*/
-
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -22,50 +10,48 @@
 |
 */
 
+Route::group(['middleware' => 'web'], function () {
 
-        Route::group(['middleware' => 'web'], function () {
+    Route::auth();
 
-            Route::auth();
+    Route::get('/',['middleware' => 'guest', function(){
+        return view('pages.index');
+    }]);
 
-        Route::get('/',['middleware' => 'guest', function(){
-                return view('pages.index');
-        }]);
+    /*Route::get('errorVerify', ['middleware' => 'auth', function(){
+        return view('pages.verificationError');
+    }]);*/
 
-        /*Route::get('errorVerify', ['middleware' => 'auth', function(){
-            return view('pages.verificationError');
-        }]);*/
+    /*Route::get('payerror', function(){
+        return view('pages.paymentError');
+    });*/
 
-           /* Route::get('payerror', function(){
-            return view('pages.paymentError');
-        });*/
-
-             Route::get('new',function(){
-                return view('pages.payment');
-        });
-
-               Route::get('payerror',function(){
-                return view('pages.paymentError');
-        });
-
-        Route::group(['middleware' => 'auth'], function () {
-
-            //redirect to dashboard to loged in user
-           Route::get('dashboard', function(){
-                return view('pages.dashboard');
-            });
-
-            Route::group(['middleware' => 'payauthenticate'], function () {
-
-
-                Route::post('search/url', 'SEOController@domainSave');
-
-                   //add keyword(s) in db
-                Route::post('addkey', 'KeyAddController@addkeyword');
-
+    Route::get('new',function(){
+        return view('pages.payment');
     });
 
-                //add keyword(s) in db
-                Route::post('addkey', 'KeyAddController@addkeyword');
+    Route::get('payerror',function(){
+        return view('pages.paymentError');
+    });
+
+    Route::group(['middleware' => 'auth'], function () {
+
+        //redirect to dashboard to loged in user
+        Route::get('dashboard', function(){
+            return view('pages.dashboard');
+        });
+
+        Route::group(['middleware' => 'payauthenticate'], function () {
+
+            Route::post('search/url', 'SEOController@domainSave');
+
+            //add keyword(s) in db
+            Route::post('addkey', 'KeyAddController@addkeyword');
+
+        });
+
+        //add keyword(s) in db
+        Route::post('addkey', 'KeyAddController@addkeyword');
 
 
        //to see all previous searches
@@ -101,14 +87,11 @@
         //get average ranking
         Route::get('avgrank', 'KeyAddController@avgRank');
 
-       // Route::get('demo', 'SEOController@domainSave');
+        // Route::get('demo', 'SEOController@domainSave');
 
         //Route::get('errorVerify', 'EmailController@sendEmailReminder');
 
-
         Route::get('cancel','Paycontroller@cancel');
-
-        //Route::get('checkpay','Paycontroller@check');emails/confirm/
 
         Route::get('editkey','KeyAddController@edit');
 
@@ -117,13 +100,12 @@
 
         Route::get('deleteurl/{url}', 'SEOController@deleteurl');
 
+        Route::get('saveFeedback', 'FeedbackController@saveFeedback');
+
+        Route::get('seo/showfeedback', 'FeedbackController@show');
     });
 
-        Route::post('new','Paycontroller@check');
-
-
+    Route::post('new','Paycontroller@check');
     
-        Route::post('keyword', 'SEOController@keywordData');
-
-    //Route::get('foo','Paycontroller@foo');
+    Route::post('keyword', 'SEOController@keywordData');
 });
